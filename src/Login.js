@@ -225,6 +225,8 @@ function SignInSide() {
                       width: "500px",
                       "&:hover": { backgroundColor: "#96BB7C" },
                     }}
+                    component={Link}
+                    to="/dashboard"
                   >
                     Login as User
                   </Button>
