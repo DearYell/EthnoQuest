@@ -8,7 +8,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route index element={<Login />} />
+          <Route index element={<SignInSide />} />
           <Route path="/Login" element={<SignInSide />} />
           <Route path="/Register" element={<RegistrationForm />} />
           <Route path="/AdminVer" element={<AdminVerification />} />
