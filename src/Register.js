@@ -6,8 +6,6 @@ import {
   Box,
   Grid,
   Typography,
-  createTheme,
-  ThemeProvider,
   CssBaseline,
 } from "@mui/material";
 import { Link, Routes, Route } from "react-router-dom";
@@ -18,19 +16,26 @@ import IconButton from "@mui/material/IconButton";
 import Login from "./Login";
 import axios from "axios";
 
-const defaultTheme = createTheme();
+// const defaultTheme = createTheme();
 
 const RegistrationForm = () => {
   const [rotation, setRotation] = useState(0);
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
 
-  const handleTogglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
+  const handleTogglePasswordVisibility = (field) => {
+    if (field === "password") {
+      setShowPassword((prevShowPassword) => !prevShowPassword);
+    } else if (field === "confirmPassword") {
+      setShowConfirmPassword(
+        (prevShowConfirmPassword) => !prevShowConfirmPassword
+      );
+    }
   };
 
   React.useEffect(() => {
@@ -170,7 +175,7 @@ const RegistrationForm = () => {
                   fullWidth
                   name="password"
                   label="Password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   autoComplete="new-password"
                   value={formData.password}
@@ -186,9 +191,11 @@ const RegistrationForm = () => {
                       <InputAdornment position="end">
                         <IconButton
                           edge="end"
-                          onClick={handleTogglePasswordVisibility}
+                          onClick={() =>
+                            handleTogglePasswordVisibility("password")
+                          }
                         >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
                       </InputAdornment>
                     ),
@@ -201,10 +208,10 @@ const RegistrationForm = () => {
                   fullWidth
                   name="confirmPassword"
                   label="Confirm Password"
-                  type="password"
+                  type={showConfirmPassword ? "text" : "password"}
                   id="confirmPassword"
                   autoComplete="new-password"
-                  value={formData.password}
+                  value={formData.confirmPassword}
                   onChange={handleChange}
                   sx={{
                     backgroundColor: "white",
@@ -217,9 +224,15 @@ const RegistrationForm = () => {
                       <InputAdornment position="end">
                         <IconButton
                           edge="end"
-                          onClick={handleTogglePasswordVisibility}
+                          onClick={() =>
+                            handleTogglePasswordVisibility("confirmPassword")
+                          }
                         >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                          {showConfirmPassword ? (
+                            <Visibility />
+                          ) : (
+                            <VisibilityOff />
+                          )}
                         </IconButton>
                       </InputAdornment>
                     ),
