@@ -9,7 +9,11 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
+<<<<<<< HEAD
           <Route index element={<SignInSide />} /> {/* Use SignInSide for index */}
+=======
+          <Route index element={<SignInSide />} />
+>>>>>>> e4587fdf4c31d1b50f511a187cd2fe9afa53138d
           <Route path="/Login" element={<SignInSide />} />
           <Route path="/Register" element={<RegistrationForm />} />
           <Route path="/AdminVer" element={<AdminVerification />} />
