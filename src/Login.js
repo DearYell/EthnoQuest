@@ -57,6 +57,7 @@ function SignInSide() {
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -65,25 +66,29 @@ function SignInSide() {
     });
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-
+  const handleSubmit = async () => {
     try {
-      // Make a POST request to your login endpoint
-      const response = await axios.post("http://localhost:8080/user/login", {
-        emailAddress: data.get("email"),
-        password: data.get("password"),
-      });
+      const response = await axios.post(
+        "http://localhost:8080/user/loginUser",
+        {
+          emailAddress: formData.email,
+          password: formData.password,
+        }
+      );
 
-      // Handle the response, e.g., redirect or update state
       console.log("Login successful:", response.data);
-
-      // Example: Redirect to a new page after successful login
+      // Handle successful login, e.g., redirect to dashboard
       // history.push('/dashboard');
     } catch (error) {
-      // Handle errors, e.g., display an error message
       console.error("Login failed:", error.message);
+
+      if (error.response && error.response.status === 404) {
+        alert("Email address not registered. Please sign up.");
+      } else if (error.response && error.response.status === 401) {
+        alert("Incorrect password. Please try again.");
+      } else {
+        alert("Login failed. Please try again later.");
+      }
     }
   };
 
@@ -214,7 +219,7 @@ function SignInSide() {
                 </Grid>
                 <Grid container justifyContent="center">
                   <Button
-                    type="submit"
+                    type="button" // Specify type="button" to prevent form submission
                     variant="contained"
                     fullWidth
                     sx={{
@@ -225,8 +230,7 @@ function SignInSide() {
                       width: "500px",
                       "&:hover": { backgroundColor: "#96BB7C" },
                     }}
-                    component={Link}
-                    to="/dashboard"
+                    onClick={handleSubmit} // Call your function on button click
                   >
                     Login as User
                   </Button>
