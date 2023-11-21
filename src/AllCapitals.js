@@ -1,11 +1,7 @@
 import * as React from "react";
 import {
-  Button,
   Typography,
-  Card,
-  CardContent,
   List,
-  ListItem,
   ListItemText as MuiListItemText, // Rename to avoid conflict
 } from "@material-ui/core"; // Import all components from material-ui/core
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
@@ -29,9 +25,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const LogoListItem = (
   <ListItemButton>
@@ -45,15 +40,15 @@ const LogoListItem = (
 export const mainListItems = (
   <React.Fragment>
     {LogoListItem}
-    <ListItemButton>
+    <ListItemButton component={Link} to="/dashboard">
       <ListItemIcon>
-        <DashboardIcon style={{ color: 'lightgreen' }}/>
-      </ListItemIcon >
+        <DashboardIcon />
+      </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
-    <ListItemButton component={Link} to="/AllCapitals">
+    <ListItemButton>
       <ListItemIcon>
-        <LocationOnIcon />
+        <LocationOnIcon style={{ color: 'lightgreen' }} />
       </ListItemIcon>
       <ListItemText primary="All Capitals" />
     </ListItemButton>
@@ -131,7 +126,6 @@ export default function Dashboard() {
   };
 
   return (
-    
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
@@ -227,13 +221,9 @@ export default function Dashboard() {
             </Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>
-
-
-
         </Box>
       </Box>
     </ThemeProvider>
-    
   );
 }
 
@@ -258,11 +248,6 @@ function ProfileCircle() {
     </div>
   );
 }
-
-
-
-
-
 
 
 function Copyright(props) {
