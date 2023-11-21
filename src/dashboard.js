@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Typography,
@@ -28,107 +28,88 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/Logout';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import PeopleIcon from "@mui/icons-material/People";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import LayersIcon from "@mui/icons-material/Layers";
 
-
-const LogoListItem = (
-  <ListItemButton>
-    <ListItemIcon>
-      <img src="./Logo.png" alt="Logo" style={{ maxHeight: "40px" }} />
-    </ListItemIcon>
-    <MuiListItemText primary="EthnoQuest" />
-  </ListItemButton>
-);
-
-export const mainListItems = (
-  <React.Fragment>
-    {LogoListItem}
+  const LogoListItem = (
     <ListItemButton>
       <ListItemIcon>
-        <DashboardIcon style={{ color: 'lightgreen' }}/>
-      </ListItemIcon >
+        <DashboardIcon />
+      </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
-    <ListItemButton component={Link} to="/AllCapitals">
+    <ListItemButton>
       <ListItemIcon>
-        <LocationOnIcon />
+        <ShoppingCartIcon />
       </ListItemIcon>
       <ListItemText primary="All Capitals" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <AccountCircleIcon />
+        <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="My Profiles" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <SettingsIcon />
+        <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Settings" />
     </ListItemButton>
     <ListItemButton component={Link} to="/Login">
       <ListItemIcon>
-        <LogoutIcon />
+        <LayersIcon />
       </ListItemIcon>
       <ListItemText primary="Log Out" />
     </ListItemButton>
   </React.Fragment>
 );
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(["width", "margin"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: 240,
-    width: `calc(100% - 240px)`,
+  const AppBar = styled(MuiAppBar, {
+    shouldForwardProp: (prop) => prop !== "open",
+  })(({ theme, open }) => ({
+    zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
+      duration: theme.transitions.duration.leavingScreen,
     }),
-  }),
-}));
+    ...(open && {
+      marginLeft: 240,
+      width: `calc(100% - 240px)`,
+      transition: theme.transitions.create(["width", "margin"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    }),
+  }));
 
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  "& .MuiDrawer-paper": {
-    position: "relative",
-    whiteSpace: "nowrap",
-    width: 240,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    boxSizing: "border-box",
-    ...(!open && {
-      overflowX: "hidden",
+  const Drawer = styled(MuiDrawer, {
+    shouldForwardProp: (prop) => prop !== "open",
+  })(({ theme, open }) => ({
+    "& .MuiDrawer-paper": {
+      position: "relative",
+      whiteSpace: "nowrap",
+      width: 240,
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
+        duration: theme.transitions.duration.enteringScreen,
       }),
-      width: theme.spacing(7),
-      [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9),
-      },
-    }),
-  },
-}));
-
-const defaultTheme = createTheme();
-
-export default function Dashboard() {
-  const [open, setOpen] = React.useState(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
+      boxSizing: "border-box",
+      ...(!open && {
+        overflowX: "hidden",
+        transition: theme.transitions.create("width", {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.leavingScreen,
+        }),
+        width: theme.spacing(7),
+        [theme.breakpoints.up("sm")]: {
+          width: theme.spacing(9),
+        },
+      }),
+    },
+  }));
 
   return (
     
@@ -173,7 +154,7 @@ export default function Dashboard() {
                 label="Search capital around the world"
                 variant="outlined"
                 size="small"
-                sx={{ width: "500px", minWidth: "300px" }} // Adjusted width
+                sx={{ width: "40%" }}
               />
             </Typography>
 
@@ -183,7 +164,7 @@ export default function Dashboard() {
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
-          <Toolbar
+          {/* <Toolbar
             sx={{
               display: "flex",
               alignItems: "center",
@@ -194,9 +175,12 @@ export default function Dashboard() {
             <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
-          </Toolbar>
-          <Divider />
-          <List component="nav">{mainListItems}</List>
+          </Toolbar> */}
+          {/* <Divider /> */}
+          <List component="nav">
+            {LogoListItem}
+            {mainListItems}
+          </List>
         </Drawer>
         <Box
           component="main"
@@ -238,7 +222,7 @@ export default function Dashboard() {
 }
 
 function ProfileCircle() {
-  const profileImgUrl = "dummy.jpeg";
+  const profileImgUrl = "https://example.com/profile-image.jpg";
 
   return (
     <div

@@ -230,7 +230,9 @@ function SignInSide() {
                       width: "500px",
                       "&:hover": { backgroundColor: "#96BB7C" },
                     }}
-                    onClick={handleSubmit} // Call your function on button click
+                    component={Link}
+                    to="/dashboard"
+                    // onClick={handleSubmit} // Call your function on button click
                   >
                     Login as User
                   </Button>
