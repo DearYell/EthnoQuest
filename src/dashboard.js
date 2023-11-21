@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import * as React from "react";
 import {
   Button,
   Typography,
@@ -28,88 +28,107 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PeopleIcon from "@mui/icons-material/People";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import LayersIcon from "@mui/icons-material/Layers";
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-  const LogoListItem = (
+
+const LogoListItem = (
+  <ListItemButton>
+    <ListItemIcon>
+      <img src="./Logo.png" alt="Logo" style={{ maxHeight: "40px" }} />
+    </ListItemIcon>
+    <MuiListItemText primary="EthnoQuest" />
+  </ListItemButton>
+);
+
+export const mainListItems = (
+  <React.Fragment>
+    {LogoListItem}
     <ListItemButton>
       <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
+        <DashboardIcon style={{ color: 'lightgreen' }}/>
+      </ListItemIcon >
       <ListItemText primary="Dashboard" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton component={Link} to="/AllCapitals">
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <LocationOnIcon />
       </ListItemIcon>
       <ListItemText primary="All Capitals" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <PeopleIcon />
+        <AccountCircleIcon />
       </ListItemIcon>
       <ListItemText primary="My Profiles" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <BarChartIcon />
+        <SettingsIcon />
       </ListItemIcon>
       <ListItemText primary="Settings" />
     </ListItemButton>
     <ListItemButton component={Link} to="/Login">
       <ListItemIcon>
-        <LayersIcon />
+        <LogoutIcon />
       </ListItemIcon>
       <ListItemText primary="Log Out" />
     </ListItemButton>
   </React.Fragment>
 );
 
-  const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== "open",
-  })(({ theme, open }) => ({
-    zIndex: theme.zIndex.drawer + 1,
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(["width", "margin"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: 240,
+    width: `calc(100% - 240px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: theme.transitions.duration.enteringScreen,
     }),
-    ...(open && {
-      marginLeft: 240,
-      width: `calc(100% - 240px)`,
-      transition: theme.transitions.create(["width", "margin"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    }),
-  }));
+  }),
+}));
 
-  const Drawer = styled(MuiDrawer, {
-    shouldForwardProp: (prop) => prop !== "open",
-  })(({ theme, open }) => ({
-    "& .MuiDrawer-paper": {
-      position: "relative",
-      whiteSpace: "nowrap",
-      width: 240,
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  "& .MuiDrawer-paper": {
+    position: "relative",
+    whiteSpace: "nowrap",
+    width: 240,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    boxSizing: "border-box",
+    ...(!open && {
+      overflowX: "hidden",
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
+        duration: theme.transitions.duration.leavingScreen,
       }),
-      boxSizing: "border-box",
-      ...(!open && {
-        overflowX: "hidden",
-        transition: theme.transitions.create("width", {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing(7),
-        [theme.breakpoints.up("sm")]: {
-          width: theme.spacing(9),
-        },
-      }),
-    },
-  }));
+      width: theme.spacing(7),
+      [theme.breakpoints.up("sm")]: {
+        width: theme.spacing(9),
+      },
+    }),
+  },
+}));
+
+const defaultTheme = createTheme();
+
+export default function Dashboard() {
+  const [open, setOpen] = React.useState(true);
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
 
   return (
     
@@ -135,9 +154,7 @@ import LayersIcon from "@mui/icons-material/Layers";
             >
               <MenuIcon />
             </IconButton>
-            <IconButton color="inherit">
-              <SearchIcon sx={{ color: "black" }} />
-            </IconButton>
+            
             <Typography
               component="div"
               variant="h6"
@@ -154,7 +171,7 @@ import LayersIcon from "@mui/icons-material/Layers";
                 label="Search capital around the world"
                 variant="outlined"
                 size="small"
-                sx={{ width: "40%" }}
+                sx={{ width: "500px", minWidth: "300px" }} // Adjusted width
               />
             </Typography>
 
@@ -164,7 +181,7 @@ import LayersIcon from "@mui/icons-material/Layers";
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
-          {/* <Toolbar
+          <Toolbar
             sx={{
               display: "flex",
               alignItems: "center",
@@ -175,12 +192,9 @@ import LayersIcon from "@mui/icons-material/Layers";
             <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
-          </Toolbar> */}
-          {/* <Divider /> */}
-          <List component="nav">
-            {LogoListItem}
-            {mainListItems}
-          </List>
+          </Toolbar>
+          <Divider />
+          <List component="nav">{mainListItems}</List>
         </Drawer>
         <Box
           component="main"
@@ -222,7 +236,7 @@ import LayersIcon from "@mui/icons-material/Layers";
 }
 
 function ProfileCircle() {
-  const profileImgUrl = "https://example.com/profile-image.jpg";
+  const profileImgUrl = "dummy.jpeg";
 
   return (
     <div
