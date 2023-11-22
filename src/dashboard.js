@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Typography,
@@ -26,8 +26,9 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import "./index.css";
-// import { lightGreen } from "@mui/material/colors";
+import Avatar from "@mui/material/Avatar";
+import { ListItem, ListItemAvatar, ListItemText } from "@material-ui/core";
+
 
 const defaultTheme = createTheme();
 
@@ -40,7 +41,7 @@ export default function Dashboard() {
     setOpen(!open);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const rotateInterval = setInterval(() => {
       setRotation((prevRotation) => prevRotation + 1);
     }, 20);
@@ -182,8 +183,8 @@ export default function Dashboard() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px", // keep right padding when drawer closed
-              backgroundColor: "white", // Set background color to white
+              pr: "24px",
+              backgroundColor: "white",
             }}
           >
             <IconButton
@@ -216,7 +217,7 @@ export default function Dashboard() {
                 label="Search capital around the world"
                 variant="outlined"
                 size="small"
-                sx={{ width: "500px", minWidth: "300px" }} // Adjusted width
+                sx={{ width: "500px", minWidth: "300px" }}
               />
             </Typography>
 
@@ -246,10 +247,13 @@ export default function Dashboard() {
         <Box
           component="main"
           sx={{
-            backgroundColor: "white", // Set background color to white
+            backgroundColor: "white",
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <Toolbar />
@@ -267,9 +271,283 @@ export default function Dashboard() {
               overflow: "hidden",
               backgroundSize: "cover",
             }}
-          >
-            <Grid container spacing={3}>
-              {/* Content goes here */}
+          > 
+            
+            <Grid container spacing={3} sx={{ height: "500px", width: "500px" }}>
+              <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+                <Box // Edit here for the MainDash Content
+                  sx={{
+                    position: "absolute",
+                    bottom: "400px",
+                    left: "320px",
+                    backgroundColor: "black",
+                    padding: "20px",
+                    borderRadius: "1px",
+                    border: "15px solid white",
+                    width: "100%",
+                    maxWidth: "750px",
+                  }}
+                >
+                  <Typography variant="h6" color="textPrimary">
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="white"
+                    style={{ marginRight: "10px" }}
+                  >
+                    Take a quiz
+                  </Button>
+                  <Button variant="contained" color="white">
+                    Learn More
+                  </Button>
+                </Box>
+
+                <Box //quizzes
+                      sx={{
+                        position: "absolute",
+                        bottom: "320px",
+                        left: "300px",
+                        padding: "20px",
+                        borderRadius: "15px",
+                        width: "100%",
+                        maxWidth: "370px",
+                      }}
+                    >
+                      <Typography variant="h4" color="textPrimary">
+                        <b>QUIZZES</b>
+                      </Typography>
+                      
+                    </Box>
+
+                    <Box // Button See all
+                      sx={{
+                        position: "absolute",
+                        bottom: "320px",
+                        left: "912px",
+                        padding: "20px",
+                        borderRadius: "15px",
+                        width: "100%",
+                        maxWidth: "370px",
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        color="white"
+                        style={{ marginLeft: "50px", marginRight: "50px" }}
+                      >
+                        See all
+                      </Button>
+                    </Box>
+
+
+                <Box // Box 1
+                      sx={{
+                        position: "absolute",
+                        bottom: "25px",
+                        left: "320px",
+                        backgroundColor: "white",
+                        padding: "20px",
+                        borderRadius: "15px",
+                        width: "100%",
+                        maxWidth: "370px",
+                        display: "flex",  // Use flex display
+                        flexDirection: "row",  // Set the direction to row
+                        alignItems: "center",  // Align items to the center
+                        justifyContent: "flex-end",  // Align content to the right
+                      }}
+                    >
+                      <Avatar
+                        alt="Avatar 1"
+                        src="path/to/avatar1.jpg"
+                        sx={{ width: 100, height: 100, marginRight: 15 }}
+                      />
+                      <Typography variant="h5" color="textPrimary"> 
+                        <b>Canberra</b>
+                        <Typography variant="h6" color="Gray">
+                        Australia
+                      </Typography>
+                      </Typography>
+                    </Box>
+                      
+                    <Box // Box 2
+                      sx={{
+                        position: "absolute",
+                        bottom: "180px",
+                        left: "320px",
+                        backgroundColor: "white",
+                        padding: "20px",
+                        borderRadius: "15px",
+                        width: "100%",
+                        maxWidth: "370px",
+                        display: "flex",  // Use flex display
+                        flexDirection: "row",  // Set the direction to row
+                        alignItems: "center",  // Align items to the center
+                        justifyContent: "flex-end",  // Align content to the right
+                      }}
+                    >
+                      <Avatar
+                        alt="Avatar 2"
+                        src="path/to/avatar2.jpg"
+                        sx={{ width: 100, height: 100, marginRight: 15 }}
+                      />
+                      <Typography variant="h5" color="textPrimary">
+                        <b>Manila</b>
+                        <Typography variant="h6" color="Gray">
+                        Philippines
+                      </Typography>
+                      </Typography>
+                    </Box>
+
+                   <Box // Box 3
+                      sx={{
+                        position: "absolute",
+                        bottom: "25px",
+                        left: "700px",
+                        backgroundColor: "white",
+                        padding: "20px",
+                        borderRadius: "15px",
+                        width: "100%",
+                        maxWidth: "370px",
+                        display: "flex",  // Use flex display
+                        flexDirection: "row",  // Set the direction to row
+                        alignItems: "center",  // Align items to the center
+                        justifyContent: "flex-end",  // Align content to the right
+                      }}
+                    >
+                      <Avatar
+                        alt="Avatar 3"
+                        src="path/to/avatar3.jpg"
+                        sx={{ width: 100, height: 100, marginRight: 15 }}
+                      />
+                     <Typography variant="h6" color="textPrimary">
+                        <b>United Kingdom</b>
+                        <Typography variant="h6" color="Gray">
+                        London
+                      </Typography>
+                      </Typography>
+                    </Box>
+
+                    <Box // Box 4
+                      sx={{
+                        position: "absolute",
+                        bottom: "180px",
+                        left: "700px",
+                        backgroundColor: "white",
+                        padding: "20px",
+                        borderRadius: "15px",
+                        width: "100%",
+                        maxWidth: "370px",
+                        display: "flex",  // Use flex display
+                        flexDirection: "row",  // Set the direction to row
+                        alignItems: "center",  // Align items to the center
+                        justifyContent: "flex-end ",  // Align content to the right
+                      }}
+                    >
+                      <Avatar
+                        alt="Avatar 4"
+                        src="path/to/avatar4.jpg"
+                        sx={{ width: 100, height: 100, marginRight: 20.5 }}
+                      />
+                      <Typography variant="h5" color="textPrimary" >
+                        <b>Rome</b>
+                        <Typography variant="h6" color="Gray">
+                        Italy
+                      </Typography>
+                      </Typography>
+                    </Box>
+
+                    <Box //Capitals
+                      sx={{
+                        position: "absolute",
+                        bottom: "640px",
+                        left: "1180px",
+                        padding: "20px",
+                        borderRadius: "15px",
+                        width: "100%",
+                        maxWidth: "370px",
+                      }}
+                    >
+                      <Typography variant="h4" color="white">
+                        <b>Capitals</b>
+                      </Typography>
+                      
+                    </Box>
+
+                    <Box // Button @Capital See all
+                      sx={{
+                        position: "absolute",
+                        bottom: "640px",
+                        left: "1440px",
+                        padding: "20px",
+                        borderRadius: "15px",
+                        width: "100%",
+                        maxWidth: "370px",
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        color="white"
+                        style={{ marginLeft: "50px", marginRight: "50px" }}
+                      >
+                        See all
+                      </Button>
+                    </Box>
+
+                    <Box // List of Capitals
+                          sx={{
+                            position: "absolute",
+                            bottom: "25px",
+                            left: "1200px",
+                            backgroundColor: "white",
+                            padding: "20px",
+                            borderRadius: "12px",
+                            width: "100%",
+                            maxWidth: "400px",
+                          }}
+                        >
+                          <List>
+                            {capitals.map((capital, index) => (
+                              <ListItem key={index}>
+                                <ListItemAvatar>
+                                  <Avatar
+                                    alt={`Avatar ${index + 2}`}
+                                    src={`path/to/avatar${index + 2}.jpg`}
+                                    sx={{ width: 65, height: 65, marginRight: 5 }}
+                                  />
+                                </ListItemAvatar>
+                                <MuiListItemText
+                                  primary={capital.city}
+                                  secondary={capital.country}
+                                />
+                                <IconButton
+                                  style={{
+                                    backgroundColor: "green",
+                                    borderRadius: "50%",
+                                    width: "20px",
+                                    height: "20px",
+                                  }}
+                                  onClick={() => {
+                                    // Handle click event for the specific item
+                                    console.log(`Clicked > for ${capital.city}, ${capital.country}`);
+                                  }}
+                                >
+                                  <Typography variant="h6" color="white">
+                                    &gt;
+                                  </Typography>
+                                </IconButton>
+                              </ListItem>
+                            ))}
+                          </List>
+                        </Box>
+
+
+              </Grid>
             </Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>
@@ -279,6 +557,16 @@ export default function Dashboard() {
   );
 }
 
+const capitals = [
+  { city: "Manila", country: "Philippines" },
+  { city: "Jakarta", country: "Indonesia" },
+  { city: "Bangkok", country: "Thailand" },
+  { city: "Hanoi", country: "Vietnam" },
+  { city: "Paris", country: "France" },
+  { city: "Tokyo", country: "Japan" },
+  { city: "Moscow", country: "Russia" },
+];
+
 function ProfileCircle() {
   const profileImgUrl = "dummy.jpeg";
 
@@ -287,7 +575,7 @@ function ProfileCircle() {
       style={{
         position: "fixed",
         top: "10px",
-        left: "calc(100% - 90px)" /* Adjusted value */,
+        left: "calc(100% - 90px)",
         display: "flex",
         alignItems: "center",
       }}
