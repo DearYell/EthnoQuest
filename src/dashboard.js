@@ -273,7 +273,7 @@ export default function Dashboard() {
             }}
           > 
             
-            <Grid container spacing={3} sx={{ height: "500px", width: "500px" }}>
+            <Grid container spacing={3} sx={{ height: "600px", width: "600px" }}>
               <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
                 <Box // Edit here for the MainDash Content
                   sx={{
@@ -311,7 +311,7 @@ export default function Dashboard() {
                 <Box //quizzes
                       sx={{
                         position: "absolute",
-                        bottom: "320px",
+                        bottom: "310px",
                         left: "300px",
                         padding: "20px",
                         borderRadius: "15px",
@@ -346,37 +346,66 @@ export default function Dashboard() {
                     </Box>
 
 
-                <Box // Box 1
+                    <Box // Box 1
                       sx={{
+                        height: "130px", 
                         position: "absolute",
                         bottom: "25px",
                         left: "320px",
                         backgroundColor: "white",
                         padding: "20px",
                         borderRadius: "15px",
-                        width: "100%",
+                        width: "50%",
                         maxWidth: "370px",
-                        display: "flex",  // Use flex display
-                        flexDirection: "row",  // Set the direction to row
-                        alignItems: "center",  // Align items to the center
-                        justifyContent: "flex-end",  // Align content to the right
+                        display: "flex", // Use flex display
+                        flexDirection: "row", // Set the direction to row
+                        alignItems: "center", // Align items to the center
+                        justifyContent: "space-between", // Updated to "space-between" for spacing between text and button
                       }}
                     >
-                      <Avatar
-                        alt="Avatar 1"
-                        src="path/to/avatar1.jpg"
-                        sx={{ width: 100, height: 100, marginRight: 15 }}
-                      />
-                      <Typography variant="h5" color="textPrimary"> 
-                        <b>Canberra</b>
-                        <Typography variant="h6" color="Gray">
-                        Australia
-                      </Typography>
-                      </Typography>
+                      <List>
+                        <ListItem>
+                          <ListItemAvatar>
+                            <Avatar
+                              alt=""
+                              src="Australia.jpg"
+                              sx={{ width: 100, height: 100, marginRight: 6 }}
+                            />
+                          </ListItemAvatar>
+                          <MuiListItemText
+                            primary={
+                              <Typography variant="h5" color="textPrimary">
+                                <b>Canberra</b>
+                              </Typography>
+                            }
+                            secondary={
+                              <Typography variant="h6" color="Gray">
+                                Australia
+                                <IconButton
+                                    style={{
+                                      display: "flex",  
+                                      color: "green",
+                                    }}
+                                    onClick={() => {
+                                      // Handle click event for the specific item
+                                      console.log("Clicked > for Australia, Canberra");
+                                    }}
+                                  >
+                                    <Typography variant="h6" color="white">
+                                      &gt; View quiz
+                                    </Typography>
+                                  </IconButton>
+                              </Typography>
+                            }
+                          />
+                        </ListItem>
+                      </List>
                     </Box>
-                      
+
+                    
                     <Box // Box 2
                       sx={{
+                        height: "130px",
                         position: "absolute",
                         bottom: "180px",
                         left: "320px",
@@ -385,27 +414,54 @@ export default function Dashboard() {
                         borderRadius: "15px",
                         width: "100%",
                         maxWidth: "370px",
-                        display: "flex",  // Use flex display
-                        flexDirection: "row",  // Set the direction to row
-                        alignItems: "center",  // Align items to the center
-                        justifyContent: "flex-end",  // Align content to the right
+                        display: "flex", // Use flex display
+                        flexDirection: "row", // Set the direction to row
+                        alignItems: "center", // Align items to the center
+                        justifyContent: "space-between", // Updated to "space-between" for spacing between text and button
                       }}
                     >
-                      <Avatar
-                        alt="Avatar 2"
-                        src="path/to/avatar2.jpg"
-                        sx={{ width: 100, height: 100, marginRight: 15 }}
-                      />
-                      <Typography variant="h5" color="textPrimary">
-                        <b>Manila</b>
-                        <Typography variant="h6" color="Gray">
-                        Philippines
-                      </Typography>
-                      </Typography>
+                      <List>
+                        <ListItem>
+                          <ListItemAvatar>
+                            <Avatar
+                              alt=""
+                              src="Philippines.jpg"
+                              sx={{ width: 100, height: 100, marginRight: 6 }}
+                            />
+                          </ListItemAvatar>
+                          <MuiListItemText
+                            primary={
+                              <Typography variant="h5" color="textPrimary">
+                                <b>Manila</b>
+                              </Typography>
+                            }
+                            secondary={
+                              <Typography variant="h6" color="Gray">
+                                Philippines
+                                <IconButton
+                                    style={{
+                                      display: "flex",  
+                                      color: "green",
+                                    }}
+                                    onClick={() => {
+                                      // Handle click event for the specific item
+                                      console.log("Clicked > for Philippines, Manila");
+                                    }}
+                                  >
+                                    <Typography variant="h6" color="white">
+                                      &gt; View quiz
+                                    </Typography>
+                                  </IconButton>
+                              </Typography>
+                            }
+                          />
+                        </ListItem>
+                      </List>
                     </Box>
 
-                   <Box // Box 3
+                    <Box // Box 3
                       sx={{
+                        height: "130px",
                         position: "absolute",
                         bottom: "25px",
                         left: "700px",
@@ -414,53 +470,107 @@ export default function Dashboard() {
                         borderRadius: "15px",
                         width: "100%",
                         maxWidth: "370px",
-                        display: "flex",  // Use flex display
-                        flexDirection: "row",  // Set the direction to row
-                        alignItems: "center",  // Align items to the center
-                        justifyContent: "flex-end",  // Align content to the right
+                        display: "flex", // Use flex display
+                        flexDirection: "row", // Set the direction to row
+                        alignItems: "center", // Align items to the center
+                        justifyContent: "space-between", // Updated to "space-between" for spacing between text and button
                       }}
                     >
-                      <Avatar
-                        alt="Avatar 3"
-                        src="path/to/avatar3.jpg"
-                        sx={{ width: 100, height: 100, marginRight: 15 }}
-                      />
-                     <Typography variant="h6" color="textPrimary">
-                        <b>United Kingdom</b>
-                        <Typography variant="h6" color="Gray">
-                        London
-                      </Typography>
-                      </Typography>
+                      <List>
+                        <ListItem>
+                          <ListItemAvatar>
+                            <Avatar
+                              alt="Avatar 3"
+                              src="UK.jpg"
+                              sx={{ width: 100, height: 100, marginRight: 6 }}
+                            />
+                          </ListItemAvatar>
+                          <MuiListItemText
+                            primary={
+                              <Typography variant="h7" color="textPrimary">
+                                <b>United Kingdom</b>
+                              </Typography>
+                            }
+                            secondary={
+                              <Typography variant="h6" color="Gray">
+                                London
+                                <IconButton
+                                    style={{
+                                      display: "flex",  
+                                      color: "green",
+                                    }}
+                                    onClick={() => {
+                                      // Handle click event for the specific item
+                                      console.log("Clicked > for London, United Kingdom");
+                                    }}
+                                  >
+                                    <Typography variant="h6" color="white">
+                                      &gt; View quiz
+                                    </Typography>
+                                  </IconButton>
+                              </Typography>
+                            }
+                          />
+                        </ListItem>
+                      </List>
                     </Box>
 
-                    <Box // Box 4
-                      sx={{
-                        position: "absolute",
-                        bottom: "180px",
-                        left: "700px",
-                        backgroundColor: "white",
-                        padding: "20px",
-                        borderRadius: "15px",
-                        width: "100%",
-                        maxWidth: "370px",
-                        display: "flex",  // Use flex display
-                        flexDirection: "row",  // Set the direction to row
-                        alignItems: "center",  // Align items to the center
-                        justifyContent: "flex-end ",  // Align content to the right
-                      }}
-                    >
-                      <Avatar
-                        alt="Avatar 4"
-                        src="path/to/avatar4.jpg"
-                        sx={{ width: 100, height: 100, marginRight: 20.5 }}
-                      />
-                      <Typography variant="h5" color="textPrimary" >
-                        <b>Rome</b>
-                        <Typography variant="h6" color="Gray">
-                        Italy
-                      </Typography>
-                      </Typography>
-                    </Box>
+                    
+                     <Box // Box 4
+            sx={{
+              height: "130px",
+              position: "absolute",
+              bottom: "180px",
+              left: "700px",
+              backgroundColor: "white",
+              padding: "20px",
+              borderRadius: "15px",
+              width: "100%",
+              maxWidth: "370px",
+              display: "flex", // Use flex display
+              flexDirection: "row", // Set the direction to row
+              alignItems: "center", // Align items to the center
+              justifyContent: "space-between", // Updated to "space-between" for spacing between text and button
+            }}
+          >
+            <List>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar
+                    alt=""
+                    src="italy.jpg"
+                    sx={{ width: 100, height: 100, marginRight: 6 }}
+                  />
+                </ListItemAvatar>
+                <MuiListItemText
+                  primary={
+                    <Typography variant="h5" color="textPrimary">
+                      <b>Rome</b>
+                    </Typography>
+                  }
+                  secondary={
+                    <Typography variant="h6" color="Gray">
+                      Italy<br></br>
+                      <IconButton
+                        style={{
+                          display: "flex",  
+                          color: "green",
+                        }}
+                        onClick={() => {
+                          // Handle click event for the specific item
+                          console.log("Clicked > for Rome, Italy");
+                        }}
+                      >
+                        <Typography variant="h6" color="white">
+                          &gt; View quiz
+                        </Typography>
+                      </IconButton>
+                    </Typography>
+                  }
+                />
+              </ListItem>
+            </List>
+          </Box>
 
                     <Box //Capitals
                       sx={{
@@ -516,8 +626,8 @@ export default function Dashboard() {
                               <ListItem key={index}>
                                 <ListItemAvatar>
                                   <Avatar
-                                    alt={`Avatar ${index + 2}`}
-                                    src={`path/to/avatar${index + 2}.jpg`}
+                                    alt={`Avatar ${index + 1}`}
+                                    src={process.env.PUBLIC_URL + `/${capital.country}.jpg`}
                                     sx={{ width: 65, height: 65, marginRight: 5 }}
                                   />
                                 </ListItemAvatar>
