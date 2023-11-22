@@ -44,7 +44,7 @@ function SignInSide() {
     email: "",
     password: "",
   });
-  // const history = useHistory();
+  const [passwordError, setPasswordError] = useState(""); // New state for password error
 
   React.useEffect(() => {
     const rotateInterval = setInterval(() => {
@@ -64,9 +64,28 @@ function SignInSide() {
       ...formData,
       [name]: value,
     });
+
+    // Validate password on each change
+    validatePassword(value);
+  };
+
+  const validatePassword = (password) => {
+    const pattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!password.match(pattern)) {
+      setPasswordError(
+        "Password must be at least 8 characters, include uppercase and lowercase letters, and special characters."
+      );
+    } else {
+      setPasswordError("");
+    }
   };
 
   const handleSubmit = async () => {
+    if (passwordError) {
+      return;
+    }
     try {
       const response = await axios.post(
         "http://localhost:8080/user/loginUser",
@@ -201,6 +220,11 @@ function SignInSide() {
                       ),
                     }}
                   />
+                  {passwordError && (
+                    <Typography variant="body2" color="error">
+                      {passwordError}
+                    </Typography>
+                  )}
                   <FormControlLabel
                     control={
                       <Checkbox
