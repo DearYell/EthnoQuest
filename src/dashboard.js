@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import {
   Button,
   Typography,
-  Card,
-  CardContent,
+  // Card,
+  // CardContent,
   List,
-  ListItem,
+  // ListItem,
   ListItemText as MuiListItemText, // Rename to avoid conflict
 } from "@material-ui/core"; // Import all components from material-ui/core
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
-import Divider from "@mui/material/Divider"; // Import the Divider component
+// import Divider from "@mui/material/Divider"; // Import the Divider component
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
@@ -20,21 +20,19 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+// import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
+// import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CompassCalibrationIcon from "@mui/icons-material/CompassCalibration";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import "./index.css";
-import { lightGreen } from "@mui/material/colors";
-
-const defaultTheme = createTheme();
+// import { lightGreen } from "@mui/material/colors";
 
 export default function Dashboard() {
   const [rotation, setRotation] = React.useState(0);
@@ -43,6 +41,8 @@ export default function Dashboard() {
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const defaultTheme = createTheme();
 
   React.useEffect(() => {
     const rotateInterval = setInterval(() => {
