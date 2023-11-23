@@ -30,9 +30,26 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const LogoListItem = (
   <ListItemButton>
     <ListItemIcon>
-      <img src="./Logo.png" alt="Logo" style={{ maxHeight: "40px" }} />
+      <img
+        src="./Logo.png"
+        alt="Logo"
+        style={{
+          maxHeight: "40px",
+          animation: "logoRotation 5s infinite linear", // Added rotation animation
+        }}
+      />
+      <style>{`
+        @keyframes logoRotation {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </ListItemIcon>
-    <MuiListItemText primary="EthnoQuest" />
+    <ListItemText primary="EthnoQuest" />
   </ListItemButton>
 );
 
@@ -205,37 +222,35 @@ export default function MyProfile() {
               }}
             >
               <Grid container spacing={1.5} justifyContent="center">
-                <Grid item xs={7}>
-
-                  {/* Add Quiz History link */}
-                  <ListItemButton
-                          variant="outlined"
-                          component={Link}
-                          to="/QuizHistory"
-                          sx={{
-                            color: "#fff",
-                            padding: "5px", // Adjusted padding to make it smaller
-                            fontSize: "0.8em", // Adjusted font size
-                            textDecoration: "none", // Remove underline
-                            display: "flex",
-                            alignItems: "center",
-                            backgroundColor: "green",
-                            borderRadius: "10px", // Added border radius
-                          }}
-                        >
-                          <Typography
-                            component="div"
-                            variant="body1"
-                            color="inherit"
+              <Grid item xs={7}>
+                {/* Add Quiz History link */}
+                        <Link to="/QuizHistory" style={{ textDecoration: "none" }}>
+                          <div
                             sx={{
-                              marginLeft: "5px", // Adjusted margin
-                              textAlign: "center", // Center the text
-                              width: "100%", // Make the width 100% to center the text
+                              color: "#fff",
+                              padding: "10px",
+                              fontSize: "1em",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center", // Added justifyContent
+                              backgroundColor: "green",
+                              borderRadius: "15px",
+                              marginTop: "10px",
                             }}
                           >
-                            Quiz History
-                          </Typography>
-                        </ListItemButton>
+                            <Typography
+                              variant="body1"
+                              color="inherit"
+                              sx={{
+                                marginLeft: "5px",
+                                textAlign: "center",
+                                width: "100%",
+                              }}
+                            >
+                              Quiz History
+                            </Typography>
+                          </div>
+                        </Link>
 
                           <Paper
                         elevation={3}
@@ -268,6 +283,36 @@ export default function MyProfile() {
                         
                     </div>
                     {/* Other content within the Paper */}
+
+                    <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '50px' }}>
+                     <img src="ActiveLearner.png" alt="Actives" style={{ width: '180px', height: '140px' }} />
+                    </div>
+
+                    <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '250px' }}>
+                     <img src="TestAcer.png" alt="Test" style={{ width: '150px', height: '140px' }} />
+                    </div>
+
+                    <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '400px' }}>
+                     <img src="CommitedLearner.png" alt="Commit" style={{ width: '230px', height: '140px' }} />
+                    </div>
+
+                    <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '590px' }}>
+                    <img src="NightOwl.png" alt="Owl" style={{ width: '220px', height: '140px' }} />
+                  </div>
+
+                  <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '50px' }}>
+                  <img src="EarlyBird.png" alt="Bird" style={{ width: '190px', height: '140px' }} />
+                  </div>
+
+                  <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '220px' }}>
+                  <img src="Streaker.png" alt="Streaker" style={{ width: '220px', height: '140px' }} />
+                  </div>
+
+                  <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '415px' }}>
+                  <img src="SetBuilder.png" alt="Set" style={{ width: '215px', height: '140px' }} />
+                  </div>
+
+                    
                   </Paper>
                 </Grid>
               </Grid>
