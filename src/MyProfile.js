@@ -60,6 +60,11 @@ export const mainListItems = (
       <ListItemText primary="My Profiles" />
     </ListItemButton>
 
+    <ListItemButton component={Link} to="/QuizHistory">
+      {/* ... (other properties) */}
+      <ListItemText primary="Quiz History" />
+    </ListItemButton>
+
     <ListItemButton component={Link} to="/Settings">
       <ListItemIcon>
         <SettingsIcon />
@@ -71,7 +76,7 @@ export const mainListItems = (
       <ListItemIcon>
         <LogoutIcon />
       </ListItemIcon>
-      
+
       <ListItemText primary="Log Out" />
     </ListItemButton>
   </React.Fragment>
@@ -152,26 +157,7 @@ export default function MyProfile() {
               >
                 <MenuIcon />
               </IconButton>
-              {/* Removed the search bar */}
-              <Typography
-                component="div"
-                variant="body1"
-                color="black" // Set to a contrasting color
-                noWrap
-                sx={{
-                  flexGrow: 1,
-                  display: "flex",
-                  alignItems: "center",
-                  marginLeft: "280px",
-                  fontSize: "1.2em",
-                  fontWeight: "bold",
-                  color:"black",
-                }}
-              >
-                Mark Huyoa
-              </Typography>
-                
-              {/* Aligned profile icon to the right */}
+             
               <IconButton color="inherit" sx={{ marginLeft: "auto" }}>
                 <ProfileCircle />
               </IconButton>
@@ -226,17 +212,19 @@ export default function MyProfile() {
               <Grid container spacing={1.5} justifyContent="center">
                 <Grid item xs={7}>
                 <Paper
-                  elevation={3}
-                  sx={{
-                    width: '850px',
-                    height: '600px',
-                    borderRadius: "15px",
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: 'column',
-                    margin: "80px auto", // Updated margin
-                    position: 'relative',
-                  }}
+              elevation={3}
+              sx={{
+                // padding: "20px",
+                width: '850px', 
+                height: '600px',
+                borderRadius: "15px",
+                display: "flex",
+                alignItems: "center",
+                flexDirection: 'column',
+                marginTop: "80px",
+                marginLeft: "95px",
+                position: 'relative',
+              }}
                     >
                       <div style={{ position: 'absolute', top: '30px', left: '20px' }}>
                         <Typography
@@ -301,7 +289,7 @@ export default function MyProfile() {
         style={{
           position: 'fixed',
           top: '10px',
-          left: '280px', /* Adjusted value to align to the left */
+          left: 'calc(100% - 90px)', /* Adjusted value */
           display: 'flex',
           alignItems: 'center',
         }}
@@ -314,9 +302,8 @@ export default function MyProfile() {
       </div>
     );
   }
+
   
-
-
 function Copyright(props) {
   return (
     <Typography
