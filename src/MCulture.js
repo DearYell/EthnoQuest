@@ -1,11 +1,7 @@
 import * as React from "react";
 import {
-  Button,
   Typography,
-  Card,
-  CardContent,
   List,
-  ListItem,
   ListItemText as MuiListItemText, // Rename to avoid conflict
 } from "@material-ui/core"; // Import all components from material-ui/core
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
@@ -28,10 +24,12 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import Paper from '@mui/material/Paper';
 import SettingsIcon from '@mui/icons-material/Settings';
-import PeopleIcon from "@mui/icons-material/People";
-import LogoutIcon from '@mui/icons-material/Logout';
-import LayersIcon from "@mui/icons-material/Layers";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const LogoListItem = (
   <ListItemButton>
@@ -45,35 +43,35 @@ const LogoListItem = (
 export const mainListItems = (
   <React.Fragment>
     {LogoListItem}
-    <ListItemButton>
+    <ListItemButton component={Link} to="/MHistory">
+      <ListItemIcon>
+        <HistoryEduIcon  />
+      </ListItemIcon >
+      <ListItemText primary="History" />
+    </ListItemButton>
+    <ListItemButton component={Link} to="/MTradition">
+      <ListItemIcon>
+        <AutoStoriesIcon/>
+      </ListItemIcon>
+      <ListItemText primary="Tradition" />
+    </ListItemButton>
+    <ListItemButton  component={Link} to="/MCulture">
+      <ListItemIcon>
+        <AccountCircleIcon style={{ color: 'lightgreen' }}/>
+      </ListItemIcon>
+      <ListItemText primary="Culture" />
+    </ListItemButton>
+    <ListItemButton component={Link} to="/MHoliday">
+      <ListItemIcon>
+        <CalendarMonthIcon />
+      </ListItemIcon>
+      <ListItemText primary="Holidays" />
+    </ListItemButton>
+    <ListItemButton component={Link} to="/dashboard">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <LocationOnIcon style={{ color: 'lightgreen' }} />
-      </ListItemIcon>
-      <ListItemText primary="All Capitals" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="My Profiles" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <SettingsIcon />
-      </ListItemIcon>
-      <ListItemText primary="Settings" />
-    </ListItemButton>
-    <ListItemButton component={Link} to="/Login">
-      <ListItemIcon>
-        <LogoutIcon />
-      </ListItemIcon>
-      <ListItemText primary="Log Out" />
     </ListItemButton>
   </React.Fragment>
 );
@@ -124,7 +122,7 @@ const Drawer = styled(MuiDrawer, {
 
 const defaultTheme = createTheme();
 
-export default function Dashboard() {
+export default function MCulture() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -172,9 +170,10 @@ export default function Dashboard() {
                 label="Search capital around the world"
                 variant="outlined"
                 size="small"
-                sx={{ width: "40%" }}
+                sx={{ width: "500px", minWidth: "300px" }} // Adjusted width
               />
             </Typography>
+
             <IconButton color="inherit">
               <ProfileCircle />
             </IconButton>
@@ -206,16 +205,96 @@ export default function Dashboard() {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              <img
-                src="./dash.png"
-                alt="Main"
-                style={{ width: "100%", height: "auto" }}
-              />
-            </Grid>
-            <Copyright sx={{ pt: 4 }} />
-          </Container>
+          <Container
+          maxWidth="auto"
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundImage: "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
+            overflow: "hidden",
+            backgroundSize: "cover",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+         
+          <Grid container spacing={1.5} justifyContent="center">
+          <Grid item xs={7}>
+            <Paper
+              elevation={3}
+              sx={{
+                width: '1000px', 
+                height: '600px',
+                borderRadius: "15px",
+                display: "flex",
+                alignItems: "center",
+                flexDirection: 'column',
+                marginTop: "80px",
+                marginLeft: "20px",
+                position: 'relative',
+              }}
+            >
+              <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
+              <Typography
+                align="left"
+                sx={{
+                  color: "#fff",
+                  fontFamily: "Poppins, sans-serif",
+                  fontWeight: "bold",
+                }}
+                style={{ fontWeight: "bold", fontSize:"1em", fontFamily: "Poppins, sans-serif",}}
+              >
+                MANILA
+              </Typography>
+              </div>
+
+              <div style={{ position: 'absolute', top: '40px', left: '20px' }}>
+              <Typography
+                align="left"
+                sx={{
+                  color: "#6082B6",
+                  fontFamily: "Poppins, sans-serif",
+                  fontWeight: "bold",
+                }}
+                style={{ fontSize:"1em", color: "#808080",}}
+              >
+                Philippines
+              </Typography>
+              </div>
+              <div style={{ marginTop: '50px', position: 'absolute', top: '50px', left: '55px' }}>
+                <img src="Mcul.jpg" alt="PanaMa" style={{ width: '890px', height: '200px' }} />
+              </div>
+
+              <div style={{ position: 'absolute', top: '330px', left: '65px' }}>
+              <Typography
+                align="left"
+                sx={{
+                  color: "#6082B6",
+                  fontFamily: "Poppins, sans-serif",
+                  fontWeight: "bold",
+                }}
+                style={{ fontSize:"1.1em", color: "#000000",}}
+              >
+                Arts: Manila is home to a thriving arts scene, with numerous galleries and art centers showcasing the works <br />of local and international artists.
+                The city also hosts various art festivals throughout the year.<br />
+                Cuisine: Manila’s cuisine is a blend of indigenous, Spanish, Chinese, and American influences. <br />
+                The city is known for its street food, which includes dishes like adobo, lechon, sinigang, and halo-halo. <br />
+                Language: While Filipino and English are the official languages, the city is a melting pot of different dialects<br />from various regions of the Philippines.<br />
+                Religion: Manila is predominantly Roman Catholic, but other religions such as Islam, Buddhism, Hinduism,<br />and various Protestant denominations are also practiced. <br />
+              </Typography>
+              </div>
+
+              {/* Other content within the Paper */}
+              
+            </Paper>
+          </Grid>
+        </Grid>
+          <Copyright sx={{ pt: 4 }} />
+        </Container>
         </Box>
       </Box>
     </ThemeProvider>
@@ -223,20 +302,27 @@ export default function Dashboard() {
 }
 
 function ProfileCircle() {
-  const profileImgUrl = "https://example.com/profile-image.jpg";
+  const profileImgUrl = "profilesample.jpg";
 
   return (
     <div
-      style={{ borderRadius: "50%", overflow: "hidden", marginRight: "8px" }}
+      style={{
+        position: 'fixed',
+        top: '10px',
+        left: 'calc(100% - 90px)', /* Adjusted value */
+        display: 'flex',
+        alignItems: 'center',
+      }}
     >
       <img
         src={profileImgUrl}
         alt=""
-        style={{ width: "32px", height: "32px", objectFit: "cover" }}
+        style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
       />
     </div>
   );
 }
+
 
 function Copyright(props) {
   return (
