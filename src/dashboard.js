@@ -154,7 +154,9 @@ export default function Dashboard() {
             >
               <MenuIcon />
             </IconButton>
-            
+            <IconButton color="inherit">
+              <SearchIcon sx={{ color: "black" }} />
+            </IconButton>
             <Typography
               component="div"
               variant="h6"
@@ -236,7 +238,7 @@ export default function Dashboard() {
 }
 
 function ProfileCircle() {
-  const profileImgUrl = "dummy.jpeg";
+  const profileImgUrl = "profilesample.jpg";
 
   return (
     <div
