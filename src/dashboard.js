@@ -295,7 +295,6 @@ export default function Dashboard() {
                     <br></br>
                     <br></br>
                     <br></br>
-                    
                   </Typography>
                   <Button
                     variant="contained"
