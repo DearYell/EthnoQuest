@@ -18,8 +18,6 @@ import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import SearchIcon from "@mui/icons-material/Search";
-import TextField from "@mui/material/TextField";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -50,14 +48,14 @@ export const mainListItems = (
 
     <ListItemButton component={Link} to="/AllCapitals">
       <ListItemIcon>
-        <LocationOnIcon style={{ color: 'lightgreen' }} />
+        <LocationOnIcon />
       </ListItemIcon> 
       <ListItemText primary="All Capitals" />
     </ListItemButton>
 
     <ListItemButton component={Link} to="/MyProfile">
       <ListItemIcon>
-        <AccountCircleIcon/>
+        <AccountCircleIcon  style={{ color: 'lightgreen' }}/>
       </ListItemIcon>
       <ListItemText primary="My Profiles" />
     </ListItemButton>
@@ -73,7 +71,7 @@ export const mainListItems = (
       <ListItemIcon>
         <LogoutIcon />
       </ListItemIcon>
-      
+
       <ListItemText primary="Log Out" />
     </ListItemButton>
   </React.Fragment>
@@ -125,7 +123,7 @@ const Drawer = styled(MuiDrawer, {
 
 const defaultTheme = createTheme();
 
-export default function AllCapitals() {
+export default function QuizHistory() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -138,8 +136,8 @@ export default function AllCapitals() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px", // keep right padding when drawer closed
-              backgroundColor: "white", // Set background color to white
+              pr: "25px",
+              backgroundColor: "white",
             }}
           >
             <IconButton
@@ -154,30 +152,8 @@ export default function AllCapitals() {
             >
               <MenuIcon />
             </IconButton>
-            <IconButton color="inherit">
-              <SearchIcon sx={{ color: "black" }} />
-            </IconButton>
-            <Typography
-              component="div"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{
-                flexGrow: 1,
-                display: "flex",
-                alignItems: "center",
-                marginLeft: "8px",
-              }}
-            >
-              <TextField
-                label="Search capital around the world"
-                variant="outlined"
-                size="small"
-                sx={{ width: "500px", minWidth: "300px" }} // Adjusted width
-              />
-            </Typography>
 
-            <IconButton color="inherit">
+            <IconButton color="inherit" sx={{ marginLeft: "auto" }}>
               <ProfileCircle />
             </IconButton>
           </Toolbar>
@@ -201,133 +177,83 @@ export default function AllCapitals() {
         <Box
           component="main"
           sx={{
-            backgroundColor: "white", // Set background color to white
+            backgroundColor: "white",
             flexGrow: 1,
             height: "100vh",
+            width: "100v",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             overflow: "auto",
           }}
         >
           <Toolbar />
           <Container
-          maxWidth="auto"
-          sx={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundImage: "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
-            // backdropFilter: "blur(4px)",
-            overflow: "hidden",
-            backgroundSize: "cover",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {/* <Typography variant="h4" align="center" sx={{ color: "#fff", marginTop: "30px" }}>
-            Welcome to My App!
-          </Typography> */}
-          <Grid container spacing={1.5} justifyContent="center">
-          <Grid item xs={7}>
-            <Paper
-              elevation={3}
-              sx={{
-                // padding: "20px",
-                width: '850px', 
-                height: '600px',
-                borderRadius: "15px",
-                display: "flex",
-                alignItems: "center",
-                flexDirection: 'column',
-                marginTop: "80px",
-                marginLeft: "20px",
-                position: 'relative',
-              }}
-            >
-              <div style={{ position: 'absolute', top: '30px', left: '20px' }}>
-              <Typography
-                align="left"
-                sx={{
-                  color: "#fff",
-                  fontFamily: "Poppins, sans-serif",
-                  fontWeight: "bold",
-                }}
-                style={{ fontWeight: "bold", fontSize:"1.2em", }}
-              >
-                Capitals
-              </Typography>
-
-              </div>
-              {/* Other content within the Paper */}
-              <div style={{ marginTop: '50px', position: 'absolute', top: '50px', left: '50px' }}>
-                <img src="Manila.png" alt="Manila" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '50px', left: '200px' }}>
-                <img src="Jakarta.png" alt="Jakarta" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '50px', left: '350px' }}>
-                <img src="London.png" alt="London" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '50px', left: '500px' }}>
-                <img src="Tokyo.png" alt="Tokyo" style={{ width: '125px', height: '140px' }} />
-              </div>
-            </Paper>
-          </Grid>
-          <Grid item xs={1} sx={{marginLeft: "10px",}}>
-            <Paper elevation={3}
-              sx={{
-                width: '300px', 
-                height: '550px',
-                // padding: "80px",
-                borderRadius: "15px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: 'column',
-                marginTop: "132px",
-                marginLeft: "30px",
-                backgroundColor: "#ffffff", 
-              }}
-            >
-              {/* Content for the right Paper */}
-            </Paper>
-          </Grid>
-        </Grid>
-          <Copyright sx={{ pt: 4 }} />
-          <Typography variant="h6" color="textPrimary" style={{ marginBottom: "470px", marginLeft: "970px", position: "absolute", }}>
-                    Search Results
-                  </Typography>
-        </Container>
+            maxWidth="auto"
+            sx={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundImage:
+                "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
+              overflow: "hidden",
+              backgroundSize: "cover",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Grid container spacing={1.5} justifyContent="center">
+              <Grid item xs={3}> {/* Adjusted size */}
+                <Paper
+                  elevation={3}
+                  sx={{
+                    width: "250px", // Adjusted width
+                    height: "200px", // Adjusted height
+                    borderRadius: "15px",
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    position: "relative",
+                  }}
+                >
+                  {/* Content within the Paper */}
+                </Paper>
+              </Grid>
+            </Grid>
+            <Copyright sx={{ pt: 4 }} />
+          </Container>
         </Box>
       </Box>
     </ThemeProvider>
   );
 }
 
-function ProfileCircle() {
-  const profileImgUrl = "profilesample.jpg";
+  function ProfileCircle() {
+    const profileImgUrl = "profilesample.jpg";
+  
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          top: '10px',
+          left: 'calc(100% - 90px)', /* Adjusted value */
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <img
+          src={profileImgUrl}
+          alt=""
+          style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
+        />
+      </div>
+    );
+  }
 
-  return (
-    <div
-      style={{
-        position: 'fixed',
-        top: '10px',
-        left: 'calc(100% - 90px)', /* Adjusted value */
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-      <img
-        src={profileImgUrl}
-        alt=""
-        style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
-      />
-    </div>
-  );
-}
-
-
+  
 function Copyright(props) {
   return (
     <Typography
