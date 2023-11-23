@@ -47,28 +47,33 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
-    <ListItemButton>
+
+    <ListItemButton component={Link} to="/AllCapitals">
       <ListItemIcon>
-        <LocationOnIcon style={{ color: 'lightgreen' }} />
-      </ListItemIcon>
+        <LocationOnIcon />
+      </ListItemIcon> 
       <ListItemText primary="All Capitals" />
     </ListItemButton>
-    <ListItemButton>
+
+    <ListItemButton component={Link} to="/MyProfile">
       <ListItemIcon>
-        <AccountCircleIcon />
+        <AccountCircleIcon  style={{ color: 'lightgreen' }}/>
       </ListItemIcon>
       <ListItemText primary="My Profiles" />
     </ListItemButton>
-    <ListItemButton>
+
+    <ListItemButton component={Link} to="/Settings">
       <ListItemIcon>
         <SettingsIcon />
       </ListItemIcon>
       <ListItemText primary="Settings" />
     </ListItemButton>
+
     <ListItemButton component={Link} to="/Login">
       <ListItemIcon>
         <LogoutIcon />
       </ListItemIcon>
+      
       <ListItemText primary="Log Out" />
     </ListItemButton>
   </React.Fragment>

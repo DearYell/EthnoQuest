@@ -18,8 +18,6 @@ import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import SearchIcon from "@mui/icons-material/Search";
-import TextField from "@mui/material/TextField";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -47,28 +45,33 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
-    <ListItemButton>
+
+    <ListItemButton component={Link} to="/AllCapitals">
       <ListItemIcon>
         <LocationOnIcon />
-      </ListItemIcon>
+      </ListItemIcon> 
       <ListItemText primary="All Capitals" />
     </ListItemButton>
-    <ListItemButton>
+
+    <ListItemButton component={Link} to="/MyProfile">
       <ListItemIcon>
         <AccountCircleIcon  style={{ color: 'lightgreen' }}/>
       </ListItemIcon>
       <ListItemText primary="My Profiles" />
     </ListItemButton>
-    <ListItemButton>
+
+    <ListItemButton component={Link} to="/Settings">
       <ListItemIcon>
         <SettingsIcon />
       </ListItemIcon>
       <ListItemText primary="Settings" />
     </ListItemButton>
+
     <ListItemButton component={Link} to="/Login">
       <ListItemIcon>
         <LogoutIcon />
       </ListItemIcon>
+      
       <ListItemText primary="Log Out" />
     </ListItemButton>
   </React.Fragment>
@@ -133,7 +136,7 @@ export default function MyProfile() {
           <AppBar position="absolute" open={open}>
             <Toolbar
               sx={{
-                pr: "24px",
+                pr: "25px",
                 backgroundColor: "white",
               }}
             >
@@ -150,24 +153,24 @@ export default function MyProfile() {
                 <MenuIcon />
               </IconButton>
               {/* Removed the search bar */}
-            <Typography
-            component="div"
-            variant="body1" // Changed to body1 for a smaller size
-            color="white" // Set color to white
-            noWrap
-            sx={{
-                flexGrow: 1,
-                display: "flex",
-                alignItems: "center",
-                marginLeft: "8px",
-                fontSize: "1.2em", // Adjusted font size
-                fontWeight: "bold", // Added bold font weight for visibility
-            }}
-            >
-            Mark Huyoa
-            </Typography>
-
-  
+              <Typography
+                component="div"
+                variant="body1"
+                color="black" // Set to a contrasting color
+                noWrap
+                sx={{
+                  flexGrow: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  marginLeft: "280px",
+                  fontSize: "1.2em",
+                  fontWeight: "bold",
+                  color:"black",
+                }}
+              >
+                Mark Huyoa
+              </Typography>
+                
               {/* Aligned profile icon to the right */}
               <IconButton color="inherit" sx={{ marginLeft: "auto" }}>
                 <ProfileCircle />
@@ -190,15 +193,18 @@ export default function MyProfile() {
             <Divider />
             <List component="nav">{mainListItems}</List>
           </Drawer>
-          <Box
-            component="main"
-            sx={{
-              backgroundColor: "white",
-              flexGrow: 1,
-              height: "100vh",
-              width: "50vh",
-              overflow: "auto",
-            }}
+                <Box
+        component="main"
+        sx={{
+          backgroundColor: "white",
+          flexGrow: 1,
+          height: "100vh",
+          width: "100v", // Changed to vw for full viewport width
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          overflow: "auto",
+        }}
           >
             <Toolbar />
             <Container
@@ -219,32 +225,60 @@ export default function MyProfile() {
             >
               <Grid container spacing={1.5} justifyContent="center">
                 <Grid item xs={7}>
-                  <Paper
-                    elevation={3}
-                    sx={{
-                      width: '850px',
-                      height: '600px',
-                      borderRadius: "15px",
-                      display: "flex",
-                      alignItems: "center",
-                      flexDirection: 'column',
-                      marginTop: "80px",
-                      marginLeft: "20px",
-                      position: 'relative',
-                    }}
-                  >
-                    <div style={{ position: 'absolute', top: '30px', left: '20px' }}>
-                      <Typography
-                        align="left"
-                        sx={{
-                          color: "#fff",
-                          fontFamily: "Poppins, sans-serif",
-                          fontWeight: "bold",
-                        }}
-                        style={{ fontWeight: "bold", fontSize: "1.2em", }}
-                      >
-                        Achievements
-                      </Typography>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    width: '850px',
+                    height: '600px',
+                    borderRadius: "15px",
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: 'column',
+                    margin: "80px auto", // Updated margin
+                    position: 'relative',
+                  }}
+                    >
+                      <div style={{ position: 'absolute', top: '30px', left: '20px' }}>
+                        <Typography
+                          align="left"
+                          sx={{
+                            color: "#fff",
+                            fontFamily: "Poppins, sans-serif",
+                            fontWeight: "bold",
+                          }}
+                          style={{ fontWeight: "bold", fontSize: "1.2em" }}
+                        >
+                          Achievements
+                        </Typography>
+
+                        {/* Add Quiz History link */}
+                        <ListItemButton
+                          component={Link}
+                          to="/QuizHistory"
+                          sx={{
+                            color: "#fff",
+                            padding: "5px", // Adjusted padding to make it smaller
+                            fontSize: "0.8em", // Adjusted font size
+                            textDecoration: "none", // Remove underline
+                            display: "flex",
+                            alignItems: "center",
+                            backgroundColor: "green",
+                            borderRadius: "10px", // Added border radius
+                          }}
+                        >
+                          <Typography
+                            component="div"
+                            variant="body1"
+                            color="inherit"
+                            sx={{
+                              marginLeft: "5px", // Adjusted margin
+                              textAlign: "center", // Center the text
+                              width: "100%", // Make the width 100% to center the text
+                            }}
+                          >
+                            Quiz History
+                          </Typography>
+                        </ListItemButton>
                     </div>
                     {/* Other content within the Paper */}
                   </Paper>
@@ -267,7 +301,7 @@ export default function MyProfile() {
         style={{
           position: 'fixed',
           top: '10px',
-          left: '10px', /* Adjusted value to align to the left */
+          left: '280px', /* Adjusted value to align to the left */
           display: 'flex',
           alignItems: 'center',
         }}
