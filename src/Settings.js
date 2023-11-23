@@ -24,10 +24,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import Paper from '@mui/material/Paper';
 import SettingsIcon from '@mui/icons-material/Settings';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 
 const LogoListItem = (
   <ListItemButton>
@@ -41,39 +41,34 @@ const LogoListItem = (
 export const mainListItems = (
   <React.Fragment>
     {LogoListItem}
-    <ListItemButton component={Link} to="/dashboard">
+    <ListItemButton>
       <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
+        <DashboardIcon/>
+      </ListItemIcon >
       <ListItemText primary="Dashboard" />
     </ListItemButton>
-
     <ListItemButton component={Link} to="/AllCapitals">
       <ListItemIcon>
-        <LocationOnIcon style={{ color: 'lightgreen' }} />
-      </ListItemIcon> 
+        <LocationOnIcon />
+      </ListItemIcon>
       <ListItemText primary="All Capitals" />
     </ListItemButton>
-
     <ListItemButton component={Link} to="/MyProfile">
       <ListItemIcon>
-        <AccountCircleIcon/>
+        <AccountCircleIcon />
       </ListItemIcon>
       <ListItemText primary="My Profiles" />
     </ListItemButton>
-
     <ListItemButton component={Link} to="/Settings">
       <ListItemIcon>
-        <SettingsIcon />
+        <SettingsIcon style={{ color: 'lightgreen' }} />
       </ListItemIcon>
       <ListItemText primary="Settings" />
     </ListItemButton>
-
     <ListItemButton component={Link} to="/Login">
       <ListItemIcon>
         <LogoutIcon />
       </ListItemIcon>
-      
       <ListItemText primary="Log Out" />
     </ListItemButton>
   </React.Fragment>
@@ -125,13 +120,14 @@ const Drawer = styled(MuiDrawer, {
 
 const defaultTheme = createTheme();
 
-export default function AllCapitals() {
+export default function Settings() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
   return (
+    
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
@@ -170,7 +166,7 @@ export default function AllCapitals() {
               }}
             >
               <TextField
-                label="Search capital around the world"
+                label="Search here"
                 variant="outlined"
                 size="small"
                 sx={{ width: "500px", minWidth: "300px" }} // Adjusted width
@@ -209,102 +205,31 @@ export default function AllCapitals() {
         >
           <Toolbar />
           <Container
-          maxWidth="auto"
-          sx={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundImage: "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
-            // backdropFilter: "blur(4px)",
-            overflow: "hidden",
-            backgroundSize: "cover",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {/* <Typography variant="h4" align="center" sx={{ color: "#fff", marginTop: "30px" }}>
-            Welcome to My App!
-          </Typography> */}
-          <Grid container spacing={1.5} justifyContent="center">
-          <Grid item xs={7}>
-            <Paper
-              elevation={3}
-              sx={{
-                width: '1030px', 
-                height: '600px',
-                borderRadius: "15px",
-                display: "flex",
-                alignItems: "center",
-                flexDirection: 'column',
-                marginTop: "80px",
-                marginLeft: "20px",
-                position: 'relative',
-              }}
-            >
-              <div style={{ position: 'absolute', top: '40px', left: '20px' }}>
-              <Typography
-                align="left"
-                sx={{
-                  color: "#fff",
-                  fontFamily: "Poppins, sans-serif",
-                  fontWeight: "bold",
-                }}
-                style={{ fontWeight: "bold", fontSize:"1.2em", }}
-              >
-                Capitals
-              </Typography>
+            maxWidth="auto"
+            sx={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundImage: "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
+              backdropFilter: "blur(4px)",
+              overflow: "hidden",
+              backgroundSize: "cover",
+            }}
+          >
+            <Grid container spacing={3}>
+              {/* Content goes here */}
+            </Grid>
+            <Copyright sx={{ pt: 4 }} />
+          </Container>
 
-              </div>
-              {/* Other content within the Paper */}
-              <Link to="/MHistory" style={{ textDecoration: "none" }}>
-                <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '50px' }}>
-                  <img src="Manila.png" alt="Manila" style={{ width: '125px', height: '140px' }} />
-                </div>
-              </Link>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '220px' }}>
-                <img src="Jakarta.png" alt="Jakarta" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '380px' }}>
-                <img src="London.png" alt="London" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '540px' }}>
-                <img src="Tokyo.png" alt="Tokyo" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '700px' }}>
-                <img src="Ottawa.png" alt="Ottawa" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '865px' }}>
-                <img src="Beijing.png" alt="Beijing" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '50px' }}>
-                <img src="Seoul.png" alt="Seoul" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '220px' }}>
-                <img src="Bangkok.png" alt="Bangkok" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '380px' }}>
-                <img src="Bern.png" alt="Bern" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '540px' }}>
-                <img src="Brussels.png" alt="Brussels" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '700px' }}>
-                <img src="Havana.png" alt="Havana" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '865px' }}>
-                <img src="Madrid.png" alt="Madrid" style={{ width: '125px', height: '140px' }} />
-              </div>
-            </Paper>
-          </Grid>
-        </Grid>
-          <Copyright sx={{ pt: 4 }} />
-        </Container>
+
+
         </Box>
       </Box>
     </ThemeProvider>
+    
   );
 }
 
@@ -329,6 +254,11 @@ function ProfileCircle() {
     </div>
   );
 }
+
+
+
+
+
 
 
 function Copyright(props) {

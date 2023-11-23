@@ -13,10 +13,10 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import AdminVerification from "./AdminVer.js";
-import LoginForm from "./Register.js";
+// import AdminVerification from "./AdminVer.js";
+// import LoginForm from "./Register.js";
 import axios from "axios";
 
 function Copyright(props) {
@@ -40,10 +40,8 @@ function Copyright(props) {
 function SignInSide() {
   const [rotation, setRotation] = React.useState(0);
   const [showPassword, setShowPassword] = React.useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(""); // New state for password error
   const navigate = useNavigate();
 
@@ -59,16 +57,9 @@ function SignInSide() {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-
-    // Validate password on each change
-    validatePassword(value);
-  };
+  React.useEffect(() => {
+    validatePassword(password);
+  }, [password]);
 
   const validatePassword = (password) => {
     const pattern =
@@ -91,24 +82,17 @@ function SignInSide() {
       const response = await axios.post(
         "http://localhost:8080/user/loginUser",
         {
-          emailAddress: formData.email,
-          password: formData.password,
+          emailAddress,
+          password,
         }
       );
 
-      console.log("Login successful:", response.data);
+      const token = response.data;
+      console.log("Login successful. Token:", token);
       // Handle successful login, e.g., redirect to dashboard
-      navigate.push("/dashboard");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Login failed:", error.message);
-
-      if (error.response && error.response.status === 404) {
-        alert("Email address not registered. Please sign up.");
-      } else if (error.response && error.response.status === 401) {
-        alert("Incorrect password. Please try again.");
-      } else {
-        alert("Login failed. Please try again later.");
-      }
     }
   };
 
@@ -182,8 +166,8 @@ function SignInSide() {
                     name="email"
                     autoComplete="email"
                     autoFocus
-                    value={formData.email}
-                    onChange={handleChange}
+                    value={emailAddress}
+                    onChange={(e) => setEmailAddress(e.target.value)}
                     sx={{
                       backgroundColor: "white",
                       borderRadius: "10px",
@@ -192,7 +176,7 @@ function SignInSide() {
                     }}
                   />
                   <TextField
-                    margin="normal"
+                    margin="dense"
                     required
                     fullWidth
                     name="password"
@@ -200,8 +184,8 @@ function SignInSide() {
                     type={showPassword ? "text" : "password"}
                     id="password"
                     autoComplete="current-password"
-                    value={formData.password}
-                    onChange={handleChange}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     sx={{
                       backgroundColor: "white",
                       borderRadius: "10px",
@@ -295,10 +279,7 @@ function SignInSide() {
                     </Link>
                   </Grid>
                 </Grid>
-                <Routes>
-                  <Route path="/*" element={LoginForm} />
-                  <Route path="/*" element={<AdminVerification />} />
-                </Routes>
+
                 <Copyright sx={{ mt: 10 }} />
               </Box>
             </Box>
