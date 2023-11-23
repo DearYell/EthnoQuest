@@ -75,9 +75,6 @@ function SignInSide() {
   };
 
   const handleSubmit = async () => {
-    if (passwordError) {
-      return;
-    }
     try {
       const response = await axios.post(
         "http://localhost:8080/user/loginUser",
@@ -228,7 +225,7 @@ function SignInSide() {
                 </Grid>
                 <Grid container justifyContent="center">
                   <Button
-                    type="button" // Specify type="button" to prevent form submission
+                    type="button"
                     variant="contained"
                     fullWidth
                     sx={{
@@ -239,8 +236,6 @@ function SignInSide() {
                       width: "500px",
                       "&:hover": { backgroundColor: "#96BB7C" },
                     }}
-                    // component={Link}
-                    // to="/dashboard"
                     onClick={handleSubmit} // Call your function on button click
                   >
                     Login as User
