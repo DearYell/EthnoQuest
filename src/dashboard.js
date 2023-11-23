@@ -269,8 +269,8 @@ export default function Dashboard() {
               backdropFilter: "blur(4px)",
               overflow: "hidden",
               backgroundSize: "cover",
-            }}
-          > 
+              }}
+            > 
             
             <Grid container spacing={3} sx={{ height: "600px", width: "600px" }}>
               <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
@@ -344,7 +344,7 @@ export default function Dashboard() {
                         See all
                       </Button>
                     </Box>
-                    
+
                     <Box // Box 1
                       sx={{
                         height: "130px", 
