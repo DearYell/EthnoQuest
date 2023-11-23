@@ -205,37 +205,35 @@ export default function MyProfile() {
               }}
             >
               <Grid container spacing={1.5} justifyContent="center">
-                <Grid item xs={7}>
-
-                  {/* Add Quiz History link */}
-                  <ListItemButton
-                          variant="outlined"
-                          component={Link}
-                          to="/QuizHistory"
-                          sx={{
-                            color: "#fff",
-                            padding: "5px", // Adjusted padding to make it smaller
-                            fontSize: "0.8em", // Adjusted font size
-                            textDecoration: "none", // Remove underline
-                            display: "flex",
-                            alignItems: "center",
-                            backgroundColor: "green",
-                            borderRadius: "10px", // Added border radius
-                          }}
-                        >
-                          <Typography
-                            component="div"
-                            variant="body1"
-                            color="inherit"
+              <Grid item xs={7}>
+                {/* Add Quiz History link */}
+                        <Link to="/QuizHistory" style={{ textDecoration: "none" }}>
+                          <div
                             sx={{
-                              marginLeft: "5px", // Adjusted margin
-                              textAlign: "center", // Center the text
-                              width: "100%", // Make the width 100% to center the text
+                              color: "#fff",
+                              padding: "10px",
+                              fontSize: "1em",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center", // Added justifyContent
+                              backgroundColor: "green",
+                              borderRadius: "15px",
+                              marginTop: "10px",
                             }}
                           >
-                            Quiz History
-                          </Typography>
-                        </ListItemButton>
+                            <Typography
+                              variant="body1"
+                              color="inherit"
+                              sx={{
+                                marginLeft: "5px",
+                                textAlign: "center",
+                                width: "100%",
+                              }}
+                            >
+                              Quiz History
+                            </Typography>
+                          </div>
+                        </Link>
 
                           <Paper
                         elevation={3}
@@ -268,6 +266,7 @@ export default function MyProfile() {
                         
                     </div>
                     {/* Other content within the Paper */}
+                    
                   </Paper>
                 </Grid>
               </Grid>
