@@ -266,6 +266,35 @@ export default function MyProfile() {
                         
                     </div>
                     {/* Other content within the Paper */}
+
+                    <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '50px' }}>
+                     <img src="ActiveLearner.png" alt="Actives" style={{ width: '180px', height: '140px' }} />
+                    </div>
+
+                    <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '250px' }}>
+                     <img src="TestAcer.png" alt="Test" style={{ width: '150px', height: '140px' }} />
+                    </div>
+
+                    <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '400px' }}>
+                     <img src="CommitedLearner.png" alt="Commit" style={{ width: '230px', height: '140px' }} />
+                    </div>
+
+                    <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '590px' }}>
+                    <img src="NightOwl.png" alt="Owl" style={{ width: '220px', height: '140px' }} />
+                  </div>
+
+                  <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '50px' }}>
+                  <img src="EarlyBird.png" alt="Bird" style={{ width: '190px', height: '140px' }} />
+                  </div>
+
+                  <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '220px' }}>
+                  <img src="Streaker.png" alt="Streaker" style={{ width: '220px', height: '140px' }} />
+                  </div>
+
+                  <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '415px' }}>
+                  <img src="SetBuilder.png" alt="Set" style={{ width: '215px', height: '140px' }} />
+                  </div>
+
                     
                   </Paper>
                 </Grid>
