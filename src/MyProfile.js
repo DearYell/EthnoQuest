@@ -24,10 +24,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import Paper from '@mui/material/Paper';
 import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const LogoListItem = (
   <ListItemButton>
@@ -41,13 +41,13 @@ const LogoListItem = (
 export const mainListItems = (
   <React.Fragment>
     {LogoListItem}
-    <ListItemButton>
+    <ListItemButton component={Link} to="/dashboard">
       <ListItemIcon>
-        <DashboardIcon/>
-      </ListItemIcon >
+        <DashboardIcon />
+      </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
-    <ListItemButton component={Link} to="/AllCapitals">
+    <ListItemButton>
       <ListItemIcon>
         <LocationOnIcon />
       </ListItemIcon>
@@ -55,7 +55,7 @@ export const mainListItems = (
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <AccountCircleIcon style={{ color: 'lightgreen' }} />
+        <AccountCircleIcon  style={{ color: 'lightgreen' }}/>
       </ListItemIcon>
       <ListItemText primary="My Profiles" />
     </ListItemButton>
@@ -121,139 +121,167 @@ const Drawer = styled(MuiDrawer, {
 const defaultTheme = createTheme();
 
 export default function MyProfile() {
-  const [open, setOpen] = React.useState(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
-
-  return (
-    
-    <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <AppBar position="absolute" open={open}>
-          <Toolbar
-            sx={{
-              pr: "24px", // keep right padding when drawer closed
-              backgroundColor: "white", // Set background color to white
-            }}
-          >
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={toggleDrawer}
+    const [open, setOpen] = React.useState(true);
+    const toggleDrawer = () => {
+      setOpen(!open);
+    };
+  
+    return (
+      <ThemeProvider theme={defaultTheme}>
+        <Box sx={{ display: "flex" }}>
+          <CssBaseline />
+          <AppBar position="absolute" open={open}>
+            <Toolbar
               sx={{
-                marginRight: "36px",
-                ...(open && { display: "none" }),
+                pr: "24px",
+                backgroundColor: "white",
               }}
             >
-              <MenuIcon />
-            </IconButton>
-            <IconButton color="inherit">
-              <SearchIcon sx={{ color: "black" }} />
-            </IconButton>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="open drawer"
+                onClick={toggleDrawer}
+                sx={{
+                  marginRight: "36px",
+                  ...(open && { display: "none" }),
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+              {/* Removed the search bar */}
             <Typography
-              component="div"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{
+            component="div"
+            variant="body1" // Changed to body1 for a smaller size
+            color="white" // Set color to white
+            noWrap
+            sx={{
                 flexGrow: 1,
                 display: "flex",
                 alignItems: "center",
                 marginLeft: "8px",
-              }}
+                fontSize: "1.2em", // Adjusted font size
+                fontWeight: "bold", // Added bold font weight for visibility
+            }}
             >
-              <TextField
-                label="Search capital around the world"
-                variant="outlined"
-                size="small"
-                sx={{ width: "500px", minWidth: "300px" }} // Adjusted width
-              />
+            Mark Huyoa
             </Typography>
 
-            <IconButton color="inherit">
-              <ProfileCircle />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Drawer variant="permanent" open={open}>
-          <Toolbar
+  
+              {/* Aligned profile icon to the right */}
+              <IconButton color="inherit" sx={{ marginLeft: "auto" }}>
+                <ProfileCircle />
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+          <Drawer variant="permanent" open={open}>
+            <Toolbar
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                px: [1],
+              }}
+            >
+              <IconButton onClick={toggleDrawer}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </Toolbar>
+            <Divider />
+            <List component="nav">{mainListItems}</List>
+          </Drawer>
+          <Box
+            component="main"
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              px: [1],
+              backgroundColor: "white",
+              flexGrow: 1,
+              height: "100vh",
+              width: "50vh",
+              overflow: "auto",
             }}
           >
-            <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </Toolbar>
-          <Divider />
-          <List component="nav">{mainListItems}</List>
-        </Drawer>
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: "white", // Set background color to white
-            flexGrow: 1,
-            height: "100vh",
-            overflow: "auto",
-          }}
-        >
-          <Toolbar />
-          <Container
-            maxWidth="auto"
-            sx={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundImage: "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
-              backdropFilter: "blur(4px)",
-              overflow: "hidden",
-              backgroundSize: "cover",
-            }}
-          >
-            <Grid container spacing={3}>
-              {/* Content goes here */}
-            </Grid>
-            <Copyright sx={{ pt: 4 }} />
-          </Container>
-
-
-
+            <Toolbar />
+            <Container
+              maxWidth="auto"
+              sx={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundImage: "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
+                overflow: "hidden",
+                backgroundSize: "cover",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Grid container spacing={1.5} justifyContent="center">
+                <Grid item xs={7}>
+                  <Paper
+                    elevation={3}
+                    sx={{
+                      width: '850px',
+                      height: '600px',
+                      borderRadius: "15px",
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: 'column',
+                      marginTop: "80px",
+                      marginLeft: "20px",
+                      position: 'relative',
+                    }}
+                  >
+                    <div style={{ position: 'absolute', top: '30px', left: '20px' }}>
+                      <Typography
+                        align="left"
+                        sx={{
+                          color: "#fff",
+                          fontFamily: "Poppins, sans-serif",
+                          fontWeight: "bold",
+                        }}
+                        style={{ fontWeight: "bold", fontSize: "1.2em", }}
+                      >
+                        Achievements
+                      </Typography>
+                    </div>
+                    {/* Other content within the Paper */}
+                  </Paper>
+                </Grid>
+              </Grid>
+              <Copyright sx={{ pt: 4 }} />
+            </Container>
+          </Box>
         </Box>
-      </Box>
-    </ThemeProvider>
-    
-  );
-}
+      </ThemeProvider>
+    );
+  }
+  
 
-function ProfileCircle() {
-  const profileImgUrl = "profilesample.jpg";
+  function ProfileCircle() {
+    const profileImgUrl = "profilesample.jpg";
+  
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          top: '10px',
+          left: '10px', /* Adjusted value to align to the left */
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <img
+          src={profileImgUrl}
+          alt=""
+          style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
+        />
+      </div>
+    );
+  }
+  
 
-  return (
-    <div
-      style={{
-        position: 'fixed',
-        top: '10px',
-        left: 'calc(100% - 90px)', /* Adjusted value */
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-      <img
-        src={profileImgUrl}
-        alt=""
-        style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
-      />
-    </div>
-  );
-}
 
 function Copyright(props) {
   return (
