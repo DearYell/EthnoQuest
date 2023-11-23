@@ -60,11 +60,6 @@ export const mainListItems = (
       <ListItemText primary="My Profiles" />
     </ListItemButton>
 
-    <ListItemButton component={Link} to="/QuizHistory">
-      {/* ... (other properties) */}
-      <ListItemText primary="Quiz History" />
-    </ListItemButton>
-
     <ListItemButton component={Link} to="/Settings">
       <ListItemIcon>
         <SettingsIcon />
