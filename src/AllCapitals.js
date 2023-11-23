@@ -50,14 +50,14 @@ export const mainListItems = (
 
     <ListItemButton component={Link} to="/AllCapitals">
       <ListItemIcon>
-        <LocationOnIcon />
+        <LocationOnIcon style={{ color: 'lightgreen' }} />
       </ListItemIcon> 
       <ListItemText primary="All Capitals" />
     </ListItemButton>
 
     <ListItemButton component={Link} to="/MyProfile">
       <ListItemIcon>
-        <AccountCircleIcon  style={{ color: 'lightgreen' }}/>
+        <AccountCircleIcon/>
       </ListItemIcon>
       <ListItemText primary="My Profiles" />
     </ListItemButton>
