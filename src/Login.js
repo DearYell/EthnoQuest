@@ -13,7 +13,7 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AdminVerification from "./AdminVer.js";
 import LoginForm from "./Register.js";
@@ -45,6 +45,7 @@ function SignInSide() {
     password: "",
   });
   const [passwordError, setPasswordError] = useState(""); // New state for password error
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const rotateInterval = setInterval(() => {
@@ -97,7 +98,7 @@ function SignInSide() {
 
       console.log("Login successful:", response.data);
       // Handle successful login, e.g., redirect to dashboard
-      // history.push('/dashboard');
+      navigate.push("/dashboard");
     } catch (error) {
       console.error("Login failed:", error.message);
 
@@ -254,9 +255,9 @@ function SignInSide() {
                       width: "500px",
                       "&:hover": { backgroundColor: "#96BB7C" },
                     }}
-                    component={Link}
-                    to="/dashboard"
-                    // onClick={handleSubmit} // Call your function on button click
+                    // component={Link}
+                    // to="/dashboard"
+                    onClick={handleSubmit} // Call your function on button click
                   >
                     Login as User
                   </Button>
@@ -295,8 +296,8 @@ function SignInSide() {
                   </Grid>
                 </Grid>
                 <Routes>
-                  <Route path="/Register" element={LoginForm} />
-                  <Route path="/AdminVer" element={<AdminVerification />} />
+                  <Route path="/*" element={LoginForm} />
+                  <Route path="/*" element={<AdminVerification />} />
                 </Routes>
                 <Copyright sx={{ mt: 10 }} />
               </Box>

@@ -29,7 +29,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Avatar from "@mui/material/Avatar";
 import { ListItem, ListItemAvatar, ListItemText } from "@material-ui/core";
 
-
 const defaultTheme = createTheme();
 
 export default function Dashboard() {
@@ -271,10 +270,24 @@ export default function Dashboard() {
               overflow: "hidden",
               backgroundSize: "cover",
             }}
+<<<<<<< HEAD
+          >
+            <Grid
+              container
+              spacing={3}
+              sx={{ height: "500px", width: "500px" }}
+            >
+              <Grid
+                item
+                xs={12}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+=======
           > 
             
             <Grid container spacing={3} sx={{ height: "600px", width: "600px" }}>
               <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+>>>>>>> ee8e98fac2573d6d1f6e75345da3a9ed4c47b4fa
                 <Box // Edit here for the MainDash Content
                   sx={{
                     position: "absolute",
@@ -309,6 +322,22 @@ export default function Dashboard() {
                 </Box>
 
                 <Box //quizzes
+<<<<<<< HEAD
+                  sx={{
+                    position: "absolute",
+                    bottom: "320px",
+                    left: "300px",
+                    padding: "20px",
+                    borderRadius: "15px",
+                    width: "100%",
+                    maxWidth: "370px",
+                  }}
+                >
+                  <Typography variant="h4" color="textPrimary">
+                    <b>QUIZZES</b>
+                  </Typography>
+                </Box>
+=======
                       sx={{
                         position: "absolute",
                         bottom: "310px",
@@ -344,8 +373,116 @@ export default function Dashboard() {
                         See all
                       </Button>
                     </Box>
+>>>>>>> ee8e98fac2573d6d1f6e75345da3a9ed4c47b4fa
 
+                <Box // Button See all
+                  sx={{
+                    position: "absolute",
+                    bottom: "320px",
+                    left: "912px",
+                    padding: "20px",
+                    borderRadius: "15px",
+                    width: "100%",
+                    maxWidth: "370px",
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    color="white"
+                    style={{ marginLeft: "50px", marginRight: "50px" }}
+                  >
+                    See all
+                  </Button>
+                </Box>
 
+<<<<<<< HEAD
+                <Box // Box 1
+                  sx={{
+                    position: "absolute",
+                    bottom: "25px",
+                    left: "320px",
+                    backgroundColor: "white",
+                    padding: "20px",
+                    borderRadius: "15px",
+                    width: "100%",
+                    maxWidth: "370px",
+                    display: "flex", // Use flex display
+                    flexDirection: "row", // Set the direction to row
+                    alignItems: "center", // Align items to the center
+                    justifyContent: "flex-end", // Align content to the right
+                  }}
+                >
+                  <Avatar
+                    alt="Avatar 1"
+                    src="path/to/avatar1.jpg"
+                    sx={{ width: 100, height: 100, marginRight: 15 }}
+                  />
+                  <Typography variant="h5" color="textPrimary">
+                    <b>Canberra</b>
+                    <Typography variant="h6" color="Gray">
+                      Australia
+                    </Typography>
+                  </Typography>
+                </Box>
+
+                <Box // Box 2
+                  sx={{
+                    position: "absolute",
+                    bottom: "180px",
+                    left: "320px",
+                    backgroundColor: "white",
+                    padding: "20px",
+                    borderRadius: "15px",
+                    width: "100%",
+                    maxWidth: "370px",
+                    display: "flex", // Use flex display
+                    flexDirection: "row", // Set the direction to row
+                    alignItems: "center", // Align items to the center
+                    justifyContent: "flex-end", // Align content to the right
+                  }}
+                >
+                  <Avatar
+                    alt="Avatar 2"
+                    src="path/to/avatar2.jpg"
+                    sx={{ width: 100, height: 100, marginRight: 15 }}
+                  />
+                  <Typography variant="h5" color="textPrimary">
+                    <b>Manila</b>
+                    <Typography variant="h6" color="Gray">
+                      Philippines
+                    </Typography>
+                  </Typography>
+                </Box>
+
+                <Box // Box 3
+                  sx={{
+                    position: "absolute",
+                    bottom: "25px",
+                    left: "700px",
+                    backgroundColor: "white",
+                    padding: "20px",
+                    borderRadius: "15px",
+                    width: "100%",
+                    maxWidth: "370px",
+                    display: "flex", // Use flex display
+                    flexDirection: "row", // Set the direction to row
+                    alignItems: "center", // Align items to the center
+                    justifyContent: "flex-end", // Align content to the right
+                  }}
+                >
+                  <Avatar
+                    alt="Avatar 3"
+                    src="path/to/avatar3.jpg"
+                    sx={{ width: 100, height: 100, marginRight: 15 }}
+                  />
+                  <Typography variant="h6" color="textPrimary">
+                    <b>United Kingdom</b>
+                    <Typography variant="h6" color="Gray">
+                      London
+                    </Typography>
+                  </Typography>
+                </Box>
+=======
                     <Box // Box 1
                       sx={{
                         height: "130px", 
@@ -571,56 +708,123 @@ export default function Dashboard() {
               </ListItem>
             </List>
           </Box>
+>>>>>>> ee8e98fac2573d6d1f6e75345da3a9ed4c47b4fa
 
-                    <Box //Capitals
-                      sx={{
-                        position: "absolute",
-                        bottom: "640px",
-                        left: "1180px",
-                        padding: "20px",
-                        borderRadius: "15px",
-                        width: "100%",
-                        maxWidth: "370px",
-                      }}
-                    >
-                      <Typography variant="h4" color="white">
-                        <b>Capitals</b>
-                      </Typography>
-                      
-                    </Box>
+                <Box // Box 4
+                  sx={{
+                    position: "absolute",
+                    bottom: "180px",
+                    left: "700px",
+                    backgroundColor: "white",
+                    padding: "20px",
+                    borderRadius: "15px",
+                    width: "100%",
+                    maxWidth: "370px",
+                    display: "flex", // Use flex display
+                    flexDirection: "row", // Set the direction to row
+                    alignItems: "center", // Align items to the center
+                    justifyContent: "flex-end ", // Align content to the right
+                  }}
+                >
+                  <Avatar
+                    alt="Avatar 4"
+                    src="path/to/avatar4.jpg"
+                    sx={{ width: 100, height: 100, marginRight: 20.5 }}
+                  />
+                  <Typography variant="h5" color="textPrimary">
+                    <b>Rome</b>
+                    <Typography variant="h6" color="Gray">
+                      Italy
+                    </Typography>
+                  </Typography>
+                </Box>
 
-                    <Box // Button @Capital See all
-                      sx={{
-                        position: "absolute",
-                        bottom: "640px",
-                        left: "1440px",
-                        padding: "20px",
-                        borderRadius: "15px",
-                        width: "100%",
-                        maxWidth: "370px",
-                      }}
-                    >
-                      <Button
-                        variant="contained"
-                        color="white"
-                        style={{ marginLeft: "50px", marginRight: "50px" }}
-                      >
-                        See all
-                      </Button>
-                    </Box>
+                <Box //Capitals
+                  sx={{
+                    position: "absolute",
+                    bottom: "640px",
+                    left: "1180px",
+                    padding: "20px",
+                    borderRadius: "15px",
+                    width: "100%",
+                    maxWidth: "370px",
+                  }}
+                >
+                  <Typography variant="h4" color="white">
+                    <b>Capitals</b>
+                  </Typography>
+                </Box>
 
-                    <Box // List of Capitals
-                          sx={{
-                            position: "absolute",
-                            bottom: "25px",
-                            left: "1200px",
-                            backgroundColor: "white",
-                            padding: "20px",
-                            borderRadius: "12px",
-                            width: "100%",
-                            maxWidth: "400px",
+                <Box // Button @Capital See all
+                  sx={{
+                    position: "absolute",
+                    bottom: "640px",
+                    left: "1440px",
+                    padding: "20px",
+                    borderRadius: "15px",
+                    width: "100%",
+                    maxWidth: "370px",
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    color="white"
+                    style={{ marginLeft: "50px", marginRight: "50px" }}
+                  >
+                    See all
+                  </Button>
+                </Box>
+
+                <Box // List of Capitals
+                  sx={{
+                    position: "absolute",
+                    bottom: "25px",
+                    left: "1200px",
+                    backgroundColor: "white",
+                    padding: "20px",
+                    borderRadius: "12px",
+                    width: "100%",
+                    maxWidth: "400px",
+                  }}
+                >
+                  <List>
+                    {capitals.map((capital, index) => (
+                      <ListItem key={index}>
+                        <ListItemAvatar>
+                          <Avatar
+                            alt={`Avatar ${index + 2}`}
+                            src={`path/to/avatar${index + 2}.jpg`}
+                            sx={{ width: 65, height: 65, marginRight: 5 }}
+                          />
+                        </ListItemAvatar>
+                        <MuiListItemText
+                          primary={capital.city}
+                          secondary={capital.country}
+                        />
+                        <IconButton
+                          style={{
+                            backgroundColor: "green",
+                            borderRadius: "50%",
+                            width: "20px",
+                            height: "20px",
+                          }}
+                          onClick={() => {
+                            // Handle click event for the specific item
+                            console.log(
+                              `Clicked > for ${capital.city}, ${capital.country}`
+                            );
                           }}
                         >
+<<<<<<< HEAD
+                          <Typography variant="h6" color="white">
+                            &gt;
+                          </Typography>
+                        </IconButton>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Box>
+=======
                           <List>
                             {capitals.map((capital, index) => (
                               <ListItem key={index}>
@@ -657,6 +861,7 @@ export default function Dashboard() {
                         </Box>
 
 
+>>>>>>> ee8e98fac2573d6d1f6e75345da3a9ed4c47b4fa
               </Grid>
             </Grid>
             <Copyright sx={{ pt: 4 }} />
