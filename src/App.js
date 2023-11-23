@@ -11,6 +11,7 @@ import MTradition from "./MTradition";
 import MyProfile from "./MyProfile";
 import QuizHistory from "./QuizHistory";
 import Settings from "./Settings";
+// import AboutUs from "./AboutUs";
 
 function App() {
   return (
