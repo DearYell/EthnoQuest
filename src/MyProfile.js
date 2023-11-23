@@ -30,9 +30,26 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const LogoListItem = (
   <ListItemButton>
     <ListItemIcon>
-      <img src="./Logo.png" alt="Logo" style={{ maxHeight: "40px" }} />
+      <img
+        src="./Logo.png"
+        alt="Logo"
+        style={{
+          maxHeight: "40px",
+          animation: "logoRotation 5s infinite linear", // Added rotation animation
+        }}
+      />
+      <style>{`
+        @keyframes logoRotation {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </ListItemIcon>
-    <MuiListItemText primary="EthnoQuest" />
+    <ListItemText primary="EthnoQuest" />
   </ListItemButton>
 );
 
