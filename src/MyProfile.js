@@ -206,36 +206,10 @@ export default function MyProfile() {
             >
               <Grid container spacing={1.5} justifyContent="center">
                 <Grid item xs={7}>
-                <Paper
-              elevation={3}
-              sx={{
-                // padding: "20px",
-                width: '850px', 
-                height: '600px',
-                borderRadius: "15px",
-                display: "flex",
-                alignItems: "center",
-                flexDirection: 'column',
-                marginTop: "80px",
-                marginLeft: "95px",
-                position: 'relative',
-              }}
-                    >
-                      <div style={{ position: 'absolute', top: '30px', left: '20px' }}>
-                        <Typography
-                          align="left"
-                          sx={{
-                            color: "#fff",
-                            fontFamily: "Poppins, sans-serif",
-                            fontWeight: "bold",
-                          }}
-                          style={{ fontWeight: "bold", fontSize: "1.2em" }}
-                        >
-                          Achievements
-                        </Typography>
 
-                        {/* Add Quiz History link */}
-                        <ListItemButton
+                  {/* Add Quiz History link */}
+                  <ListItemButton
+                          variant="outlined"
                           component={Link}
                           to="/QuizHistory"
                           sx={{
@@ -262,6 +236,36 @@ export default function MyProfile() {
                             Quiz History
                           </Typography>
                         </ListItemButton>
+
+                          <Paper
+                        elevation={3}
+                        sx={{
+                          // padding: "20px",
+                          width: '850px', 
+                          height: '600px',
+                          borderRadius: "15px",
+                          display: "flex",
+                          alignItems: "center",
+                          flexDirection: 'column',
+                          marginTop: "80px",
+                          marginLeft: "95px",
+                          position: 'relative',
+                        }}
+                        >
+                      <div style={{ position: 'absolute', top: '30px', left: '20px' }}>
+                        <Typography
+                          align="left"
+                          sx={{
+                            color: "#fff",
+                            fontFamily: "Poppins, sans-serif",
+                            fontWeight: "bold",
+                          }}
+                          style={{ fontWeight: "bold", fontSize: "1.2em" }}
+                        >
+                          Achievements
+                        </Typography>
+
+                        
                     </div>
                     {/* Other content within the Paper */}
                   </Paper>

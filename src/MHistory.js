@@ -27,7 +27,9 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import Paper from '@mui/material/Paper';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LogoutIcon from '@mui/icons-material/Logout';
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const LogoListItem = (
   <ListItemButton>
@@ -41,40 +43,35 @@ const LogoListItem = (
 export const mainListItems = (
   <React.Fragment>
     {LogoListItem}
+    <ListItemButton>
+      <ListItemIcon>
+        <HistoryEduIcon  style={{ color: 'lightgreen' }}/>
+      </ListItemIcon >
+      <ListItemText primary="History" />
+    </ListItemButton>
+    <ListItemButton component={Link} to="/MTradition">
+      <ListItemIcon>
+        <AutoStoriesIcon/>
+      </ListItemIcon>
+      <ListItemText primary="Tradition" />
+    </ListItemButton>
+    <ListItemButton  component={Link} to="/MCulture">
+      <ListItemIcon>
+        <AccountCircleIcon />
+      </ListItemIcon>
+      <ListItemText primary="Culture" />
+    </ListItemButton>
+    <ListItemButton component={Link} to="/MHoliday">
+      <ListItemIcon>
+        <CalendarMonthIcon />
+      </ListItemIcon>
+      <ListItemText primary="Holidays" />
+    </ListItemButton>
     <ListItemButton component={Link} to="/dashboard">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
-    </ListItemButton>
-
-    <ListItemButton component={Link} to="/AllCapitals">
-      <ListItemIcon>
-        <LocationOnIcon style={{ color: 'lightgreen' }} />
-      </ListItemIcon> 
-      <ListItemText primary="All Capitals" />
-    </ListItemButton>
-
-    <ListItemButton component={Link} to="/MyProfile">
-      <ListItemIcon>
-        <AccountCircleIcon/>
-      </ListItemIcon>
-      <ListItemText primary="My Profiles" />
-    </ListItemButton>
-
-    <ListItemButton component={Link} to="/Settings">
-      <ListItemIcon>
-        <SettingsIcon />
-      </ListItemIcon>
-      <ListItemText primary="Settings" />
-    </ListItemButton>
-
-    <ListItemButton component={Link} to="/Login">
-      <ListItemIcon>
-        <LogoutIcon />
-      </ListItemIcon>
-      
-      <ListItemText primary="Log Out" />
     </ListItemButton>
   </React.Fragment>
 );
@@ -125,7 +122,7 @@ const Drawer = styled(MuiDrawer, {
 
 const defaultTheme = createTheme();
 
-export default function AllCapitals() {
+export default function MHistory() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -217,7 +214,6 @@ export default function AllCapitals() {
             right: 0,
             bottom: 0,
             backgroundImage: "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
-            // backdropFilter: "blur(4px)",
             overflow: "hidden",
             backgroundSize: "cover",
             display: "flex",
@@ -225,15 +221,13 @@ export default function AllCapitals() {
             alignItems: "center",
           }}
         >
-          {/* <Typography variant="h4" align="center" sx={{ color: "#fff", marginTop: "30px" }}>
-            Welcome to My App!
-          </Typography> */}
+         
           <Grid container spacing={1.5} justifyContent="center">
           <Grid item xs={7}>
             <Paper
               elevation={3}
               sx={{
-                width: '1030px', 
+                width: '1000px', 
                 height: '600px',
                 borderRadius: "15px",
                 display: "flex",
@@ -244,7 +238,7 @@ export default function AllCapitals() {
                 position: 'relative',
               }}
             >
-              <div style={{ position: 'absolute', top: '40px', left: '20px' }}>
+              <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
               <Typography
                 align="left"
                 sx={{
@@ -252,51 +246,51 @@ export default function AllCapitals() {
                   fontFamily: "Poppins, sans-serif",
                   fontWeight: "bold",
                 }}
-                style={{ fontWeight: "bold", fontSize:"1.2em", }}
+                style={{ fontWeight: "bold", fontSize:"1em", fontFamily: "Poppins, sans-serif",}}
               >
-                Capitals
+                MANILA
               </Typography>
+              </div>
 
+              <div style={{ position: 'absolute', top: '40px', left: '20px' }}>
+              <Typography
+                align="left"
+                sx={{
+                  color: "#6082B6",
+                  fontFamily: "Poppins, sans-serif",
+                  fontWeight: "bold",
+                }}
+                style={{ fontSize:"1em", color: "#808080",}}
+              >
+                Philippines
+              </Typography>
               </div>
+              <div style={{ marginTop: '50px', position: 'absolute', top: '50px', left: '55px' }}>
+                <img src="PanaMa.jpg" alt="PanaMa" style={{ width: '890px', height: '200px' }} />
+              </div>
+
+              <div style={{ position: 'absolute', top: '320px', left: '75px' }}>
+              <Typography
+                align="left"
+                sx={{
+                  color: "#6082B6",
+                  fontFamily: "Poppins, sans-serif",
+                  fontWeight: "bold",
+                }}
+                style={{ fontSize:"1.1em", color: "#000000",}}
+              >
+                The capital of the Philippines, dates back to the year 900 AD as recorded in the Laguna Copperplate <br />Inscription.<br />
+                By the thirteenth century, the city consisted of a fortified settlement and trading quarter near the mouth <br  />of the Pasig River.<br />
+                In the late 16th century, Manila was a walled Muslim settlement whose ruler levied customs duties on <br />all commerce passing up the Pasig River. 
+                Spanish conquistadors under the leadership of Miguel Lópezde <br />Legazpi, 
+                the first Spanish governor-general of the Philippines, entered the mouth of the river in 1571.<br />
+                They destroyed the settlement and founded the fortress city of Intramuros in its place2. <br />
+                Manila becamethe capital of the new colony.
+              </Typography>
+              </div>
+
               {/* Other content within the Paper */}
-              <Link to="/MHistory" style={{ textDecoration: "none" }}>
-                <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '50px' }}>
-                  <img src="Manila.png" alt="Manila" style={{ width: '125px', height: '140px' }} />
-                </div>
-              </Link>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '220px' }}>
-                <img src="Jakarta.png" alt="Jakarta" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '380px' }}>
-                <img src="London.png" alt="London" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '540px' }}>
-                <img src="Tokyo.png" alt="Tokyo" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '700px' }}>
-                <img src="Ottawa.png" alt="Ottawa" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '865px' }}>
-                <img src="Beijing.png" alt="Beijing" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '50px' }}>
-                <img src="Seoul.png" alt="Seoul" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '220px' }}>
-                <img src="Bangkok.png" alt="Bangkok" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '380px' }}>
-                <img src="Bern.png" alt="Bern" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '540px' }}>
-                <img src="Brussels.png" alt="Brussels" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '700px' }}>
-                <img src="Havana.png" alt="Havana" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '865px' }}>
-                <img src="Madrid.png" alt="Madrid" style={{ width: '125px', height: '140px' }} />
-              </div>
+              
             </Paper>
           </Grid>
         </Grid>
