@@ -31,7 +31,7 @@ import { ListItem, ListItemAvatar, ListItemText } from "@material-ui/core";
 
 const defaultTheme = createTheme();
 
-export default function Dashboard() {
+export default function AdminDashboard() {
   const [open, setOpen] = useState(true);
   const [rotation, setRotation] = useState(0);
   const [activeButton, setActiveButton] = useState(null);
@@ -182,7 +182,7 @@ export default function Dashboard() {
     position: "absolute",
     top: "15%",
     left: "17%",
-    width: "900px",  // Adjust the width
+    width: "900px", // Adjust the width
     height: "300px", // Adjust the height
   });
 
@@ -193,7 +193,7 @@ export default function Dashboard() {
     position: "absolute",
     top: "58%",
     left: "17%",
-    width: "900px",  // Adjust the width
+    width: "900px", // Adjust the width
     height: "300px", // Adjust the height
   });
 
@@ -203,8 +203,8 @@ export default function Dashboard() {
     padding: "20px",
     position: "absolute",
     top: "15%",
-    right: "3%",  // Adjust the distance from the right edge
-    width: "400px",  // Adjust the width
+    right: "3%", // Adjust the distance from the right edge
+    width: "400px", // Adjust the width
     height: "650px", // Adjust the height
   });
 
@@ -291,8 +291,8 @@ export default function Dashboard() {
           {/* Add any other content inside the centered box */}
         </CenterBox2>
         <RightRectangle>
-        {/* Add any other content inside the right rectangle */}
-      </RightRectangle>
+          {/* Add any other content inside the right rectangle */}
+        </RightRectangle>
       </Box>
     </ThemeProvider>
   );
