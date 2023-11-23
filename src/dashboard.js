@@ -27,7 +27,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Avatar from "@mui/material/Avatar";
-import { ListItem, ListItemAvatar } from "@material-ui/core";
 import { ListItem, ListItemAvatar, ListItemText } from "@material-ui/core";
 import Capitals from "./AllCapitals";
 
