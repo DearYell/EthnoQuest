@@ -42,7 +42,7 @@ function SignInSide() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState(""); // New state for password error
+  // const [passwordError, setPasswordError] = useState(""); // New state for password error
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -57,22 +57,22 @@ function SignInSide() {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  React.useEffect(() => {
-    validatePassword(password);
-  }, [password]);
+  // React.useEffect(() => {
+  //   validatePassword(password);
+  // }, [password]);
 
-  const validatePassword = (password) => {
-    const pattern =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  // const validatePassword = (password) => {
+  //   const pattern =
+  //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-    if (!password.match(pattern)) {
-      setPasswordError(
-        "Password must be at least 8 characters, include uppercase and lowercase letters, and special characters."
-      );
-    } else {
-      setPasswordError("");
-    }
-  };
+  //   if (!password.match(pattern)) {
+  //     setPasswordError(
+  //       "Password must be at least 8 characters, include uppercase and lowercase letters, and special characters."
+  //     );
+  //   } else {
+  //     setPasswordError("");
+  //   }
+  // };
 
   const handleSubmit = async () => {
     try {
@@ -202,11 +202,11 @@ function SignInSide() {
                       ),
                     }}
                   />
-                  {passwordError && (
+                  {/* {passwordError && (
                     <Typography variant="body2" color="error">
                       {passwordError}
                     </Typography>
-                  )}
+                  )} */}
                   <FormControlLabel
                     control={
                       <Checkbox

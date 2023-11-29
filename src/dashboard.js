@@ -118,7 +118,7 @@ export default function Dashboard() {
       <Button
         startIcon={<AccountCircleIcon style={buttonStyles("myProfiles")} />}
         component={Link}
-        to="/myProfiles"
+        to="/MyProfiles"
         style={{ color: "black", marginTop: "10px", textDecoration: "none" }}
       >
         My Profiles
@@ -134,7 +134,7 @@ export default function Dashboard() {
       <Button
         startIcon={<LogoutIcon style={buttonStyles("logOut")} />}
         component={Link}
-        to="/logOut"
+        to="/Login"
         style={{ color: "black", marginTop: "10px", textDecoration: "none" }}
       >
         Log Out
