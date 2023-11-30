@@ -42,8 +42,11 @@ function SignInSide() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState(""); // New state for password error
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
+  const [verificationCode, setVerificationCode] = useState("");
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [enteredCode, setEnteredCode] = useState("");
 
   React.useEffect(() => {
     const rotateInterval = setInterval(() => {
@@ -57,25 +60,57 @@ function SignInSide() {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  React.useEffect(() => {
-    validatePassword(password);
-  }, [password]);
-
-  const validatePassword = (password) => {
-    const pattern =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-    if (!password.match(pattern)) {
-      setPasswordError(
-        "Password must be at least 8 characters, include uppercase and lowercase letters, and special characters."
+  const handleAdminVerification = async () => {
+    try {
+      // Send verification code to the admin's email
+      const response = await axios.post(
+        "http://localhost:8080/admin/sendVerificationCode",
+        {
+          emailAddress,
+        }
       );
-    } else {
-      setPasswordError("");
+
+      const verificationCode = response.data;
+      setVerificationCode(verificationCode);
+      setIsVerifying(true);
+      // You can redirect to the page where the admin enters the verification code
+      // You can pass the verificationCode as a state or query parameter
+      // navigate(`/AdminVer?email=${encodeURIComponent(emailAddress)}`);
+    } catch (error) {
+      console.error("Error sending verification code:", error.message);
     }
   };
 
+  const handleVerificationSubmit = () => {
+    // Implement verification logic, e.g., compare entered code with the one sent to the email
+    if (verificationCode === enteredCode) {
+      // Verification successful, navigate to the admin dashboard or do something else
+      navigate("/AdminDashboard");
+    } else {
+      console.error("Verification code is incorrect.");
+    }
+  };
+
+  // React.useEffect(() => {
+  //   validatePassword(password);
+  // }, [password]);
+
+  // const validatePassword = (password) => {
+  //   const pattern =
+  //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  //   if (!password.match(pattern)) {
+  //     setPasswordError(
+  //       "Password must be at least 8 characters, include uppercase and lowercase letters, and special characters."
+  //     );
+  //   } else {
+  //     setPasswordError("");
+  //   }
+  // };
+
   const handleSubmit = async () => {
     try {
+      // Send login request
       const response = await axios.post(
         "http://localhost:8080/user/loginUser",
         {
@@ -84,10 +119,16 @@ function SignInSide() {
         }
       );
 
-      const token = response.data;
-      console.log("Login successful. Token:", token);
-      // Handle successful login, e.g., redirect to dashboard
-      navigate("/dashboard");
+      const userData = response.data;
+
+      // Check if the user is an admin
+      if (userData.isAdmin) {
+        setIsAdmin(true);
+        handleAdminVerification();
+      } else {
+        // Handle non-admin login (you can redirect to user dashboard or do something else)
+        console.log("Login successful for non-admin user.");
+      }
     } catch (error) {
       console.error("Login failed:", error.message);
     }
@@ -202,11 +243,11 @@ function SignInSide() {
                       ),
                     }}
                   />
-                  {passwordError && (
+                  {/* {passwordError && (
                     <Typography variant="body2" color="error">
                       {passwordError}
                     </Typography>
-                  )}
+                  )} */}
                   <FormControlLabel
                     control={
                       <Checkbox
