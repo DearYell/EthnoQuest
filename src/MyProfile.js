@@ -49,7 +49,7 @@ const LogoListItem = (
         }
       `}</style>
     </ListItemIcon>
-    <ListItemText primary="EthnoQuest" />
+    <ListItemText primary="EthnoQuest" /> 
   </ListItemButton>
 );
 
