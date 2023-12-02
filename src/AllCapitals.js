@@ -125,11 +125,57 @@ const Drawer = styled(MuiDrawer, {
 
 const defaultTheme = createTheme();
 
+const capitalImages = [
+  { id: 1, name: 'Manila', imagePath: 'Manila.png' },
+  { id: 2, name: 'Jakarta', imagePath: 'Jakarta.png' },
+  { id: 3, name: 'London', imagePath: 'London.png' },
+  { id: 4, name: 'Tokyo', imagePath: 'Tokyo.png' },
+  { id: 5, name: 'Ottawa', imagePath: 'Ottawa.png' },
+  { id: 6, name: 'Beijing', imagePath: 'Beijing.png' },
+  { id: 7, name: 'Seoul', imagePath: 'Seoul.png' },
+  { id: 8, name: 'Bangkok', imagePath: 'Bangkok.png' },
+  { id: 9, name: 'Bern', imagePath: 'Bern.png' },
+  { id: 10, name: 'Brussels', imagePath: 'Brussels.png' },
+  { id: 11, name: 'Havana', imagePath: 'Havana.png' },
+  { id: 12, name: 'Madrid', imagePath: 'Madrid.png' },
+  // Add more capitals and their respective image paths here
+];
+
+
+
 export default function AllCapitals() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const renderCapitalImages = () => {
+    return capitalImages.map(({ id, name, imagePath }, index) => {
+      const row = Math.floor(index / 6); // Assuming 6 images per row
+      const col = index % 6;
+      const top = 80 + row * 220; // Adjust top position based on row
+      const left = 50 + col * 160; // Adjust left position based on column
+  
+      return (
+        <div
+          key={id}
+          style={{
+            marginTop: '50px',
+            position: 'absolute',
+            top: `${top}px`,
+            left: `${left}px`,
+          }}
+        >
+           <Link to={`/MHistory/${id}`} style={{ textDecoration: "none" }}>
+            <img src={imagePath} alt={name} style={{ width: '125px', height: '140px' }} />
+          </Link>
+        </div>
+      );
+    });
+  };
+  
+  
+  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -230,74 +276,35 @@ export default function AllCapitals() {
           </Typography> */}
           <Grid container spacing={1.5} justifyContent="center">
           <Grid item xs={7}>
-            <Paper
-              elevation={3}
-              sx={{
-                width: '1030px', 
-                height: '600px',
-                borderRadius: "15px",
-                display: "flex",
-                alignItems: "center",
-                flexDirection: 'column',
-                marginTop: "80px",
-                marginLeft: "20px",
-                position: 'relative',
-              }}
-            >
-              <div style={{ position: 'absolute', top: '40px', left: '20px' }}>
-              <Typography
-                align="left"
-                sx={{
-                  color: "#fff",
-                  fontFamily: "Poppins, sans-serif",
-                  fontWeight: "bold",
-                }}
-                style={{ fontWeight: "bold", fontSize:"1.2em", }}
-              >
-                Capitals
-              </Typography>
-
-              </div>
-              {/* Other content within the Paper */}
-              <Link to="/MHistory" style={{ textDecoration: "none" }}>
-                <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '50px' }}>
-                  <img src="Manila.png" alt="Manila" style={{ width: '125px', height: '140px' }} />
-                </div>
-              </Link>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '220px' }}>
-                <img src="Jakarta.png" alt="Jakarta" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '380px' }}>
-                <img src="London.png" alt="London" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '540px' }}>
-                <img src="Tokyo.png" alt="Tokyo" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '700px' }}>
-                <img src="Ottawa.png" alt="Ottawa" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '80px', left: '865px' }}>
-                <img src="Beijing.png" alt="Beijing" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '50px' }}>
-                <img src="Seoul.png" alt="Seoul" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '220px' }}>
-                <img src="Bangkok.png" alt="Bangkok" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '380px' }}>
-                <img src="Bern.png" alt="Bern" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '540px' }}>
-                <img src="Brussels.png" alt="Brussels" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '700px' }}>
-                <img src="Havana.png" alt="Havana" style={{ width: '125px', height: '140px' }} />
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '300px', left: '865px' }}>
-                <img src="Madrid.png" alt="Madrid" style={{ width: '125px', height: '140px' }} />
-              </div>
-            </Paper>
+          <Paper
+      elevation={3}
+      sx={{
+        width: '1030px',
+        height: '600px',
+        borderRadius: "15px",
+        display: "flex",
+        alignItems: "center",
+        flexDirection: 'column',
+        marginTop: "80px",
+        marginLeft: "20px",
+        position: 'relative',
+      }}
+    >
+      <div style={{ position: 'absolute', top: '40px', left: '20px' }}>
+        <Typography
+          align="left"
+          sx={{
+            color: "#fff",
+            fontFamily: "Poppins, sans-serif",
+            fontWeight: "bold",
+          }}
+          style={{ fontWeight: "bold", fontSize: "1.2em", }}
+        >
+          Capitals
+        </Typography>
+      </div>
+      {renderCapitalImages()}
+    </Paper>
           </Grid>
         </Grid>
           <Copyright sx={{ pt: 4 }} />
