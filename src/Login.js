@@ -127,6 +127,7 @@ function SignInSide() {
         handleAdminVerification();
       } else {
         // Handle non-admin login (you can redirect to user dashboard or do something else)
+        navigate("/dashboard");
         console.log("Login successful for non-admin user.");
       }
     } catch (error) {
