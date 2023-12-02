@@ -81,15 +81,15 @@ function SignInSide() {
     }
   };
 
-  const handleVerificationSubmit = () => {
-    // Implement verification logic, e.g., compare entered code with the one sent to the email
-    if (verificationCode === enteredCode) {
-      // Verification successful, navigate to the admin dashboard or do something else
-      navigate("/AdminDashboard");
-    } else {
-      console.error("Verification code is incorrect.");
-    }
-  };
+  // const handleVerificationSubmit = () => {
+  //   // Implement verification logic, e.g., compare entered code with the one sent to the email
+  //   if (verificationCode === enteredCode) {
+  //     // Verification successful, navigate to the admin dashboard or do something else
+  //     navigate("/AdminDashboard");
+  //   } else {
+  //     console.error("Verification code is incorrect.");
+  //   }
+  // };
 
   // React.useEffect(() => {
   //   validatePassword(password);
@@ -127,6 +127,7 @@ function SignInSide() {
         handleAdminVerification();
       } else {
         // Handle non-admin login (you can redirect to user dashboard or do something else)
+        navigate("/dashboard");
         console.log("Login successful for non-admin user.");
       }
     } catch (error) {
