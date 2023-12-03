@@ -13,6 +13,7 @@ import QuizHistory from "./QuizHistory";
 import AdminDashboard from "./dashboardAdmin";
 import AboutUs from "./AboutUs";
 import ContactUs from "./ContactUs";
+import AdminHistory from "./AdminHistory";
 
 //import Quiz from "./Quiz"
 
@@ -21,7 +22,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-
+        <Route index element={<SignInSide />} />
         <Route path="/Login" element={<SignInSide />} />
         <Route path="/Register" element={<RegistrationForm />} />
         <Route path="/AdminVer" element={<AdminVerification />} />

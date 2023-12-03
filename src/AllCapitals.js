@@ -73,7 +73,7 @@ export const mainListItems = (
 
     <ListItemButton component={Link} to="/AboutUs">
       <ListItemIcon>
-        <InfoOutlinedIcon />
+        <InfoIcon />
       </ListItemIcon>
       <ListItemText primary="About Us" />
     </ListItemButton>
@@ -178,11 +178,11 @@ export default function AllCapitals() {
           style={{
             marginTop: '50px',
             position: 'absolute',
-            top: `${top}px`,
-            left: `${left}px`,
+            top: `${top}px`, // Interpolate top value
+            left: `${left}px`, // Interpolate left value
           }}
         >
-           <Link to={`/MHistory/${id}`} style={{ textDecoration: "none" }}>
+          <Link to={`/MHistory/${id}`} style={{ textDecoration: "none" }}>
             <img src={imagePath} alt={name} style={{ width: '125px', height: '140px' }} />
           </Link>
         </div>
