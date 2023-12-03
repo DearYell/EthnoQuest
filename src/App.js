@@ -21,6 +21,9 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
+
+        <Route path="/Login" element={<SignInSide />} />
+        <Route path="/Register" element={<RegistrationForm />} />
         <Route path="/AdminVer" element={<AdminVerification />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/AllCapitals" element={<Capitals />} />

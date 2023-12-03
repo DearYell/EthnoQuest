@@ -287,7 +287,7 @@ const RegistrationForm = () => {
               <Grid container justifyContent="center">
                 <Grid item>
                   <Link
-                    to="/"
+                    to="/Login"
                     variant="body2"
                     sx={{
                       color: "white",
