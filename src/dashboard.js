@@ -29,6 +29,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Avatar from "@mui/material/Avatar";
 import { ListItem, ListItemAvatar, ListItemText } from "@material-ui/core";
 import Capitals from "./AllCapitals";
+import MyProfile from "./MyProfile";
 
 const defaultTheme = createTheme();
 
@@ -52,9 +53,12 @@ export default function Dashboard() {
 
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
-    navigate(`/${buttonName}`);
     if (buttonName === "allCapitals") {
       navigate("/AllCapitals"); // Update this route based on your setup
+    } else if (buttonName === "myProfiles") {
+      navigate("/MyProfile"); // Update this route based on your setup
+    } else {
+      navigate(`/${buttonName}`);
     }
   };
 

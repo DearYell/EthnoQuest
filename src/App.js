@@ -10,8 +10,10 @@ import MHoliday from "./MHoliday";
 import MTradition from "./MTradition";
 import MyProfile from "./MyProfile";
 import QuizHistory from "./QuizHistory";
-import Settings from "./Settings";
+//import Settings from "./Settings";
 import AdminDashboard from "./dashboardAdmin";
+
+//import Quiz from "./Quiz"
 // import AboutUs from "./AboutUs";
 
 function App() {
@@ -31,8 +33,9 @@ function App() {
           <Route path="/MHoliday" element={<MHoliday />} />
           <Route path="/MyProfile" element={<MyProfile />} />
           <Route path="/QuizHistory" element={<QuizHistory />} />
-          <Route path="/Settings" element={<Settings />} />
+          {/* <Route path="/Settings" element={<Settings />} /> */}
           <Route path="/dashboardAdmin" element={<AdminDashboard />} />
+          <Route path="/QHistory" element={<quizHistory />} />
         </Routes>
       </BrowserRouter>
     </div>
