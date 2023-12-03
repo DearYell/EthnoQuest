@@ -24,9 +24,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import Paper from '@mui/material/Paper';
-import SettingsIcon from '@mui/icons-material/Settings';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LogoutIcon from '@mui/icons-material/Logout';
 import TableCell from '@mui/material/TableCell';
 import Button from '@mui/material/Button';
 import TableContainer from '@mui/material/TableContainer';
@@ -35,7 +32,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import HomeIcon from '@mui/icons-material/Home';
-import { useNavigate } from 'react-router-dom';
+/* import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions'; */
 
 
 
@@ -165,6 +165,18 @@ export default function QuizHistory() {
         console.error(`Error removing quiz with ID ${id}:`, error.message);
       });
   };
+
+  /* const handleOpenDialog = (quizId) => {
+    setSelectedQuizId(quizId);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setSelectedQuizId(null);
+    setOpenDialog(false);
+  }; */
+
+
   useEffect(() => {
     getAllQuiz();
   }, []);
@@ -290,7 +302,7 @@ export default function QuizHistory() {
                           <Button onClick={() => retakeQuiz(quiz.id)}>
                             Retake
                           </Button>
-                          <Button onClick={() => removeQuiz(quiz.id)}>
+                           <Button onClick={() => removeQuiz(quiz.id)}>
                             Remove
                           </Button>
                           </TableCell>
@@ -299,6 +311,28 @@ export default function QuizHistory() {
                     </TableBody>
                     </Table>
                   </TableContainer>
+
+                   {/*  Dialog for confirmation
+                    <Dialog open={openDialog} onClose={handleCloseDialog}>
+                      <DialogTitle>Confirm Deletion</DialogTitle>
+                      <DialogContent>
+                        <Typography>
+                          Are you sure you want to delete this record?
+                        </Typography>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleCloseDialog}>Cancel</Button>
+                        <Button
+                          onClick={() => {
+                            removeQuiz(selectedQuizId);
+                            handleCloseDialog();
+                          }}
+                        >
+                          Confirm
+                        </Button>
+                      </DialogActions>
+                    </Dialog> */}
+
                 </Paper>
               </Grid>
             </Grid>
