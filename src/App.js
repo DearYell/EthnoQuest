@@ -12,6 +12,7 @@ import MyProfile from "./MyProfile";
 import QuizHistory from "./QuizHistory";
 import AdminDashboard from "./dashboardAdmin";
 import ContactUs from "./ContactUs";
+import AdminHistory from "./AdminHistory";
 
 //import Quiz from "./Quiz"
 import AboutUs from "./AboutUs";
@@ -41,6 +42,7 @@ function App() {
           <Route path="/dashboardAdmin" element={<AdminDashboard />} />
           <Route path="/AboutUs" element={<AboutUs />} />
           <Route path="/ContactUs" element={<ContactUs />} />
+          <Route path="/AdminHistory" element={<AdminHistory />} />
         </Routes>
       </BrowserRouter>
     </div>
