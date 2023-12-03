@@ -15,7 +15,6 @@ import AboutUs from "./AboutUs";
 import ContactUs from "./ContactUs";
 
 //import Quiz from "./Quiz"
-import AboutUs from "./AboutUs";
 
 function App() {
   return (
