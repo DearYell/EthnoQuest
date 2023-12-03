@@ -29,6 +29,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InfoIcon from '@mui/icons-material/Info';
+import CallIcon from '@mui/icons-material/Call';
 
 const LogoListItem = (
   <ListItemButton>
@@ -75,6 +76,13 @@ export const mainListItems = (
         <InfoIcon />
       </ListItemIcon>
       <ListItemText primary="About Us" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/ContactUs">
+      <ListItemIcon>
+        <CallIcon />
+      </ListItemIcon>
+      <ListItemText primary="Contact Us" />
     </ListItemButton>
 
     <ListItemButton component={Link} to="/Login">

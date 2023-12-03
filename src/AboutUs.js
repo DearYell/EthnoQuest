@@ -42,8 +42,8 @@ const cards = [
   {
     id: 2,
     title: 'Nichole Cuizon',
-    description: 'BSIT, 3',
-    image: 'https://source.unsplash.com/random?nature',
+    description: '"Be the change that you wish to see in the world." - Mahatma Gandhi',
+    image: `${process.env.PUBLIC_URL}/Nichole.jpg`,
   },
   {
     id: 3,
