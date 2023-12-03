@@ -8,8 +8,9 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
-import Dashboard from "./dashboard.js";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import Dashboard from "./dashboardAdmin.js";
+import axios from "axios";
 
 function Copyright(props) {
   return (
@@ -34,7 +35,15 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function AdminVerification() {
-  const [rotation, setRotation] = useState(0);
+  const [rotation, setRotation] = React.useState(0);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
+  const [verificationCode, setVerificationCode] = useState("");
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [enteredCode, setEnteredCode] = useState("");
 
   useEffect(() => {
     const rotateInterval = setInterval(() => {
@@ -44,13 +53,52 @@ export default function AdminVerification() {
     return () => clearInterval(rotateInterval);
   }, []);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const handleAdminVerification = async () => {
+    try {
+      // Send verification code to the admin's email
+      const response = await axios.post(
+        "http://localhost:8080/admin/sendVerificationCode",
+        {
+          emailAddress,
+        }
+      );
+
+      const verificationCode = response.data;
+      setVerificationCode(verificationCode);
+      setIsVerifying(true);
+      // You can redirect to the page where the admin enters the verification code
+      // You can pass the verificationCode as a state or query parameter
+      // navigate(`/AdminVer?email=${encodeURIComponent(emailAddress)}`);
+    } catch (error) {
+      console.error("Error sending verification code:", error.message);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      // Send login request
+      const response = await axios.post(
+        "http://localhost:8080/admin/loginAdmin",
+        {
+          emailAddress,
+          password,
+        }
+      );
+
+      const userData = response.data;
+
+      // Check if the user is an admin
+      if (userData.isAdmin) {
+        setIsAdmin(true);
+        handleAdminVerification();
+      } else {
+        // Handle non-admin login (you can redirect to user dashboard or do something else)
+        navigate("/dashboardAdmin");
+        console.log("Login successful.");
+      }
+    } catch (error) {
+      console.error("Login failed:", error.message);
+    }
   };
 
   return (
@@ -159,8 +207,7 @@ export default function AdminVerification() {
                       width: "500px",
                       "&:hover": { backgroundColor: "#96BB7C" },
                     }}
-                    component={Link}
-                    to="/dashboard"
+                    onClick={handleSubmit}
                   >
                     Login as Admin
                   </Button>
