@@ -177,21 +177,10 @@ const capitalsHistory = [
 ];
 
 export default function MHistory() {
-  const { id } = useParams();
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
-  const selectedCapital = capitalsHistory.find(capital => capital.id === parseInt(id));
-
-  if (!selectedCapital) {
-    return (
-      <div>
-        <Typography variant="h4">Capital Not Found</Typography>
-        <Typography variant="body1">Sorry, the capital with ID {id} was not found.</Typography>
-      </div>
-    );
-  }
 
   const mainListItems = (
     <React.Fragment>
@@ -202,19 +191,19 @@ export default function MHistory() {
         </ListItemIcon >
         <ListItemText primary="History" />
       </ListItemButton>
-      <ListItemButton component={Link} to={`/MTradition/${id}`}>
+      <ListItemButton component={Link} to={`/MTradition`}>
         <ListItemIcon>
           <AutoStoriesIcon/>
         </ListItemIcon>
         <ListItemText primary="Tradition" />
       </ListItemButton>
-      <ListItemButton  component={Link} to={`/MCulture/${id}`}>
+      <ListItemButton  component={Link} to={`/MCulture`}>
         <ListItemIcon>
           <AccountCircleIcon />
         </ListItemIcon>
         <ListItemText primary="Culture" />
       </ListItemButton>
-      <ListItemButton component={Link} to={`/MHoliday/${id}`}>
+      <ListItemButton component={Link} to={`/MHoliday`}>
         <ListItemIcon>
           <CalendarMonthIcon />
         </ListItemIcon>
@@ -339,62 +328,6 @@ export default function MHistory() {
                 position: 'relative',
               }}
             >
-               <div style={{ position: "absolute", top: "20px", left: "20px" }}>
-                  <Typography
-                    align="left"
-                    sx={{
-                      color: "#fff",
-                      fontFamily: "Poppins, sans-serif",
-                      fontWeight: "bold",
-                    }}
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "1em",
-                      fontFamily: "Poppins, sans-serif",
-                    }}
-                  >
-                    {selectedCapital.name}
-                  </Typography>
-                </div>
-
-                <div style={{ position: "absolute", top: "40px", left: "20px" }}>
-                  <Typography
-                    align="left"
-                    sx={{
-                      color: "#6082B6",
-                      fontFamily: "Poppins, sans-serif",
-                      fontWeight: "bold",
-                    }}
-                    style={{ fontSize: "1em", color: "#808080" }}
-                  >
-                    {selectedCapital.country}
-                  </Typography>
-                </div>
-
-                <div style={{ marginTop: "50px", position: "absolute", top: "50px", left: "55px" }}>
-                  <img
-                    src={selectedCapital.image}
-                    alt={selectedCapital.name}
-                    style={{ width: "890px", height: "200px" }}
-                  />
-                </div>
-
-                <div style={{ position: "absolute", top: "330px", left: "35px", padding: "25px" }}>
-                  <Typography
-                    align="left"
-                    sx={{
-                      color: "#6082B6",
-                      fontFamily: "Poppins, sans-serif",
-                      fontWeight: "bold",
-                    }}
-                    style={{ fontSize: "1.1em", color: "#000000" }}
-                  >
-                    {selectedCapital.history}
-                  </Typography>
-                </div>
-
-              {/* Other content within the Paper */}
-              
             </Paper>
           </Grid>
         </Grid>
