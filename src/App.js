@@ -13,6 +13,7 @@ import QuizHistory from "./QuizHistory";
 import AdminDashboard from "./dashboardAdmin";
 import AboutUs from "./AboutUs";
 import ContactUs from "./ContactUs";
+import AdminHistory from "./AdminHistory";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/dashboardAdmin" element={<AdminDashboard />} />
           <Route path="/AboutUs" element={<AboutUs />} />
           <Route path="/ContactUs" element={<ContactUs />} />
+          <Route path="/AdminHistory" element={<AdminHistory />} />
         </Routes>
       </BrowserRouter>
     </div>
