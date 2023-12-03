@@ -32,11 +32,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import HomeIcon from '@mui/icons-material/Home';
-/* import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions'; */
-
+import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined';
 
 
 const LogoListItem = (
@@ -62,7 +58,7 @@ export const mainListItems = (
    
     <ListItemButton component={Link} to="/QuizHistory">
       <ListItemIcon>
-        <DashboardIcon style={{ color: 'lightgreen' }} />
+        <HistoryToggleOffOutlinedIcon style={{ color: 'lightgreen' }} />
       </ListItemIcon>
       <ListItemText primary="Quiz History" />
     </ListItemButton>
@@ -154,9 +150,11 @@ export default function QuizHistory() {
   };
   
   const removeQuiz = (id) => {
-    // Implementation for removing the quiz
-    axios.delete(`http://localhost:8080/quiz/deleteQuiz/${id}`)
-      .then((response) => {
+    const confirmDeletion = window.confirm("Are you sure you want to delete this quiz?");
+    if (confirmDeletion) {
+      axios
+        .delete(`http://localhost:8080/quiz/deleteQuiz/${id}`)
+        .then((response) => {
         console.log(`Quiz with ID ${id} removed successfully`);
         // Update the state to reflect the changes
         setQuiz((prevQuiz) => prevQuiz.filter((q) => q.id !== id));
@@ -164,6 +162,7 @@ export default function QuizHistory() {
       .catch((error) => {
         console.error(`Error removing quiz with ID ${id}:`, error.message);
       });
+    }
   };
 
   /* const handleOpenDialog = (quizId) => {
@@ -299,40 +298,34 @@ export default function QuizHistory() {
                           <TableCell>{quiz.score}</TableCell>
                           <TableCell>{quiz.attempts}</TableCell>
                           <TableCell>
-                          <Button onClick={() => retakeQuiz(quiz.id)}>
-                            Retake
-                          </Button>
-                           <Button onClick={() => removeQuiz(quiz.id)}>
-                            Remove
-                          </Button>
+                          <Button
+                          variant="outlined"
+                          sx={{
+                            margin: "5px",
+                            color: "green",
+                            borderColor: "green",
+                          }}
+                          onClick={() => retakeQuiz(quiz.id)}
+                        >
+                          Retake
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          sx={{
+                            margin: "5px",
+                            color: "green",
+                            borderColor: "green",
+                          }}
+                          onClick={() => removeQuiz(quiz.id)}
+                        >
+                          Remove
+                        </Button>
                           </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                     </Table>
                   </TableContainer>
-
-                   {/*  Dialog for confirmation
-                    <Dialog open={openDialog} onClose={handleCloseDialog}>
-                      <DialogTitle>Confirm Deletion</DialogTitle>
-                      <DialogContent>
-                        <Typography>
-                          Are you sure you want to delete this record?
-                        </Typography>
-                      </DialogContent>
-                      <DialogActions>
-                        <Button onClick={handleCloseDialog}>Cancel</Button>
-                        <Button
-                          onClick={() => {
-                            removeQuiz(selectedQuizId);
-                            handleCloseDialog();
-                          }}
-                        >
-                          Confirm
-                        </Button>
-                      </DialogActions>
-                    </Dialog> */}
-
                 </Paper>
               </Grid>
             </Grid>
