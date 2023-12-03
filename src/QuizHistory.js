@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import {
   Typography,
   List,
@@ -34,6 +35,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import HomeIcon from '@mui/icons-material/Home';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -114,24 +116,63 @@ const Drawer = styled(MuiDrawer, {
 
 const defaultTheme = createTheme();
 
-export default function Settings() {
+export default function QuizHistory() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  const [quizzes, setQuizzes] = useState([]);
+  const [quiz, setQuiz] = useState([]);
+
+  const getQuiz = () => {
+    axios.get('http://localhost:8080/quiz/insertQuiz')
+      .then((response) => {
+        console.log(response);
+        const quizData = response.data;
+        setQuiz(quizData);
+      })
+      .catch((error) => {
+        console.error('Error fetching quiz:', error.message);
+      });
+  };
+
+  const getAllQuiz = () => {
+    axios.get('http://localhost:8080/quiz/getAllQuiz')
+      .then((response) => {
+        console.log('Quiz data:', response.data);
+        const quizData = response.data;
+        setQuiz(quizData);
+      })
+      .catch((error) => {
+        console.error('Error fetching all quizzes:', error.message);
+      });
+  };
 
   const retakeQuiz = (quizId) => {
-    // Implement logic to retake the quiz
-    console.log(`Retaking quiz with ID ${quizId}`);
+    // Implementation for retaking the quiz
+    console.log(`Retaking quiz with ID: ${quizId}`);
   };
   
-  const removeQuiz = (quizId) => {
-    // Implement logic to remove the quiz
-    console.log(`Removing quiz with ID ${quizId}`);
+  const removeQuiz = (id) => {
+    // Implementation for removing the quiz
+    axios.delete(`http://localhost:8080/quiz/deleteQuiz/${id}`)
+      .then((response) => {
+        console.log(`Quiz with ID ${id} removed successfully`);
+        // Update the state to reflect the changes
+        setQuiz((prevQuiz) => prevQuiz.filter((q) => q.id !== id));
+      })
+      .catch((error) => {
+        console.error(`Error removing quiz with ID ${id}:`, error.message);
+      });
   };
-
+  useEffect(() => {
+    getAllQuiz();
+  }, []);
+  
+  useEffect(() => {
+    console.log('Quiz state:', quiz);
+  }, [quiz]);
+ 
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -239,23 +280,23 @@ export default function Settings() {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {quizzes.map((quiz) => (
-                          <TableRow key={quiz.quizId}>
-                            <TableCell>{quiz.quizId}</TableCell>
-                            <TableCell>{quiz.totalItems}</TableCell>
-                            <TableCell>{quiz.score}</TableCell>
-                            <TableCell>{quiz.attempts}</TableCell>
-                            <TableCell>
-                              <Button onClick={() => retakeQuiz(quiz.quizId)}>
-                                Retake Quiz
-                              </Button>
-                              <Button onClick={() => removeQuiz(quiz.quizId)}>
-                                Remove Quiz
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
+                      {quiz.map((quiz) => (
+                        <TableRow key={quiz.id}>
+                          <TableCell>{quiz.id}</TableCell>
+                          <TableCell>{quiz.items}</TableCell>
+                          <TableCell>{quiz.score}</TableCell>
+                          <TableCell>{quiz.attempts}</TableCell>
+                          <TableCell>
+                          <Button onClick={() => retakeQuiz(quiz.id)}>
+                            Retake
+                          </Button>
+                          <Button onClick={() => removeQuiz(quiz.id)}>
+                            Remove
+                          </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
                     </Table>
                   </TableContainer>
                 </Paper>
@@ -289,24 +330,17 @@ function ProfileCircle() {
     </div>
   );
 }
-
-
-
-
-
-
-
 function Copyright(props) {
   return (
     <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      <Link color="inherit" href="https://mui.com/">
-        {/* MUI link */}
-      </Link>
-    </Typography>
-  );
-}
+  variant="body2"
+  color="textSecondary" // Update this line
+  align="center"
+  {...props}
+>
+  <Link color="inherit" href="https://mui.com/">
+    {/* MUI link */}
+  </Link>
+</Typography>
+  )
+  }

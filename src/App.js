@@ -15,13 +15,12 @@ import ContactUs from "./ContactUs";
 
 //import Quiz from "./Quiz"
 import AboutUs from "./AboutUs";
-
 function App() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
-
+        <Route index element={<SignInSide />} />
         <Route path="/Login" element={<SignInSide />} />
         <Route path="/Register" element={<RegistrationForm />} />
         <Route path="/AdminVer" element={<AdminVerification />} />
