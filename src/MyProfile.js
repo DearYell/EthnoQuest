@@ -26,7 +26,13 @@ import Paper from '@mui/material/Paper';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
+<<<<<<< HEAD
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+=======
+import InfoIcon from '@mui/icons-material/Info';
+import CallIcon from '@mui/icons-material/Call';
+
+>>>>>>> a61a607ee8a181895bdec6ac3f94103b05ce133d
 const LogoListItem = (
   <ListItemButton>
     <ListItemIcon>
@@ -89,6 +95,13 @@ export const mainListItems = (
         <InfoOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="About Us" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/ContactUs">
+      <ListItemIcon>
+        <CallIcon />
+      </ListItemIcon>
+      <ListItemText primary="Contact Us" />
     </ListItemButton>
 
     <ListItemButton component={Link} to="/Login">

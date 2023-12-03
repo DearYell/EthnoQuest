@@ -2,7 +2,6 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,10 +12,11 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import { Link, useNavigate } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import { Link, useNavigate } from "react-router-dom";
+
 
 
 function Copyright() {
@@ -36,14 +36,14 @@ const cards = [
   {
     id: 1,
     title: 'Deriel Magallanes',
-    description: 'BSIT, 3',
+    description: 'Strength is not just visible; sometimes, it is the quiet battles waged within',
     image: `${process.env.PUBLIC_URL}/Deriel.png`,
   },
   {
     id: 2,
     title: 'Nichole Cuizon',
-    description: 'BSIT, 3',
-    image: 'https://source.unsplash.com/random?nature',
+    description: '"Be the change that you wish to see in the world." - Mahatma Gandhi',
+    image: `${process.env.PUBLIC_URL}/Nichole.jpg`,
   },
   {
     id: 3,
@@ -70,20 +70,14 @@ export default function AboutUs() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <AppBar position="relative" sx={{ backgroundColor: '#7ED957' }}>
+      <AppBar position="absolute" sx={{ backgroundColor: '#7ED957' }}>
         <Toolbar>
           <Typography variant="h5" color="inherit" noWrap>
             About Us
           </Typography>
         </Toolbar>
-        
       </AppBar>
-      <main>
-        <ListItemButton component={Link} to="/dashboard">
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-    </ListItemButton>
+      
       <Box
           sx={{
             bgcolor: 'background.paper',
@@ -91,7 +85,8 @@ export default function AboutUs() {
             pb: 1,
           }}
         >
-          <Container maxWidth="sm">
+          
+          <Container maxWidth="sm" sx={{ mt: 10, mb: 2,}}>
             <Typography
               component="h1"
               variant="h2"
@@ -137,29 +132,33 @@ export default function AboutUs() {
             ))}
           </Grid>
         </Container>
-      </main>
+      
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
-      <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              <Button variant="outlined"  sx={{ color: '#000', borderColor: '#7ED957' }}
-                    component={Link}
-                    to="/ContactUs"
-                    > 
-                    Contact Us
-                    </Button>
-            </Stack>
-        <Typography
+      
+        {/* <Typography
           variant="subtitle1"
           align="center"
           color="text.secondary"
           component="p"
         >
           Something here to give the footer a purpose!
-        </Typography>
+        </Typography> */}
+        <Stack
+              sx={{ pt: 4 }}
+              direction="row"
+              spacing={2}
+              justifyContent="center"
+            >
+              <Button variant="contained" sx={{
+                      mt: 1,
+                      mb: 1,
+                      backgroundColor: "#00BF63",
+                      color: "white",
+                      width: "100px",
+                      "&:hover": { backgroundColor: "#96BB7C" },
+                    }}component={Link}
+                    to="/dashboard">Dashboard</Button>
+            </Stack>
         <Copyright />
       </Box>
     </ThemeProvider>

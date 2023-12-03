@@ -11,16 +11,18 @@ import MTradition from "./MTradition";
 import MyProfile from "./MyProfile";
 import QuizHistory from "./QuizHistory";
 import AdminDashboard from "./dashboardAdmin";
+import AboutUs from "./AboutUs";
 import ContactUs from "./ContactUs";
 
 //import Quiz from "./Quiz"
 import AboutUs from "./AboutUs";
+
 function App() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
-        <Route index element={<SignInSide />} />
+
         <Route path="/Login" element={<SignInSide />} />
         <Route path="/Register" element={<RegistrationForm />} />
         <Route path="/AdminVer" element={<AdminVerification />} />
@@ -40,6 +42,7 @@ function App() {
           <Route path="/dashboardAdmin" element={<AdminDashboard />} />
           <Route path="/AboutUs" element={<AboutUs />} />
           <Route path="/ContactUs" element={<ContactUs />} />
+          <Route path="/AdminHistory" element={<AdminHistory />} />
         </Routes>
       </BrowserRouter>
     </div>
