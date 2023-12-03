@@ -125,7 +125,7 @@ const Drawer = styled(MuiDrawer, {
     }),
     boxSizing: "border-box",
     ...(!open && {
-      overflowX: "auto",
+      overflowX: "hidden",
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -197,6 +197,7 @@ export default function AllCapitals() {
             </IconButton>
           </Toolbar>
         </AppBar>
+        <Box sx={{ display: "flex" }}>
         <Drawer variant="permanent" open={open}>
           <Toolbar
             sx={{
@@ -213,6 +214,7 @@ export default function AllCapitals() {
           <Divider />
           <List component="nav">{mainListItems}</List>
         </Drawer>
+        </Box>
         <Box
           component="main"
           sx={{
