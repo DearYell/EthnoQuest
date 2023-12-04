@@ -38,19 +38,55 @@ import HomeIcon from "@mui/icons-material/Home";
 // Quiz component
 const Quiz = () => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [countdown, setCountdown] = useState(30); // Initial countdown time (in seconds)
+  const [questionNumber, setQuestionNumber] = useState(1); // Initial question number
+  const totalQuestions = 5; // Set the total number of questions
+
+  useEffect(() => {
+    // Timer logic
+    const timer = setInterval(() => {
+      setCountdown((prevCountdown) => prevCountdown - 1);
+    }, 1000);
+
+    // Clear the timer when the component unmounts or countdown reaches 0
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    // Handle the end of the countdown
+    if (countdown === 0) {
+      handleAutoSubmitOrMove();
+    }
+  }, [countdown]);
 
   const handleAnswerSelection = (value) => {
     setSelectedAnswer(value);
   };
 
   const handleSubmit = () => {
-    // Implement logic to handle quiz submission
-    console.log(`Selected Answer: ${selectedAnswer}`);
+    handleAutoSubmitOrMove();
+  };
+
+  const handleAutoSubmitOrMove = () => {
+    // Implement logic to auto-submit or move to the next question
+    if (questionNumber < totalQuestions) {
+      // Move to the next question
+      setQuestionNumber((prevQuestionNumber) => prevQuestionNumber + 1);
+      setSelectedAnswer(null); // Clear selected answer for the next question
+      setCountdown(30); // Reset countdown for the next question
+    } else {
+      // Submit the quiz
+      console.log("Quiz submitted!");
+      // Implement logic to handle quiz submission
+    }
   };
 
   return (
     <div className="quiz-container">
-      <h2 className="quiz-question">What is the capital of the Philippines?</h2>
+      <h2 className="quiz-question">
+        Question {questionNumber} of {totalQuestions}
+      </h2>
+      <p>Time left: {countdown} seconds</p>
       <ul className="quiz-answer-choices">
         <li>
           <input
