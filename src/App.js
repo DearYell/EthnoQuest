@@ -14,6 +14,7 @@ import AdminDashboard from "./dashboardAdmin";
 import AboutUs from "./AboutUs";
 import ContactUs from "./ContactUs";
 import AdminHistory from "./AdminHistory";
+import AdminTradition from "./AdminTradition";
 
 function App() {
   return (
