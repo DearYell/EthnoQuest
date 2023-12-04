@@ -14,14 +14,12 @@ import AdminDashboard from "./dashboardAdmin";
 import AboutUs from "./AboutUs";
 import ContactUs from "./ContactUs";
 import AdminHistory from "./AdminHistory";
-import AdminTradition from "./AdminTradition";
 
 function App() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route index element={<SignInSide />} />
           <Route path="/Login" element={<SignInSide />} />
           <Route path="/Register" element={<RegistrationForm />} />
           <Route path="/AdminVer" element={<AdminVerification />} />
