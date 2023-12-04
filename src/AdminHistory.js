@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Typography,
   List,
@@ -15,7 +14,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import SearchIcon from "@mui/icons-material/Search";
@@ -30,6 +29,17 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import TableCell from '@mui/material/TableCell';
+import Button from '@mui/material/Button';
+import TableContainer from '@mui/material/TableContainer';
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TableBody from '@mui/material/TableBody';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import ModeIcon from '@mui/icons-material/Mode';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const LogoListItem = (
   <ListItemButton>
@@ -86,101 +96,117 @@ const Drawer = styled(MuiDrawer, {
 
 const defaultTheme = createTheme();
 
-const capitalsHistory = [
-  {
-    id: 1,
-    name: 'Manila',
-    country: 'Philippines',
-    history: `The capital of the Philippines, dates back to the year 900 AD as recorded in the Laguna Copperplate Inscription. By the thirteenth century, the city consisted of a fortified settlement and trading quarter near the mouth of the Pasig River. In the late 16th century, Manila was a walled Muslim settlement whose ruler levied customs duties on all commerce passing up the Pasig River. Spanish conquistadors under the leadership of Miguel Lópezde Legazpi, the first Spanish governor-general of the Philippines, entered the mouth of the river in 1571. They destroyed the settlement and founded the fortress city of Intramuros in its place2. Manila became the capital of the new colony.`,
-    image: `${process.env.PUBLIC_URL}/PanaMa.jpg`, // Image associated with Manila
-  },
-  // Add more capital histories with IDs, names, countries, histories, and images
-  {
-    id: 2,
-    name: 'Jakarta',
-    country: 'Indonesia',
-    history: `Originally founded as a small harbor town in the 4th century, Jakarta grew into prominence as a trading port under the name Sunda Kelapa. It was later renamed Jayakarta when it was established as a fortified settlement by the Dutch in the 16th century. In the 20th century, it became the capital of the Dutch East Indies and eventually the capital of independent Indonesia in 1949, taking on its current name, Jakarta. Over time, it has evolved into a bustling metropolis, facing challenges like rapid urbanization and infrastructural development.`,
-    image: `${process.env.PUBLIC_URL}/JaPano.jpg`, // Image associated with Jakarta
-  },
-  {
-    id: 3,
-    name: 'London',
-    country: 'United Kingdom',
-    history: `London boasts a history dating back over two millennia, initially established by the Romans as "Londinium" around 50 AD. It served as a vital hub for trade and governance in Roman Britain. Following periods of invasions, upheavals, and growth, London became the capital of England in the 12th century, gaining prominence as a center of culture, commerce, and political power. The city has weathered significant events such as the Great Fire of 1666, World War II bombings, and continued expansion, evolving into a global financial and cultural epicenter, blending rich historical landmarks with modern innovation.`,
-    image: `${process.env.PUBLIC_URL}/LoPano.jpg`, // Image associated with Jakarta
-  },
-  {
-    id: 4,
-    name: 'Tokyo',
-    country: 'Japan',
-    history: `Tokyo, originally known as Edo, started as a small fishing village in the 12th century. Its fortunes changed in 1603 when Tokugawa Ieyasu established the Tokugawa shogunate, making Edo the de facto capital. Over the centuries, the city grew both in size and importance. In 1868, with the end of the shogunate, Emperor Meiji moved the imperial capital to Edo, renaming it Tokyo, meaning "Eastern Capital." Since then, Tokyo has played a crucial role in Japan's modernization, becoming a global economic and technological powerhouse.`,
-    image: `${process.env.PUBLIC_URL}/ToPano.jpg`, // Image associated with Jakarta
-  },
-  {
-    id: 5,
-    name: 'Ottawo',
-    country: 'Canada',
-    history: `Originally a site for indigenous peoples, Ottawa gained significance in the early 19th century as a strategic point in the fur trade. Established as Bytown in 1826 during the construction of the Rideau Canal, it was later renamed Ottawa in 1855 and became the capital of Canada in 1857 due to its central location between English-speaking and French-speaking regions. Over time, it has evolved into a vibrant, multicultural city, hosting key governmental institutions and cultural landmarks, while preserving its historical roots.`,
-    image: `${process.env.PUBLIC_URL}/OtPano.jpg`, // Image associated with Jakarta
-  },
-  {
-    id: 6,
-    name: 'Beijing',
-    country: 'China',
-    history: `
-    Beijing, one of China's oldest cities, traces its history back over three millennia. Initially known as Ji, it became a political and cultural center during the Zhou Dynasty around the 11th century BC. Renamed Yanjing during the Jin Dynasty and later to Dadu during the Yuan Dynasty, it was finally named Beijing, meaning "Northern Capital," when it became the capital of the Ming Dynasty in 1421. Through various dynasties, Beijing flourished as a center of imperial power, culture, and trade, witnessing both periods of splendor and challenges, and today stands as the capital of modern China, blending its rich heritage with rapid urbanization and modernization.`,
-    image: `${process.env.PUBLIC_URL}/BePano.jpg`, // Image associated with Jakarta
-  },
-  {
-    id: 7,
-    name: 'Seoul',
-    country: 'South Korea',
-    history: `Seoul, South Korea's capital, has a history spanning more than 2,000 years. Founded in 18 BCE as Wiryeseong, it became the capital of the Baekje Kingdom and was known as Hanseong during the Joseon Dynasty. It endured invasions, occupations, and wars, including the Korean War in the 20th century, which left a significant impact on its development. Through resilience and rapid reconstruction, Seoul emerged as a global city, blending modernity with its deep cultural heritage, becoming a dynamic hub for technology, entertainment, and commerce.`,
-    image: `${process.env.PUBLIC_URL}/SeuPano.jpg`, // Image associated with Jakarta
-  },
-  {
-    id: 8,
-    name: 'Bangkok',
-    country: 'Thailand',
-    history: `Bangkok, Thailand's vibrant capital, was established in 1782 by King Rama I as the royal capital of the Kingdom of Siam. Initially named Krung Thep, it grew from a small trading post into a bustling city along the Chao Phraya River. Over the centuries, Bangkok has experienced periods of modernization, including the late 19th-century transformations under King Rama V and rapid urban development in the 20th century. Today, it stands as a thriving metropolis, blending ancient temples, palaces, and traditions with modern skyscrapers, a vibrant culture, and a dynamic economy.`,
-    image: `${process.env.PUBLIC_URL}/BapaNo.jpg`, // Image associated with Jakarta
-  },
-  {
-    id: 9,
-    name: 'Bern',
-    country: 'Switzerland',
-    history: `Bern, the capital of Switzerland, has roots tracing back to the 12th century when it was founded by Duke Berthold V of Zähringen. Established in 1191, it grew strategically as a fortified city along the Aare River. In the 15th century, it joined the Swiss Confederation, solidifying its position as an influential city-state. Over the years, Bern has preserved its medieval charm, seen through its well-preserved old town, while evolving into a modern administrative center and a UNESCO World Heritage Site, renowned for its historical significance and political importance within Switzerland.`,
-    image: `${process.env.PUBLIC_URL}/BerPano.jpg`, // Image associated with Jakarta
-  },
-  {
-    id: 10,
-    name: 'Brussels',
-    country: 'Belgium',
-    history: `Brussels, the capital of Belgium, has a history that dates back to the 10th century when it was a small fortress town. It gained prominence in the late Middle Ages as a center for trade, art, and culture. In the 19th century, it became the capital of an independent Belgium and later the de facto capital of the European Union in the 20th century. Today, Brussels is a vibrant cosmopolitan city, blending its historical heritage seen in its stunning architecture with its modern role as an international hub for politics and diplomacy.`,
-    image: `${process.env.PUBLIC_URL}/BruPano.jpg`, // Image associated with Jakarta
-  },
-  {
-    id: 11,
-    name: 'Havana',
-    country: 'Cuba',
-    history: `Havana, the capital of Cuba, was founded by the Spanish in the early 16th century and quickly became a crucial hub for Spanish colonial activities in the Caribbean. Throughout the centuries, it served as a key port for trade, particularly during the height of the sugar and slave trades. In the 20th century, Havana experienced a period of rapid growth and became a cultural hotspot known for its lively music, art, and nightlife. Over time, it became a symbol of both the opulence of pre-revolutionary Cuba and the resilience of its people in the face of political and economic changes.`,
-    image: `${process.env.PUBLIC_URL}/HaPano.jpg`, // Image associated with Jakarta
-  },
-  {
-    id: 12,
-    name: 'Madrid',
-    country: 'Spain',
-    history: `Madrid, Spain's capital, has roots tracing back to the 9th century when it was established as a fortress under Arab rule. Later reclaimed by Christians in the 11th century, it steadily grew into a significant city. Becoming the capital in the 16th century during the Habsburg dynasty, Madrid continued to expand, especially during the Bourbon reign in the 18th century. Today, it stands as a vibrant metropolis blending its historical legacy, seen in its architecture and museums, with its modern status as a major European cultural and economic center.`,
-    image: `${process.env.PUBLIC_URL}/MaPano.jpg`, // Image associated with Jakarta
-  },
-  // Add other capital histories here
-];
+// function createData(id, name, country, history, image, action) {
+//   return { id, name, country, history, image, action };
+// }
 
-export default function MHistory() {
+// const rows = [
+//   createData(
+//     0,
+//     'Manila',
+//     'Elvis Presley',
+//     'Tupelo, MS',
+//     'VISA ⠀•••• 3719',
+//     312.44,
+//   ),
+//   createData(
+//     1,
+//     '16 Mar, 2019',
+//     'Paul McCartney',
+//     'London, UK',
+//     'VISA ⠀•••• 2574',
+//     866.99,
+//   ),
+//   createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
+//   createData(
+//     3,
+//     '16 Mar, 2019',
+//     'Michael Jackson',
+//     'Gary, IN',
+//     'AMEX ⠀•••• 2000',
+//     654.39,
+//   ),
+//   createData(
+//     4,
+//     '15 Mar, 2019',
+//     'Bruce Springsteen',
+//     'Long Branch, NJ',
+//     'VISA ⠀•••• 5919',
+//     212.79,
+//   ),
+// ];
+
+export default function AdminHistory() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const [history, setHistory] = useState([]);
+
+  const getHistory = () => {
+    axios.get('http://localhost:8080/history/insertHistory')
+      .then((response) => {
+        const historyData = response.data;
+        setHistory(historyData);
+      })
+      .catch((error) => {
+        console.error('Error fetching history:', error.message);
+      });
+  };
+      
+  const getAllHistory = () => {
+    axios.get('http://localhost:8080/history/getAllHistory')
+      .then((response) => {
+        console.log('History data:', response.data);
+        const historyData = response.data;
+        setHistory(historyData);
+      })
+      .catch((error) => {
+        console.error('Error fetching all history trivias:', error.message);
+      });
+  };
+  const updateHistory = (id, updatedData) => {
+    const updateUrl = `http://localhost:8080/history/updatesHistory?id=${id}`;
+    
+    axios
+      .put(updateUrl, updatedData)
+      .then((response) => {
+        console.log(`History with ID ${id} updated successfully`);
+        // Additional actions after a successful update
+        // For example, you might want to fetch updated data or update state
+        getHistory(); // Fetch updated data after the update
+      })
+      .catch((error) => {
+        console.error(`Error updating history with ID ${id}:`, error.message);
+      });
+  };
+  
+  const removeHistory = (id) => {
+    const confirmDeletion = window.confirm("Are you sure you want to delete this history?");
+    
+    if (confirmDeletion) {
+      axios
+        .delete(`http://localhost:8080/history/deleteHistory/${id}`)
+        .then((response) => {
+          console.log(`History with ID ${id} removed successfully`);
+          // Update the state to reflect the changes
+          setHistory((prevHistory) => prevHistory.filter((h) => h.id !== id));
+        })
+        .catch((error) => {
+          console.error(`Error removing history with ID ${id}:`, error.message);
+        });
+    }
+  };
+  
+  
+  useEffect(() => {
+    getAllHistory();
+  }, []);
+  
+  useEffect(() => {
+    console.log('History state:', history);
+  }, [history]);
 
   const mainListItems = (
     <React.Fragment>
@@ -191,19 +217,19 @@ export default function MHistory() {
         </ListItemIcon >
         <ListItemText primary="History" />
       </ListItemButton>
-      <ListItemButton component={Link} to={`/MTradition`}>
+      <ListItemButton component={Link} to={`/AdminTradition`}>
         <ListItemIcon>
           <AutoStoriesIcon/>
         </ListItemIcon>
         <ListItemText primary="Tradition" />
       </ListItemButton>
-      <ListItemButton  component={Link} to={`/MCulture`}>
+      <ListItemButton  component={Link} to={`/`}>
         <ListItemIcon>
           <AccountCircleIcon />
         </ListItemIcon>
         <ListItemText primary="Culture" />
       </ListItemButton>
-      <ListItemButton component={Link} to={`/MHoliday`}>
+      <ListItemButton component={Link} to={`/`}>
         <ListItemIcon>
           <CalendarMonthIcon />
         </ListItemIcon>
@@ -311,23 +337,121 @@ export default function MHistory() {
             alignItems: "center",
           }}
         >
-         
+          
           <Grid container spacing={1.5} justifyContent="center">
           <Grid item xs={7}>
+            
+          <ListItemButton
+      sx={{ backgroundColor: 'lightgreen', marginTop: '50px' }}
+      onClick={() => {
+        const newName = window.prompt('Enter capital name:');
+        const newCname = window.prompt('Enter country name:');
+        const newHname = window.prompt('Enter history:');
+        if (newName && newCname && newHname) {
+          axios.post('http://localhost:8080/history/insertHistory', {
+              name: newName,
+              cname: newCname,
+              hname: newHname,
+            })
+            .then(() => {
+              // Update the UI by fetching the updated data
+              getHistory();
+            })
+            .catch((error) => {
+              console.error('Error adding history:', error.message);
+            });
+        }
+      }}
+    >
+      <ListItemIcon>
+        <HistoryEduIcon />
+      </ListItemIcon>
+      <ListItemText primary="Add History trivia" />
+    </ListItemButton>
+
             <Paper
               elevation={3}
               sx={{
-                width: '1000px', 
+                width: '1140px', 
                 height: '600px',
                 borderRadius: "15px",
                 display: "flex",
                 alignItems: "center",
                 flexDirection: 'column',
-                marginTop: "80px",
-                marginLeft: "20px",
+                marginTop: "2px",
+                marginLeft: "2px",
                 position: 'relative',
               }}
             >
+              <TableContainer>
+                    <Table>
+                      <TableHead>
+                      <TableRow>
+                      <TableCell>
+                        <Typography variant="subtitle1"><b>Capital</b></Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="subtitle1"><b>Country</b></Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="subtitle1"><b>History</b></Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="subtitle1"><b>Action</b></Typography>
+                      </TableCell>
+                    </TableRow>
+
+                      </TableHead>
+                      <TableBody>
+                      {history.map((history) => (
+                        <TableRow key={history.id}>
+                          {/* <TableCell>{history.id}</TableCell> */}
+                          <TableCell>{history.name}</TableCell>
+                          <TableCell>{history.cname}</TableCell>
+                          <TableCell>{history.hname}</TableCell>
+                          <TableCell>
+                          {/* <Button onClick={() => retakeQuiz(quiz.id)}>
+                            Retake
+                          </Button> */}
+                          <ListItemButton
+                          onClick={() => removeHistory(history.id)}
+                          sx={{ color: 'red' }} // Change the color or styles as needed
+                        >
+                          <ListItemIcon>
+                            <DeleteIcon />
+                          </ListItemIcon>
+                          <ListItemText primary="Remove" />
+                        </ListItemButton>
+
+                          <ListItemButton
+                            sx={{ marginTop: '20px' }}
+                            onClick={() => {
+                              const idToUpdate = window.prompt('Enter ID of history entry to update:');
+                              const newName = window.prompt('Enter new capital name:');
+                              const newCname = window.prompt('Enter new country name:');
+                              const newHname = window.prompt('Enter new history name:');
+                              
+                              if (idToUpdate && newName && newCname && newHname) {
+                                updateHistory(idToUpdate, {
+                                  name: newName,
+                                  cname: newCname,
+                                  hname: newHname,
+                                });
+                              }
+                            }}
+                          >
+                            <ListItemIcon>
+                              <ModeIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Update" />
+                          </ListItemButton>
+
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                    </Table>
+                  </TableContainer>
             </Paper>
           </Grid>
         </Grid>
@@ -359,6 +483,8 @@ function ProfileCircle() {
       />
     </div>
   );
+    
+
 }
 
 
