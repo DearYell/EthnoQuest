@@ -28,7 +28,6 @@ import Paper from '@mui/material/Paper';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
-import InfoIcon from '@mui/icons-material/Info';
 import CallIcon from '@mui/icons-material/Call';
 
 import TableCell from '@mui/material/TableCell';
@@ -38,9 +37,12 @@ import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
-import HomeIcon from '@mui/icons-material/Home';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined';
+import TextField from '@mui/material/TextField';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
+import SearchIcon from "@mui/icons-material/Search";
 
 const LogoListItem = (
   <ListItemButton>
@@ -171,13 +173,22 @@ const Drawer = styled(MuiDrawer, {
 const defaultTheme = createTheme();
 
 export default function MyProfile() {
+  const [searchBadgeId, setSearchBadgeId] = React.useState("");
+  const [filteredBadge, setFilteredBadge] = React.useState([]);
+  const [isFormOpen, setIsFormOpen] = React.useState(false);
+  const [newBadgeData, setNewBadgeData] = React.useState({
+    id: "",
+    user: "",
+    title: "",
+    date: "",
+    points: "",
+  });
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
   const [badge, setBadge] = useState([]);
-
 
   const getBadge = () => {
     axios.get('http://localhost:8080/badge/insertBadge')
@@ -235,6 +246,28 @@ export default function MyProfile() {
       });
   };
 
+  // Function to handle badge search
+    const handleSearchBadge = () => {
+      const searchTerm = searchBadgeId.trim().toLowerCase();
+
+      if (searchTerm === "id") {
+        // If search term is empty, show all badges
+        setFilteredBadge(badge);
+      } else {
+        // If search term is not empty, filter badges based on ID
+        const filteredBadges = badge.filter((badge) =>
+          String(badge.id).toLowerCase().includes(searchTerm)
+        );
+        setFilteredBadge(filteredBadges);
+      }
+    };
+
+  // Call handleSearchBadge when searchBadgeId changes
+  React.useEffect(() => {
+    handleSearchBadge();
+  }, [searchBadgeId, badge]);
+
+
   useEffect(() => {
     getAllBadge();
   }, []);
@@ -266,6 +299,31 @@ export default function MyProfile() {
             >
               <MenuIcon />
             </IconButton>
+
+            <IconButton color="inherit">
+              <SearchIcon sx={{ color: "black" }} />
+            </IconButton>
+            <Typography
+              component="div"
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                alignItems: "center",
+                marginLeft: "8px",
+              }}
+            >
+              <TextField
+                label="Search Badge ID"
+                variant="outlined"
+                size="small"
+                sx={{ width: "500px", minWidth: "300px" }}
+                value={searchBadgeId}
+                onChange={(e) => setSearchBadgeId(e.target.value)}
+              />
+            </Typography>
            
             <IconButton color="inherit" sx={{ marginLeft: "auto" }}>
               <ProfileCircle />
@@ -289,18 +347,18 @@ export default function MyProfile() {
           <Divider />
           <List component="nav">{mainListItems}</List>
         </Drawer>
-              <Box
-        component="main"
-        sx={{
-        backgroundColor: "white",
-        flexGrow: 1,
-        height: "100vh",
-        width: "100v", // Changed to vw for full viewport width
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        overflow: "auto",
-      }}
+        <Box
+          component="main"
+          sx={{
+            backgroundColor: "white",
+            flexGrow: 1,
+            height: "100vh",
+            width: "100v", // Changed to vw for full viewport width
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            overflow: "auto",
+          }}
         >
           <Toolbar />
           <Container
@@ -319,126 +377,227 @@ export default function MyProfile() {
               alignItems: "center",
             }}
           >
-            
             <Grid container spacing={1.5} justifyContent="center">
-            <Grid item xs={7}>
-            <ListItemButton
-              sx={{ marginTop: '50px' }}
-              onClick={() => {
-                const newId = window.prompt('Enter badge id:');
-                const newUser = window.prompt('Enter user:');
-                const newTitle = window.prompt('Enter title:');
-                const newDate = window.prompt('Enter date earned:');
-                const newPoints = window.prompt('Enter points:');
-                if (newId && newUser && newTitle && newDate && newPoints ) {
-                  axios.post('http://localhost:8080/badge/insertBadge', {
-                      id: newId,
-                      user: newUser,
-                      title: newTitle,
-                      date: newDate,
-                      points: newPoints,
-                    })
-                    .then(() => {
-                      // Update the UI by fetching the updated data
-                      getBadge();
-                    })
-                    .catch((error) => {
-                      console.error('Error adding badge:', error.message);
-                    });
-                }
-              }}
-            >
-              <ListItemIcon>
-              <MilitaryTechIcon />
-              </ListItemIcon>
-              <ListItemText primary="Add Badge" />
-            </ListItemButton>
+              <Grid item xs={7}>
+                <ListItemButton
+                  sx={{ marginTop: '20px' }} // Adjusted the marginTop
+                  onClick={() => {
+                    setIsFormOpen(true);
+                  }}
+                >
+                  <ListItemIcon>
+                    <MilitaryTechIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Add Badge" />
+                </ListItemButton>
 
-                        <Paper
-                      elevation={3}
-                      sx={{
-                        // padding: "20px",
-                        width: '850px', 
-                        height: '600px',
-                        borderRadius: "15px",
-                        display: "flex",
-                        alignItems: "center",
-                        flexDirection: 'column',
-                        marginTop: "80px",
-                        marginLeft: "95px",
-                        position: 'relative',
-                      }}
-                      >
-                  {/* Other content within the Paper */}
-                  <TableContainer>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Badge ID</TableCell>
-                          <TableCell>User</TableCell>
-                          <TableCell>Title</TableCell>
-                          <TableCell>Date Earned</TableCell>
-                          <TableCell>Points</TableCell>
-                          <TableCell>Action</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {badge.map((badge) => (
-                          <TableRow key={badge.id}>
-                            <TableCell>{badge.id}</TableCell>
-                            <TableCell>{badge.user}</TableCell>
-                            <TableCell>{badge.title}</TableCell>
-                            <TableCell>{badge.date}</TableCell>
-                            <TableCell>{badge.points}</TableCell>
-                            <TableCell>
+                {isFormOpen && (
+                  <Paper
+                    elevation={3}
+                    sx={{
+                      width: '400px',
+                      height: 'auto',
+                      borderRadius: "15px",
+                      display: "flex",
+                      flexDirection: 'column',
+                      alignItems: "center",
+                      marginTop: "800px", // Adjusted marginTop for better visibility of form fields
+                      marginLeft: "300px",
+                      padding: "20px",
+                      position: 'relative',
+                    }}
+                  >
+                    {/* Badge Form */}
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    // Handle form submission here (e.g., make axios post request)
+                    axios.post('http://localhost:8080/badge/insertBadge', newBadgeData)
+                      .then(() => {
+                        // Update the UI by fetching the updated data
+                        getBadge();
+                        // Reset form data
+                        setNewBadgeData({
+                          id: "",
+                          user: "",
+                          title: "",
+                          date: "",
+                          points: "",
+                        });
+                        // Close the form
+                        setIsFormOpen(false);
+                      })
+                      .catch((error) => {
+                        console.error('Error adding badge:', error.message);
+                      });
+                  }}
+                >
+                  {/* Form Fields */}
+                  <TextField
+                    label="Badge ID"
+                    value={newBadgeData.id}
+                    onChange={(e) => setNewBadgeData({ ...newBadgeData, id: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+                  <TextField
+                    label="User"
+                    value={newBadgeData.user}
+                    onChange={(e) => setNewBadgeData({ ...newBadgeData, user: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+                  <TextField
+                    label="Title"
+                    value={newBadgeData.title}
+                    onChange={(e) => setNewBadgeData({ ...newBadgeData, title: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+                  <TextField
+                    label="Date Earned"
+                    value={newBadgeData.date}
+                    onChange={(e) => setNewBadgeData({ ...newBadgeData, date: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+                  <TextField
+                    label="Points"
+                    value={newBadgeData.points}
+                    onChange={(e) => setNewBadgeData({ ...newBadgeData, points: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
 
-                            <Button
-                                variant="outlined"
-                                sx={{
-                                  margin: "5px",
-                                  color: "green",
-                                  borderColor: "green",
-                                }}
-                                onClick={() => {
-                                  const Id = window.prompt('Enter badge id entry to update:');
-                                  const newUser = window.prompt('Enter new user id:');
-                                  const newTitle = window.prompt('Enter new title:');
-                                  const newDate = window.prompt('Enter updated date:');
-                                  const newPoints = window.prompt('Enter updated points:');
-                                  
-                                  if (Id && newUser && newTitle && newDate && newPoints) {
-                                    updateBadge(Id, {
-                                      user: newUser,
-                                      title: newTitle,
-                                      date: newDate,
-                                      points: newPoints,
-                                    });
-                                  }
-                                }}
-                              >
-                                Update
-                              </Button>
+                  {/* Submit Button */}
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    sx={{
+                      marginTop: "15px",
+                      background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)', // Set the background color to light green
+                      width: 'calc(35% - 5px)', // Adjusted width to make it 35% of the full width with some margin in between
+                      marginLeft: '50px', // Center the button
+                      marginRight: '15px', // Add spacing to the right
+                    }}
+                  >
+                    Add Badge
+                  </Button>
 
-                              <Button
-                                variant="outlined"
-                                sx={{
-                                  margin: "5px",
-                                  color: "green",
-                                  borderColor: "green",
-                                }}
-                                onClick={() => removeBadge(badge.id)}
-                              >
-                                Remove
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
+                  {/* Cancel Button */}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => {
+                      // Reset form data
+                      setNewBadgeData({
+                        id: "",
+                        user: "",
+                        title: "",
+                        date: "",
+                        points: "",
+                      });
+                      // Close the form
+                      setIsFormOpen(false);
+                    }}
+                    sx={{
+                      marginTop: "15px",
+                      background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)', // Set the background color to light green
+                      width: 'calc(30% - 5px)', // Adjusted width to make it 30% of the full width with some margin in between
+                      marginLeft: '5px', // Add spacing to the left
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </form>
+                </Paper>
+                )}
+              <Paper
+                elevation={3}
+                sx={{
+                  width: '850px',
+                  height: '600px',
+                  borderRadius: "15px",
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: 'column',
+                  marginTop: "80px",
+                  marginLeft: "95px",
+                  position: 'relative',
+                }}
+              >
+                {/* Other content within the Paper */}
+                <TableContainer>
+                  <Table>
+                    <TableHead style={{ background: '#CDFAD5' }}>
+                      <TableRow>
+                        <TableCell>Badge ID</TableCell>
+                        <TableCell>User</TableCell>
+                        <TableCell>Title</TableCell>
+                        <TableCell>Date Earned</TableCell>
+                        <TableCell>Points</TableCell>
+                        <TableCell>Action</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {filteredBadge.map((badge) => (
+                      <TableRow key={badge.id}>
+                        <TableCell>{badge.id}</TableCell>
+                        <TableCell>{badge.user}</TableCell>
+                        <TableCell>{badge.title}</TableCell>
+                        <TableCell>{badge.date}</TableCell>
+                        <TableCell>{badge.points}</TableCell>
+                        <TableCell>
+                          <IconButton
+                            sx={{
+                              margin: "5px",
+                              color: "red",
+                            }}
+                            onClick={() => {
+                              const Id = window.prompt('Enter badge id entry to update:');
+                              const newUser = window.prompt('Enter new user id:');
+                              const newTitle = window.prompt('Enter new title:');
+                              const newDate = window.prompt('Enter updated date:');
+                              const newPoints = window.prompt('Enter updated points:');
+                              
+                              if (Id && newUser && newTitle && newDate && newPoints) {
+                                updateBadge(Id, {
+                                  user: newUser,
+                                  title: newTitle,
+                                  date: newDate,
+                                  points: newPoints,
+                                });
+                              }
+                            }}
+                          >
+                            <EditIcon />
+                          </IconButton>
 
-  
-                  </Paper>
+                          <IconButton
+                            sx={{
+                              margin: "5px",
+                              color: "red",
+                            }}
+                            onClick={() => removeBadge(badge.id)}
+                          >
+                            <DeleteForeverIcon />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                  </Table>
+                </TableContainer>
+              </Paper>
+
                 </Grid>
               </Grid>
               <Copyright sx={{ pt: 4 }} />
@@ -447,39 +606,41 @@ export default function MyProfile() {
         </Box>
       </ThemeProvider>
     );
-  function ProfileCircle() {
-    const profileImgUrl = "profilesample.jpg";
-  
-    return (
-      <div
-        style={{
-          position: 'fixed',
-          top: '10px',
-          left: 'calc(100% - 90px)', /* Adjusted value */
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <img
-          src={profileImgUrl}
-          alt=""
-          style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
-        />
-      </div>
-    );
-  }
-  function Copyright(props) {
-    return (
-      <Typography
-    variant="body2"
-    color="textSecondary" // Update this line
-    align="center"
-    {...props}
-  >
-    <Link color="inherit" href="https://mui.com/">
-      {/* MUI link */}
-    </Link>
-  </Typography>
-    )
+    function ProfileCircle() {
+      const profileImgUrl = "profilesample.jpg";
+    
+      return (
+        <div
+          style={{
+            position: 'fixed',
+            top: '10px',
+            left: 'calc(100% - 90px)', /* Adjusted value */
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <img
+            src={profileImgUrl}
+            alt=""
+            style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
+          />
+        </div>
+      );
+    }
+    
+    function Copyright(props) {
+      return (
+        <Typography
+          variant="body2"
+          color="textSecondary" // Update this line
+          align="center"
+          {...props}
+        >
+          <Link color="inherit" href="https://mui.com/">
+            {/* MUI link */}
+          </Link>
+        </Typography>
+      );
     }
   }
+    
