@@ -14,6 +14,7 @@ import AboutUs from "./AboutUs";
 import ContactUs from "./ContactUs";
 import AdminHistory from "./AdminHistory";
 import AdminTradition from "./AdminTradition";
+import AdminQuizItems from "./AdminQuizItems";
 
 function App() {
   return (
@@ -36,7 +37,8 @@ function App() {
           <Route path="/MyProfile" element={<MyProfile />} />
           <Route path="/QuizHistory" element={<QuizHistory />} />
           {/* <Route path="/Settings" element={<Settings />} /> */}
-          <Route path="/dashboardAdmin" element={<AdminDashboard />} />
+          <Route path="/AdminDashboard" element={<AdminDashboard />} />
+          <Route path="/AdminAddItems" element={<AdminQuizItems />} />
           <Route path="/AboutUs" element={<AboutUs />} />
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/AdminHistory" element={<AdminHistory />} />

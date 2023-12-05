@@ -176,15 +176,15 @@ export default function MyProfile() {
     setOpen(!open);
   };
 
-  const [country, setCountry] = useState([]);
+  const [item, setItem] = useState([]);
 
 
-  const getCountry = () => {
-    axios.get('http://localhost:8080/country/insertCountry')
+  const getItem = () => {
+    axios.get('http://localhost:8080/quiz/insertItem')
       .then((response) => {
         console.log(response);
-        const countryData = response.data;
-        setCountry(countryData);
+        const itemData = response.data;
+        setItem(itemData);
       })
       .catch((error) => {
         console.error('Error fetching country:', error.message);
@@ -192,11 +192,11 @@ export default function MyProfile() {
   };
 
   const getAllCountries = () => {
-    axios.get('http://localhost:8080/country/getAllCountries')
+    axios.get('http://localhost:8080/quiz/getAllItems')
       .then((response) => {
         console.log('Country data:', response.data);
-        const countryData = response.data;
-        setCountry(countryData);
+        const itemData = response.data;
+        setItem(itemData);
       })
       .catch((error) => {
         console.error('Error fetching all countries:', error.message);
@@ -207,11 +207,11 @@ export default function MyProfile() {
     const confirmDeletion = window.confirm("Are you sure you want to delete this country?");
     if (confirmDeletion) {
       axios
-        .delete(`http://localhost:8080/country/deleteCountry/${id}`)
+        .delete(`http://localhost:8080/quiz/deleteItem/${id}`)
         .then((response) => {
           console.log(`Country with ID ${id} removed successfully`);
           // Update the state to reflect the changes
-          setCountry((prevCountry) => prevCountry.filter((b) => b.id !== id));
+          setItem((prevItem) => prevItem.filter((b) => b.id !== id));
         })
         .catch((error) => {
           console.error(`Error removing country with ID ${id}:`, error.message);
@@ -220,7 +220,7 @@ export default function MyProfile() {
   };
 
   const updateCountry = (id, updatedData) => {
-    const updateUrl = `http://localhost:8080/country/updateCountry?countryid=${id}`;
+    const updateUrl = `http://localhost:8080/quiz/updateItem?itemid=${id}`;
     
     axios
       .put(updateUrl, updatedData)
@@ -228,7 +228,7 @@ export default function MyProfile() {
         console.log(`Badge with ID ${id} updated successfully`);
         // Additional actions after a successful update
         // For example, you might want to fetch updated data or update state
-        getCountry(); // Fetch updated data after the update
+        setItem(); // Fetch updated data after the update
       })
       .catch((error) => {
         console.error(`Error updating Badge with ID ${id}:`, error.message);
@@ -240,8 +240,8 @@ export default function MyProfile() {
   }, []);
 
   useEffect(() => {
-    console.log('Country state:', country);
-  }, [country]);
+    console.log('Country state:', item);
+  }, [item]);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -325,14 +325,16 @@ export default function MyProfile() {
             <ListItemButton
               sx={{ marginTop: '50px' }}
               onClick={() => {
-                const newCountry = window.prompt('Enter Country Name:');
-                if (newCountry ) {
+                const question = window.prompt('Enter Question:');
+                const answer = window.prompt('Enter Answer:');
+                if (question && answer) {
                   axios.post('http://localhost:8080/country/insertCountry', {
-                      countryName: newCountry
+                      question: question,
+                      answer: answer
                     })
                     .then(() => {
                       // Update the UI by fetching the updated data
-                      getCountry();
+                      getItem();
                     })
                     .catch((error) => {
                       console.error('Error adding country:', error.message);
@@ -343,7 +345,7 @@ export default function MyProfile() {
               <ListItemIcon>
               <MilitaryTechIcon />
               </ListItemIcon>
-              <ListItemText primary="Add Country" />
+              <ListItemText primary="Add Item" />
             </ListItemButton>
 
                         <Paper
@@ -366,15 +368,17 @@ export default function MyProfile() {
                     <Table>
                       <TableHead>
                         <TableRow>
-                          <TableCell>Country ID</TableCell>
-                          <TableCell>Country Name</TableCell>
+                          <TableCell>Item ID</TableCell>
+                          <TableCell>Question</TableCell>
+                          <TableCell>Answer</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {country.map((country) => (
-                          <TableRow key={country.countryid}>
-                            <TableCell>{country.countryid}</TableCell>
-                            <TableCell>{country.countryName}</TableCell>
+                        {item.map((item) => (
+                          <TableRow key={item.itemid}>
+                            <TableCell>{item.itemid}</TableCell>
+                            <TableCell>{item.question}</TableCell>
+                            <TableCell>{item.answer}</TableCell>
                             <TableCell>
 
                             <Button
@@ -385,16 +389,18 @@ export default function MyProfile() {
                                   borderColor: "green",
                                 }}
                                 onClick={() => {
-                                  const Id = window.prompt('Enter country id entry to update:');
-                                  const newCountry = window.prompt('Enter new country name:');
-                                  if (Id && newCountry) {
+                                  const Id = window.prompt('Enter item id entry to update:');
+                                  const newQuestion = window.prompt('Enter new question:');
+                                  const newAnswer = window.prompt('Enter new answer:');
+                                  if (newQuestion && newAnswer) {
                                     updateCountry(Id, {
-                                      countryName: newCountry
+                                      question: newQuestion,
+                                      answer: newAnswer
                                     });
                                   }
                                 }}
                               >
-                                Edit Quiz
+                                Edit Item
                               </Button>
 
                               <Button
@@ -404,9 +410,9 @@ export default function MyProfile() {
                                   color: "green",
                                   borderColor: "green",
                                 }}
-                                onClick={() => deleteCountry(country.countryid)}
+                                onClick={() => deleteCountry(item.itemid)}
                               >
-                                Delete Quiz
+                                Delete Item
                               </Button>
                             </TableCell>
                           </TableRow>
