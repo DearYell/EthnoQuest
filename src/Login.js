@@ -42,7 +42,7 @@ function SignInSide() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   // const [verificationCode, setVerificationCode] = useState("");
   // const [isVerifying, setIsVerifying] = useState(false);
@@ -79,7 +79,6 @@ function SignInSide() {
 
   const handleSubmit = async () => {
     try {
-      // Send login request
       const response = await axios.post("http://localhost:8080/user/login", {
         emailAddress,
         password,
@@ -87,18 +86,16 @@ function SignInSide() {
 
       const userData = response.data;
 
-      // Check if the user is an admin
       if (userData.isAdmin) {
-        setIsAdmin(true);
         navigate("/dashboardAdmin");
-        console.log("Login successful for admin user.");
+        window.alert("Login successful for admin user.");
       } else {
-        // Handle non-admin login (you can redirect to user dashboard or do something else)
         navigate("/dashboard");
-        console.log("Login successful for non-admin user.");
+        window.alert("Login successful for non-admin user.");
       }
     } catch (error) {
       console.error("Login failed:", error.message);
+      window.alert("Login failed. Please check your credentials.");
     }
   };
 
