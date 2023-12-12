@@ -347,37 +347,6 @@ export default function MyProfile() {
                   </ListItemIcon>
                   <ListItemText primary="Add Country" />
                 </ListItemButton>
-<<<<<<< HEAD
-=======
-                <Grid item xs={7}>
-                  <ListItemButton
-                    sx={{ marginTop: "50px" }}
-                    onClick={() => {
-                      const newCountry = window.prompt("Enter Country Name:");
-                      if (newCountry) {
-                        axios
-                          .post("http://localhost:8080/country/insertCountry", {
-                            countryName: newCountry,
-                          })
-                          .then(() => {
-                            // Update the UI by fetching the updated data
-                            getCountry();
-                          })
-                          .catch((error) => {
-                            console.error(
-                              "Error adding country:",
-                              error.message
-                            );
-                          });
-                      }
-                    }}
-                  >
-                    <ListItemIcon>
-                      <MilitaryTechIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Add Country" />
-                  </ListItemButton>
->>>>>>> 600943bd3bc201f776ea587f535c9b86006a2ef1
 
                   <Paper
                     elevation={3}
@@ -452,12 +421,11 @@ export default function MyProfile() {
                         </TableBody>
                       </Table>
                     </TableContainer>
-                  </Paper>
-                </Grid>
+                    </Paper>
               </Grid>
             </Grid>
-            <Copyright sx={{ pt: 4 }} />
           </Container>
+          <Copyright sx={{ pt: 4 }} />
         </Box>
       </Box>
     </ThemeProvider>
