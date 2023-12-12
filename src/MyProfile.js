@@ -79,11 +79,17 @@ export const mainListItems = (
     {LogoListItem}
     <ListItemButton component={Link} to="/dashboardAdmin">
       <ListItemIcon>
-        <AccountCircleIcon  />
+        <DashboardIcon  />
+      </ListItemIcon>
+      <ListItemText primary="Dashboard" />
+    </ListItemButton>
+    <ListItemButton component={Link} to="/AdminAddItems">
+      <ListItemIcon>
+        <HistoryToggleOffOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Quizzes" />
     </ListItemButton>
-  <ListItemButton component={Link} to={`/AdminHistory`}>
+<ListItemButton component={Link} to={`/AdminHistory`}>
         <ListItemIcon>
           <HistoryEduIcon />
         </ListItemIcon >

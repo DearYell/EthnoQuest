@@ -74,9 +74,15 @@ const LogoListItem = (
 export const mainListItems = (
   <React.Fragment>
     {LogoListItem}
-  <ListItemButton component={Link} to="/MyProfile">
+  <ListItemButton component={Link} to="/dashboardAdmin">
       <ListItemIcon>
-        <AccountCircleIcon style={{ color: "lightgreen" }} />
+        <DashboardIcon style={{ color: "lightgreen" }} />
+      </ListItemIcon>
+      <ListItemText primary="Dashboard" />
+    </ListItemButton>
+    <ListItemButton component={Link} to="/AdminAddItems">
+      <ListItemIcon>
+        <HistoryToggleOffOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Quizzes" />
     </ListItemButton>
@@ -398,7 +404,7 @@ export default function MyProfile() {
                                     }
                                   }}
                                 >
-                                  Edit Quiz
+                                  Edit Country
                                 </Button>
 
                                 <Button
@@ -412,7 +418,7 @@ export default function MyProfile() {
                                     deleteCountry(country.countryid)
                                   }
                                 >
-                                  Delete Quiz
+                                  Delete Country
                                 </Button>
                               </TableCell>
                             </TableRow>

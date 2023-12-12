@@ -42,6 +42,7 @@ import {
   import DeleteIcon from '@mui/icons-material/Delete';
   import LogoutIcon from "@mui/icons-material/Logout";
 import InfoIcon from "@mui/icons-material/Info";
+import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined';
   
   const LogoListItem = (
     <ListItemButton>
@@ -215,18 +216,16 @@ import InfoIcon from "@mui/icons-material/Info";
         {LogoListItem}
         <ListItemButton component={Link} to="/dashboardAdmin">
       <ListItemIcon>
-        <AccountCircleIcon  />
+        <DashboardIcon  />
+      </ListItemIcon>
+      <ListItemText primary="Dashboard" />
+    </ListItemButton>
+    <ListItemButton component={Link} to="/AdminAddItems">
+      <ListItemIcon>
+        <HistoryToggleOffOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Quizzes" />
     </ListItemButton>
-
-    {/* <ListItemButton component={Link} to="/AllCapitals">
-      <ListItemIcon>
-        <LocationOnIcon />
-      </ListItemIcon>
-      <ListItemText primary="All Capitals" />
-    </ListItemButton> */}
-
 <ListItemButton component={Link} to={`/AdminHistory`}>
         <ListItemIcon>
           <HistoryEduIcon />

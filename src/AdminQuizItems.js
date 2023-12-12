@@ -41,6 +41,9 @@ import TableBody from '@mui/material/TableBody';
 import HomeIcon from '@mui/icons-material/Home';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined';
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const LogoListItem = (
   <ListItemButton>
@@ -71,48 +74,49 @@ const LogoListItem = (
 export const mainListItems = (
   <React.Fragment>
     {LogoListItem}
-    <ListItemButton component={Link} to="/dashboard">
+    <ListItemButton component={Link} to="/dashboardAdmin">
       <ListItemIcon>
-        <DashboardIcon />
+        <DashboardIcon  />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
-
-    <ListItemButton component={Link} to="/AllCapitals">
+    <ListItemButton component={Link} to="/AdminAddItems">
       <ListItemIcon>
-        <LocationOnIcon />
-      </ListItemIcon> 
-      <ListItemText primary="All Capitals" />
-    </ListItemButton>
-
-    <ListItemButton component={Link} to="/MyProfile">
-      <ListItemIcon>
-        <AccountCircleIcon  style={{ color: 'lightgreen' }}/>
+        <HistoryToggleOffOutlinedIcon style={{ color: "lightgreen" }}/>
       </ListItemIcon>
       <ListItemText primary="Quizzes" />
     </ListItemButton>
+<ListItemButton component={Link} to={`/AdminHistory`}>
+        <ListItemIcon>
+          <HistoryEduIcon />
+        </ListItemIcon >
+        <ListItemText primary="History" />
+      </ListItemButton>
+      <ListItemButton component={Link} to={`/AdminTradition`}>
+        <ListItemIcon>
+          <AutoStoriesIcon />
+        </ListItemIcon>
+        <ListItemText primary="Tradition" />
+      </ListItemButton>
+      <ListItemButton  component={Link} to={`/AdminCulture`}>
+        <ListItemIcon>
+          <InfoIcon  />
+        </ListItemIcon>
+        <ListItemText primary="Culture" />
+      </ListItemButton>
+      <ListItemButton component={Link} to={`/AdminHoliday`}>
+        <ListItemIcon>
+          <CalendarMonthIcon />
+        </ListItemIcon>
+        <ListItemText primary="Holidays" />
+      </ListItemButton>
+      <ListItemButton component={Link} to={`/MyProfile`}>
+        <ListItemIcon>
+          <AccountCircleIcon />
+        </ListItemIcon>
+        <ListItemText primary="MyProfile" />
+      </ListItemButton>
 
-    <ListItemButton component={Link} to="/QuizHistory">
-      <ListItemIcon>
-        <HistoryToggleOffOutlinedIcon />
-      </ListItemIcon>
-      <ListItemText primary="Quiz History" />
-    </ListItemButton>
-
-
-    <ListItemButton component={Link} to="/Settings">
-      <ListItemIcon>
-        <SettingsIcon />
-      </ListItemIcon>
-      <ListItemText primary="Settings" />
-    </ListItemButton>
-
-    <ListItemButton component={Link} to="/ContactUs">
-      <ListItemIcon>
-        <CallIcon />
-      </ListItemIcon>
-      <ListItemText primary="Contact Us" />
-    </ListItemButton>
 
     <ListItemButton component={Link} to="/Login">
       <ListItemIcon>
@@ -226,9 +230,7 @@ export default function MyProfile() {
       .put(updateUrl, updatedData)
       .then((response) => {
         console.log(`Badge with ID ${id} updated successfully`);
-        // Additional actions after a successful update
-        // For example, you might want to fetch updated data or update state
-        setItem(); // Fetch updated data after the update
+        getItem(); // Fetch updated data after the update
       })
       .catch((error) => {
         console.error(`Error updating Badge with ID ${id}:`, error.message);
@@ -328,7 +330,7 @@ export default function MyProfile() {
                 const question = window.prompt('Enter Question:');
                 const answer = window.prompt('Enter Answer:');
                 if (question && answer) {
-                  axios.post('http://localhost:8080/country/insertCountry', {
+                  axios.post('http://localhost:8080/quiz/insertItem', {
                       question: question,
                       answer: answer
                     })
