@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Typography,
   List,
@@ -15,7 +15,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -34,102 +34,79 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import HomeIcon from "@mui/icons-material/Home";
-import axios from "axios";
-import LinearProgress from "@mui/material/LinearProgress";
+import InfoIcon from "@mui/icons-material/Info";
+import CallIcon from "@mui/icons-material/Call";
+import "./QuizCustomize.css";
+import { useNavigate } from "react-router-dom";
 
 // Quiz component
+// QuizCustomize.jsx
 
-const Quiz = () => {
-  const [quizData, setQuizData] = useState({
-    questions: [],
-    choices: [],
-  });
-  const [selectedChoice, setSelectedChoice] = useState("");
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const { totalItems, timePerQuestion } = useParams();
+const QuizCustomize = () => {
+  const [totalItems, setTotalItems] = useState(null);
+  const [timePerQuestion, setTimePerQuestion] = useState(null);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    // Fetch quiz data from the backend based on totalItems and timePerQuestion
-    QuizData();
-  }, [totalItems, timePerQuestion]);
+  const handleTotalItemsChange = (value) => {
+    setTotalItems(value);
+  };
 
-  const QuizData = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/quiz/questions?totalItems=${totalItems}&timePerQuestion=${timePerQuestion}`
+  const handleTimePerQuestionChange = (value) => {
+    setTimePerQuestion(value);
+  };
+
+  const handleStartQuiz = () => {
+    // Validate that both totalItems and timePerQuestion are selected
+    if (totalItems !== null && timePerQuestion !== null) {
+      // Navigate to the Quiz page with selected customization options
+      navigate(
+        `/quiz?totalItems=${totalItems}&timePerQuestion=${timePerQuestion}`
       );
-      console.log(response.data); // Log the data
-
-      // Ensure the response data is an object with 'questions' and 'choices' properties
-      const { questions, choices } = response.data || {};
-
-      setQuizData({
-        questions: questions || [],
-        choices: choices || [],
-      });
-    } catch (error) {
-      console.error("Error fetching quiz data:", error);
-    }
-  };
-
-  const handleChoiceSelect = (choice) => {
-    setSelectedChoice(choice);
-  };
-
-  const handleNextQuestion = () => {
-    // Implement logic to move to the next question
-    if (quizData.questions && questionIndex < quizData.questions.length - 1) {
-      setQuestionIndex(questionIndex + 1);
-      setSelectedChoice("");
     } else {
-      // Quiz is complete, handle submission or navigate to another page
-      handleSubmit();
+      // Display an error message or provide feedback to the user
+      alert("Please select both Total Items and Time Per Question.");
     }
   };
-
-  const handleSubmit = () => {
-    // Implement logic to handle quiz submission
-    console.log(`Selected Choice: ${selectedChoice}`);
-  };
-
-  // Auto-advance to the next question after the specified time
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      handleNextQuestion();
-    }, timePerQuestion * 1000); // Convert seconds to milliseconds
-
-    return () => clearTimeout(timeoutId); // Cleanup on component unmount
-  }, [questionIndex, timePerQuestion]);
-
-  const currentQuestion =
-    quizData.questions && quizData.questions.length > 0
-      ? quizData.questions[questionIndex].question
-      : "";
-  const currentChoices =
-    quizData.choices && quizData.choices.length > 0
-      ? quizData.choices[questionIndex]
-      : [];
 
   return (
-    <div className="question-box">
-      <h2 className="question-text">{currentQuestion}</h2>
-      <ul className="answer-options">
-        {currentChoices.map((choice, index) => (
-          <li key={index}>
+    <div className="container">
+      <h2 className="title">Total Items</h2>
+      <div className="options">
+        {[5, 10, 15].map((value) => (
+          <label key={value} className="option">
             <input
               type="radio"
-              name="choice"
-              value={choice.answer}
-              checked={selectedChoice === choice.answer}
-              onChange={() => handleChoiceSelect(choice.answer)}
+              name="totalItems"
+              value={value}
+              checked={totalItems === value}
+              onChange={() => handleTotalItemsChange(value)}
             />
-            {choice.answer}
-          </li>
+            {value}
+          </label>
         ))}
-      </ul>
+      </div>
+
+      <h2 className="title">Time Per Question (seconds)</h2>
+      <div className="options">
+        {[10, 15, 30].map((value) => (
+          <label key={value} className="option">
+            <input
+              type="radio"
+              name="timePerQuestion"
+              value={value}
+              checked={timePerQuestion === value}
+              onChange={() => handleTimePerQuestionChange(value)}
+            />
+            {value}
+          </label>
+        ))}
+      </div>
+
+      <button onClick={handleStartQuiz}>Start Quiz</button>
     </div>
   );
 };
+
 const LogoListItem = (
   <ListItemButton>
     <ListItemIcon>
@@ -144,16 +121,52 @@ export const mainListItems = (
     {LogoListItem}
     <ListItemButton component={Link} to="/dashboard">
       <ListItemIcon>
-        <HomeIcon />
-      </ListItemIcon>
-      <ListItemText primary="Home" />
-    </ListItemButton>
-
-    <ListItemButton component={Link} to="/Quiz">
-      <ListItemIcon>
         <DashboardIcon style={{ color: "lightgreen" }} />
       </ListItemIcon>
-      <ListItemText primary="Quiz" />
+      <ListItemText primary="Dashboard" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/AllCapitals">
+      <ListItemIcon>
+        <LocationOnIcon />
+      </ListItemIcon>
+      <ListItemText primary="All Capitals" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/MyProfile">
+      <ListItemIcon>
+        <AccountCircleIcon />
+      </ListItemIcon>
+      <ListItemText primary="My Profiles" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/Settings">
+      <ListItemIcon>
+        <SettingsIcon />
+      </ListItemIcon>
+      <ListItemText primary="Settings" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/AboutUs">
+      <ListItemIcon>
+        <InfoIcon />
+      </ListItemIcon>
+      <ListItemText primary="About Us" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/ContactUs">
+      <ListItemIcon>
+        <CallIcon />
+      </ListItemIcon>
+      <ListItemText primary="Contact Us" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/Login">
+      <ListItemIcon>
+        <LogoutIcon />
+      </ListItemIcon>
+
+      <ListItemText primary="Log Out" />
     </ListItemButton>
   </React.Fragment>
 );
@@ -273,7 +286,7 @@ export default function Settings() {
             backgroundColor: "white",
             flexGrow: 1,
             height: "100vh",
-            width: "100v",
+            width: "100v", // Changed to vw for full viewport width
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -314,8 +327,8 @@ export default function Settings() {
                     position: "relative",
                   }}
                 >
-                  {/* Integration of the Quiz component with props */}
-                  <Quiz />
+                  {/* Integration of the Quiz component */}
+                  <QuizCustomize />
                 </Paper>
               </Grid>
             </Grid>
