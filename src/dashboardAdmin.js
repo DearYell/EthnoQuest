@@ -322,7 +322,6 @@ export default function MyProfile() {
             }}
           >
             <Grid container spacing={1.5} justifyContent="center">
-<<<<<<< HEAD
               <Grid item xs={7}>
                 <ListItemButton
                   sx={{ marginTop: "50px" }}
@@ -348,32 +347,6 @@ export default function MyProfile() {
                   </ListItemIcon>
                   <ListItemText primary="Add Country" />
                 </ListItemButton>
-=======
-            <Grid item xs={7}>
-            <ListItemButton
-              sx={{ marginTop: '50px' }}
-              onClick={() => {
-                const newCountry = window.prompt('Enter Country Name:');
-                if (newCountry ) {
-                  axios.post('http://localhost:8080/country/insertCountry', {
-                      countryName: newCountry
-                    })
-                    .then(() => {
-                      // Update the UI by fetching the updated data
-                      getCountry();
-                    })
-                    .catch((error) => {
-                      console.error('Error adding country:', error.message);
-                    });
-                }
-              }}
-            >
-              <ListItemIcon>
-              <MilitaryTechIcon />
-              </ListItemIcon>
-              <ListItemText primary="Add Country" />
-            </ListItemButton>
->>>>>>> 9d5843e8a5ab077048309239f690e72f7e665841
 
                 <Paper
                   elevation={3}
