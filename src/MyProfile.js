@@ -394,13 +394,14 @@ export default function MyProfile() {
                   <Paper
                     elevation={3}
                     sx={{
-                      width: '400px',
+                      width: '500px',
                       height: 'auto',
                       borderRadius: "15px",
                       display: "flex",
                       flexDirection: 'column',
                       alignItems: "center",
-                      marginTop: "800px", // Adjusted marginTop for better visibility of form fields
+                      marginTop: "900px", // Adjusted marginTop for better visibility of form fields
+                      marginBottom: "300px",
                       marginLeft: "300px",
                       padding: "20px",
                       position: 'relative',
