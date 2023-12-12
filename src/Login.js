@@ -42,11 +42,7 @@ function SignInSide() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
-  // const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
-  // const [verificationCode, setVerificationCode] = useState("");
-  // const [isVerifying, setIsVerifying] = useState(false);
-  // const [enteredCode, setEnteredCode] = useState("");
 
   React.useEffect(() => {
     const rotateInterval = setInterval(() => {
@@ -60,22 +56,11 @@ function SignInSide() {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  // React.useEffect(() => {
-  //   validatePassword(password);
-  // }, [password]);
+  const checkIsAdmin = (userData) => {
+    // Check if userData exists and has the isAdmin property
 
-  // const validatePassword = (password) => {
-  //   const pattern =
-  //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-  //   if (!password.match(pattern)) {
-  //     setPasswordError(
-  //       "Password must be at least 8 characters, include uppercase and lowercase letters, and special characters."
-  //     );
-  //   } else {
-  //     setPasswordError("");
-  //   }
-  // };
+    return userData && userData.isAdmin === true;
+  };
 
   const handleSubmit = async () => {
     try {
@@ -86,12 +71,14 @@ function SignInSide() {
 
       const userData = response.data;
 
-      if (userData.isAdmin) {
+      if (checkIsAdmin(userData)) {
         navigate("/dashboardAdmin");
         window.alert("Login successful for admin user.");
+        console.log(userData);
       } else {
         navigate("/dashboard");
         window.alert("Login successful for non-admin user.");
+        console.log(userData);
       }
     } catch (error) {
       console.error("Login failed:", error.message);

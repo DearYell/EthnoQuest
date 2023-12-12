@@ -347,79 +347,113 @@ export default function MyProfile() {
                   </ListItemIcon>
                   <ListItemText primary="Add Country" />
                 </ListItemButton>
+<<<<<<< HEAD
+=======
+                <Grid item xs={7}>
+                  <ListItemButton
+                    sx={{ marginTop: "50px" }}
+                    onClick={() => {
+                      const newCountry = window.prompt("Enter Country Name:");
+                      if (newCountry) {
+                        axios
+                          .post("http://localhost:8080/country/insertCountry", {
+                            countryName: newCountry,
+                          })
+                          .then(() => {
+                            // Update the UI by fetching the updated data
+                            getCountry();
+                          })
+                          .catch((error) => {
+                            console.error(
+                              "Error adding country:",
+                              error.message
+                            );
+                          });
+                      }
+                    }}
+                  >
+                    <ListItemIcon>
+                      <MilitaryTechIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Add Country" />
+                  </ListItemButton>
+>>>>>>> 600943bd3bc201f776ea587f535c9b86006a2ef1
 
-                <Paper
-                  elevation={3}
-                  sx={{
-                    // padding: "20px",
-                    width: "850px",
-                    height: "600px",
-                    borderRadius: "15px",
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    marginTop: "80px",
-                    marginLeft: "95px",
-                    position: "relative",
-                  }}
-                >
-                  {/* Other content within the Paper */}
-                  <TableContainer>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Country ID</TableCell>
-                          <TableCell>Country Name</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {country.map((country) => (
-                          <TableRow key={country.countryid}>
-                            <TableCell>{country.countryid}</TableCell>
-                            <TableCell>{country.countryName}</TableCell>
-                            <TableCell>
-                              <Button
-                                variant="outlined"
-                                sx={{
-                                  margin: "5px",
-                                  color: "green",
-                                  borderColor: "green",
-                                }}
-                                onClick={() => {
-                                  const Id = window.prompt(
-                                    "Enter country id entry to update:"
-                                  );
-                                  const newCountry = window.prompt(
-                                    "Enter new country name:"
-                                  );
-                                  if (Id && newCountry) {
-                                    updateCountry(Id, {
-                                      countryName: newCountry,
-                                    });
-                                  }
-                                }}
-                              >
-                                Edit Quiz
-                              </Button>
-
-                              <Button
-                                variant="outlined"
-                                sx={{
-                                  margin: "5px",
-                                  color: "green",
-                                  borderColor: "green",
-                                }}
-                                onClick={() => deleteCountry(country.countryid)}
-                              >
-                                Delete Quiz
-                              </Button>
-                            </TableCell>
+                  <Paper
+                    elevation={3}
+                    sx={{
+                      // padding: "20px",
+                      width: "850px",
+                      height: "600px",
+                      borderRadius: "15px",
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "column",
+                      marginTop: "80px",
+                      marginLeft: "95px",
+                      position: "relative",
+                    }}
+                  >
+                    {/* Other content within the Paper */}
+                    <TableContainer>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Country ID</TableCell>
+                            <TableCell>Country Name</TableCell>
                           </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Paper>
+                        </TableHead>
+                        <TableBody>
+                          {country.map((country) => (
+                            <TableRow key={country.countryid}>
+                              <TableCell>{country.countryid}</TableCell>
+                              <TableCell>{country.countryName}</TableCell>
+                              <TableCell>
+                                <Button
+                                  variant="outlined"
+                                  sx={{
+                                    margin: "5px",
+                                    color: "green",
+                                    borderColor: "green",
+                                  }}
+                                  onClick={() => {
+                                    const Id = window.prompt(
+                                      "Enter country id entry to update:"
+                                    );
+                                    const newCountry = window.prompt(
+                                      "Enter new country name:"
+                                    );
+                                    if (Id && newCountry) {
+                                      updateCountry(Id, {
+                                        countryName: newCountry,
+                                      });
+                                    }
+                                  }}
+                                >
+                                  Edit Quiz
+                                </Button>
+
+                                <Button
+                                  variant="outlined"
+                                  sx={{
+                                    margin: "5px",
+                                    color: "green",
+                                    borderColor: "green",
+                                  }}
+                                  onClick={() =>
+                                    deleteCountry(country.countryid)
+                                  }
+                                >
+                                  Delete Quiz
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Paper>
+                </Grid>
               </Grid>
             </Grid>
             <Copyright sx={{ pt: 4 }} />

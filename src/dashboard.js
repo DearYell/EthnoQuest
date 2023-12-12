@@ -150,6 +150,13 @@ export default function AllCapitals() {
     setOpen(!open);
   };
 
+  const navigate = useNavigate();
+
+  const handleTakeQuizClick = () => {
+    // Assuming '/quiz-customize' is the route for your QuizCustomize component
+    navigate("/QuizCustomize");
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
@@ -284,9 +291,11 @@ export default function AllCapitals() {
                     variant="contained"
                     color="primary"
                     style={{ marginRight: "10px" }}
+                    onClick={handleTakeQuizClick}
                   >
                     Take a quiz
                   </Button>
+
                   <Button variant="contained" color="white">
                     Learn More
                   </Button>
@@ -321,7 +330,7 @@ export default function AllCapitals() {
                 >
                   <Button
                     variant="contained"
-                    color="white"
+                    color="primary"
                     style={{ marginLeft: "50px", marginRight: "50px" }}
                   >
                     See all
@@ -378,7 +387,7 @@ export default function AllCapitals() {
                               }}
                             >
                               <Typography
-                                color="white"
+                                color="primary"
                                 sx={{ fontSize: "7px" }}
                               >
                                 &gt; View quiz
@@ -426,7 +435,7 @@ export default function AllCapitals() {
                           </Typography>
                         }
                         secondary={
-                          <Typography color="Gray" sx={{ fontSize: "7px" }}>
+                          <Typography color="primary" sx={{ fontSize: "7px" }}>
                             Philippines
                             <IconButton
                               style={{
@@ -441,7 +450,7 @@ export default function AllCapitals() {
                               }}
                             >
                               <Typography
-                                color="white"
+                                color="primary"
                                 sx={{ fontSize: "7px" }}
                               >
                                 &gt; View quiz
@@ -489,7 +498,7 @@ export default function AllCapitals() {
                           </Typography>
                         }
                         secondary={
-                          <Typography color="Gray" sx={{ fontSize: "7px" }}>
+                          <Typography color="primary" sx={{ fontSize: "7px" }}>
                             London
                             <IconButton
                               style={{
@@ -504,7 +513,7 @@ export default function AllCapitals() {
                               }}
                             >
                               <Typography
-                                color="white"
+                                color="primary"
                                 sx={{ fontSize: "7px" }}
                               >
                                 &gt; View quiz
@@ -552,7 +561,10 @@ export default function AllCapitals() {
                           </Typography>
                         }
                         secondary={
-                          <Typography color="Gray" sx={{ fontSize: "7px" }}>
+                          <Typography
+                            color="textPrimary"
+                            sx={{ fontSize: "7px" }}
+                          >
                             Italy<br></br>
                             <IconButton
                               style={{
@@ -565,7 +577,7 @@ export default function AllCapitals() {
                               }}
                             >
                               <Typography
-                                color="white"
+                                color="primary"
                                 sx={{ fontSize: "7px" }}
                               >
                                 &gt; View quiz
@@ -589,7 +601,7 @@ export default function AllCapitals() {
                     maxWidth: "370px",
                   }}
                 >
-                  <Typography variant="h4" color="white">
+                  <Typography variant="h4" color="default">
                     <b>Capitals</b>
                   </Typography>
                 </Box>
@@ -607,7 +619,7 @@ export default function AllCapitals() {
                 >
                   <Button
                     variant="contained"
-                    color="white"
+                    color="primary"
                     style={{ marginLeft: "50px", marginRight: "50px" }}
                   >
                     See all
@@ -663,7 +675,7 @@ export default function AllCapitals() {
                             );
                           }}
                         >
-                          <Typography variant="h6" color="white">
+                          <Typography variant="h6" color="primary">
                             &gt;
                           </Typography>
                         </IconButton>
@@ -720,12 +732,7 @@ function ProfileCircle() {
 
 function Copyright(props) {
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
+    <Typography variant="body2" color="textSecondary" align="center" {...props}>
       <Link color="inherit" href="https://mui.com/">
         {/* MUI link */}
       </Link>
