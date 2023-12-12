@@ -33,6 +33,11 @@ import TableRow from '@mui/material/TableRow';
 import TableBody from '@mui/material/TableBody';
 import HomeIcon from '@mui/icons-material/Home';
 import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined';
+import SettingsIcon from '@mui/icons-material/Settings';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
+import InfoIcon from '@mui/icons-material/Info';
+import CallIcon from '@mui/icons-material/Call';
 
 
 const LogoListItem = (
@@ -51,16 +56,59 @@ export const mainListItems = (
     {LogoListItem}
     <ListItemButton component={Link} to="/dashboard">
       <ListItemIcon>
-        <HomeIcon/>
-      </ListItemIcon >
-      <ListItemText primary="Home" />
+        <DashboardIcon  />
+      </ListItemIcon>
+      <ListItemText primary="Dashboard" />
     </ListItemButton>
-   
+
+    <ListItemButton component={Link} to="/AllCapitals">
+      <ListItemIcon>
+        <LocationOnIcon />
+      </ListItemIcon>
+      <ListItemText primary="All Capitals" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/UserProfile">
+      <ListItemIcon>
+        <AccountCircleIcon />
+      </ListItemIcon>
+      <ListItemText primary="My Profiles" />
+    </ListItemButton>
+
     <ListItemButton component={Link} to="/QuizHistory">
       <ListItemIcon>
-        <HistoryToggleOffOutlinedIcon style={{ color: 'lightgreen' }} />
+        <HistoryToggleOffOutlinedIcon style={{ color: "lightgreen" }}/>
       </ListItemIcon>
       <ListItemText primary="Quiz History" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/Settings">
+      <ListItemIcon>
+        <SettingsIcon />
+      </ListItemIcon>
+      <ListItemText primary="Settings" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/AboutUs">
+      <ListItemIcon>
+        <InfoIcon />
+      </ListItemIcon>
+      <ListItemText primary="About Us" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/ContactUs">
+      <ListItemIcon>
+        <CallIcon />
+      </ListItemIcon>
+      <ListItemText primary="Contact Us" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/Login">
+      <ListItemIcon>
+        <LogoutIcon />
+      </ListItemIcon>
+
+      <ListItemText primary="Log Out" />
     </ListItemButton>
     
   </React.Fragment>

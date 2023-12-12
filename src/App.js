@@ -17,6 +17,8 @@ import AboutUs from "./AboutUs";
 import ContactUs from "./ContactUs";
 import AdminHistory from "./AdminHistory";
 import AdminTradition from "./AdminTradition";
+import AdminHoliday from "./AdminHoliday";
+import AdminCulture from "./AdminCulture";
 import AdminQuizItems from "./AdminQuizItems";
 import UserProfile from "./UserProfile";
 
@@ -50,6 +52,8 @@ function App() {
           <Route path="/ContactUs" element={<ContactUs />} />
           <Route path="/AdminHistory" element={<AdminHistory />} />
           <Route path="/AdminTradition" element={<AdminTradition />} />
+          <Route path="/AdminHoliday" element={<AdminHoliday />} />
+          <Route path="/AdminCulture" element={<AdminCulture />} />
           <Route path="/UserProfile" element={<UserProfile />} />
         </Routes>
       </BrowserRouter>

@@ -30,6 +30,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InfoIcon from '@mui/icons-material/Info';
 import CallIcon from '@mui/icons-material/Call';
+import HistoryToggleOffOutlinedIcon from "@mui/icons-material/HistoryToggleOffOutlined";
 
 const LogoListItem = (
   <ListItemButton>
@@ -45,23 +46,30 @@ export const mainListItems = (
     {LogoListItem}
     <ListItemButton component={Link} to="/dashboard">
       <ListItemIcon>
-        <DashboardIcon />
+        <DashboardIcon  />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
 
     <ListItemButton component={Link} to="/AllCapitals">
       <ListItemIcon>
-        <LocationOnIcon style={{ color: 'lightgreen' }} />
-      </ListItemIcon> 
+        <LocationOnIcon />
+      </ListItemIcon>
       <ListItemText primary="All Capitals" />
     </ListItemButton>
 
-    <ListItemButton component={Link} to="/MyProfile">
+    <ListItemButton component={Link} to="/UserProfile">
       <ListItemIcon>
-        <AccountCircleIcon/>
+        <AccountCircleIcon style={{ color: "lightgreen" }}/>
       </ListItemIcon>
       <ListItemText primary="My Profiles" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/QuizHistory">
+      <ListItemIcon>
+        <HistoryToggleOffOutlinedIcon />
+      </ListItemIcon>
+      <ListItemText primary="Quiz History" />
     </ListItemButton>
 
     <ListItemButton component={Link} to="/Settings">
@@ -89,7 +97,7 @@ export const mainListItems = (
       <ListItemIcon>
         <LogoutIcon />
       </ListItemIcon>
-      
+
       <ListItemText primary="Log Out" />
     </ListItemButton>
   </React.Fragment>
@@ -288,14 +296,14 @@ export default function UserProfile() {
           <Paper
       elevation={3}
       sx={{
-        width: '1030px',
+        width: '800px',
         height: '600px',
         borderRadius: "15px",
         display: "flex",
         alignItems: "center",
         flexDirection: 'column',
         marginTop: "80px",
-        marginLeft: "20px",
+        marginLeft: "120px",
         position: 'relative',
       }}
     >

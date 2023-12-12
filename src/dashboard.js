@@ -33,6 +33,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Divider from "@mui/material/Divider";
 import InfoIcon from "@mui/icons-material/Info";
 import CallIcon from "@mui/icons-material/Call";
+import HistoryToggleOffOutlinedIcon from "@mui/icons-material/HistoryToggleOffOutlined";
 
 const LogoListItem = (
   <ListItemButton>
@@ -60,11 +61,18 @@ export const mainListItems = (
       <ListItemText primary="All Capitals" />
     </ListItemButton>
 
-    <ListItemButton component={Link} to="/MyProfile">
+    <ListItemButton component={Link} to="/UserProfile">
       <ListItemIcon>
         <AccountCircleIcon />
       </ListItemIcon>
       <ListItemText primary="My Profiles" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/QuizHistory">
+      <ListItemIcon>
+        <HistoryToggleOffOutlinedIcon />
+      </ListItemIcon>
+      <ListItemText primary="Quiz History" />
     </ListItemButton>
 
     <ListItemButton component={Link} to="/Settings">

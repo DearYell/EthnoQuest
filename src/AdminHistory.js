@@ -40,6 +40,8 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import ModeIcon from '@mui/icons-material/Mode';
 import DeleteIcon from '@mui/icons-material/Delete';
+import LogoutIcon from "@mui/icons-material/Logout";
+import InfoIcon from "@mui/icons-material/Info";
 
 const LogoListItem = (
   <ListItemButton>
@@ -211,35 +213,58 @@ export default function AdminHistory() {
   const mainListItems = (
     <React.Fragment>
       {LogoListItem}
-      <ListItemButton>
+      <ListItemButton component={Link} to="/dashboardAdmin">
+      <ListItemIcon>
+        <AccountCircleIcon  />
+      </ListItemIcon>
+      <ListItemText primary="Quizzes" />
+    </ListItemButton>
+
+    {/* <ListItemButton component={Link} to="/AllCapitals">
+      <ListItemIcon>
+        <LocationOnIcon />
+      </ListItemIcon>
+      <ListItemText primary="All Capitals" />
+    </ListItemButton> */}
+
+<ListItemButton component={Link} to={`/AdminHistory`}>
         <ListItemIcon>
-          <HistoryEduIcon  style={{ color: 'lightgreen' }}/>
+          <HistoryEduIcon style={{ color: "lightgreen" }}/>
         </ListItemIcon >
         <ListItemText primary="History" />
       </ListItemButton>
       <ListItemButton component={Link} to={`/AdminTradition`}>
         <ListItemIcon>
-          <AutoStoriesIcon/>
+          <AutoStoriesIcon />
         </ListItemIcon>
         <ListItemText primary="Tradition" />
       </ListItemButton>
-      <ListItemButton  component={Link} to={`/`}>
+      <ListItemButton  component={Link} to={`/AdminCulture`}>
         <ListItemIcon>
-          <AccountCircleIcon />
+          <InfoIcon  />
         </ListItemIcon>
         <ListItemText primary="Culture" />
       </ListItemButton>
-      <ListItemButton component={Link} to={`/`}>
+      <ListItemButton component={Link} to={`/AdminHoliday`}>
         <ListItemIcon>
           <CalendarMonthIcon />
         </ListItemIcon>
         <ListItemText primary="Holidays" />
       </ListItemButton>
-      <ListItemButton component={Link} to="/AllCapitals">
+      <ListItemButton component={Link} to={`/MyProfile`}>
+        <ListItemIcon>
+          <AccountCircleIcon />
+        </ListItemIcon>
+        <ListItemText primary="MyProfile" />
+      </ListItemButton>
+
+
+    <ListItemButton component={Link} to="/Login">
       <ListItemIcon>
-        <LocationOnIcon />
+        <LogoutIcon />
       </ListItemIcon>
-      <ListItemText primary="All Capitals" />
+
+      <ListItemText primary="Log Out" />
     </ListItemButton>
     </React.Fragment>
   );
@@ -388,6 +413,9 @@ export default function AdminHistory() {
                       <TableHead>
                       <TableRow>
                       <TableCell>
+                        <Typography variant="subtitle1"><b>ID</b></Typography>
+                      </TableCell>
+                      <TableCell>
                         <Typography variant="subtitle1"><b>Capital</b></Typography>
                       </TableCell>
                       <TableCell>
@@ -406,6 +434,7 @@ export default function AdminHistory() {
                       {history.map((history) => (
                         <TableRow key={history.id}>
                           {/* <TableCell>{history.id}</TableCell> */}
+                          <TableCell>{history.id}</TableCell>
                           <TableCell>{history.name}</TableCell>
                           <TableCell>{history.cname}</TableCell>
                           <TableCell>{history.hname}</TableCell>

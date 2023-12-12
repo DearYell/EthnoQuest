@@ -43,6 +43,10 @@ import TextField from '@mui/material/TextField';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import SearchIcon from "@mui/icons-material/Search";
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import InfoIcon from "@mui/icons-material/Info";
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 
 const LogoListItem = (
   <ListItemButton>
@@ -73,48 +77,43 @@ const LogoListItem = (
 export const mainListItems = (
   <React.Fragment>
     {LogoListItem}
-    <ListItemButton component={Link} to="/dashboard">
+    <ListItemButton component={Link} to="/dashboardAdmin">
       <ListItemIcon>
-        <DashboardIcon />
+        <AccountCircleIcon  />
       </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <ListItemText primary="Quizzes" />
     </ListItemButton>
+  <ListItemButton component={Link} to={`/AdminHistory`}>
+        <ListItemIcon>
+          <HistoryEduIcon />
+        </ListItemIcon >
+        <ListItemText primary="History" />
+      </ListItemButton>
+      <ListItemButton component={Link} to={`/AdminTradition`}>
+        <ListItemIcon>
+          <AutoStoriesIcon />
+        </ListItemIcon>
+        <ListItemText primary="Tradition" />
+      </ListItemButton>
+      <ListItemButton  component={Link} to={`/AdminCulture`}>
+        <ListItemIcon>
+          <InfoIcon  />
+        </ListItemIcon>
+        <ListItemText primary="Culture" />
+      </ListItemButton>
+      <ListItemButton component={Link} to={`/AdminHoliday`}>
+        <ListItemIcon>
+          <CalendarMonthIcon />
+        </ListItemIcon>
+        <ListItemText primary="Holidays" />
+      </ListItemButton>
+      <ListItemButton component={Link} to={`/MyProfile`}>
+        <ListItemIcon>
+          <AccountCircleIcon style={{ color: "lightgreen" }}/>
+        </ListItemIcon>
+        <ListItemText primary="MyProfile" />
+      </ListItemButton>
 
-    <ListItemButton component={Link} to="/AllCapitals">
-      <ListItemIcon>
-        <LocationOnIcon />
-      </ListItemIcon> 
-      <ListItemText primary="All Capitals" />
-    </ListItemButton>
-
-    <ListItemButton component={Link} to="/MyProfile">
-      <ListItemIcon>
-        <AccountCircleIcon  style={{ color: 'lightgreen' }}/>
-      </ListItemIcon>
-      <ListItemText primary="My Profiles" />
-    </ListItemButton>
-
-    <ListItemButton component={Link} to="/QuizHistory">
-      <ListItemIcon>
-        <HistoryToggleOffOutlinedIcon />
-      </ListItemIcon>
-      <ListItemText primary="Quiz History" />
-    </ListItemButton>
-
-
-    <ListItemButton component={Link} to="/Settings">
-      <ListItemIcon>
-        <SettingsIcon />
-      </ListItemIcon>
-      <ListItemText primary="Settings" />
-    </ListItemButton>
-
-    <ListItemButton component={Link} to="/ContactUs">
-      <ListItemIcon>
-        <CallIcon />
-      </ListItemIcon>
-      <ListItemText primary="Contact Us" />
-    </ListItemButton>
 
     <ListItemButton component={Link} to="/Login">
       <ListItemIcon>

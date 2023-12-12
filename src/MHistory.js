@@ -30,6 +30,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import InfoIcon from "@mui/icons-material/Info";
 
 const LogoListItem = (
   <ListItemButton>
@@ -210,7 +211,7 @@ export default function MHistory() {
       </ListItemButton>
       <ListItemButton  component={Link} to={`/MCulture/${id}`}>
         <ListItemIcon>
-          <AccountCircleIcon />
+          <InfoIcon />
         </ListItemIcon>
         <ListItemText primary="Culture" />
       </ListItemButton>
