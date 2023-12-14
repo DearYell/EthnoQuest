@@ -24,7 +24,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import Paper from '@mui/material/Paper';
-import SettingsIcon from '@mui/icons-material/Settings';
+import AddIcon from '@mui/icons-material/Add';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
@@ -104,7 +104,6 @@ export default function AdminHistory() {
   const [isFormOpen, setIsFormOpen] = React.useState(false);
   const [isUpdateFormOpen, setIsUpdateFormOpen] = React.useState(false);
   const [updateData, setUpdateData] = React.useState({
-    id: '',
     newName: '',
     newCname: '',
     newHname: '',
@@ -365,16 +364,16 @@ export default function AdminHistory() {
           <Grid item xs={7}>
             
           <ListItemButton
-                  sx={{ marginTop: '20px' }} // Adjusted the marginTop
+                  sx={{ marginTop: '60px' }} // Adjusted the marginTop
                   onClick={() => {
                     setIsFormOpen(true);
                   }}
                 >
                   <ListItemIcon>
-                    <HistoryEduIcon />
+                    <AddIcon />
                   </ListItemIcon>
                   <ListItemText primary="Add History Trivia" />
-                </ListItemButton>
+            </ListItemButton>
 
                 {isFormOpen && (
                   <Paper
@@ -393,7 +392,7 @@ export default function AdminHistory() {
                       position: 'relative',
                     }}
                   >
-                    {/* Badge Form */}
+                    {/* Insert Form */}
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
