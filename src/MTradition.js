@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Typography,
   List,
@@ -92,95 +93,51 @@ const defaultTheme = createTheme();
 const capitalsTradition = [
   {
     id: 1,
-    name: 'Manila',
-    country: 'Philippines',
-    history: `Feast of Black Nazarene: This is one of the most famous religious processions in the Philippines.
-    Thousands of people gather in Quaipo, Manila, to celebrate the figure of Christ, a statue built more than two centuries ago
-    Aliwan Fiesta: Started in 2003, this has become one of the most popular celebrations in the Philippines.
-    It’s an annual event that brings together different cultures across the country, showcasing their dances, traditions, art, and culture
-    Santo Niño: Manila has many religious festivals, and the celebration of Santo Niño is one of them.
-    Filipinos decorate their streets with striking colors and decorations, dancers, and music.
-    Buling-Buling in Pandacan: This is one of the most popular dance celebrations in the area and has become the official dance of Manila.`,
     image: `${process.env.PUBLIC_URL}/Mtrad.jpg`, // Image associated with Manila
   },
   // Add more capital histories with IDs, names, countries, histories, and images
   {
     id: 2,
-    name: 'Jakarta',
-    country: 'Indonesia',
-    history: `Betawi Heritage Parade: Celebrating Jakarta's indigenous Betawi culture, this parade honors the city's local traditions. Vibrant processions wind through the streets, showcasing Betawi music, dances like Tanjidor and Ondel-ondel performances, accompanied by local culinary delights. Families adorned in traditional attire participate, highlighting the unique heritage of Jakarta.
-    \n\nAncient Harbor Day: Inspired by Jakarta's maritime history, this annual event commemorates the city's role as a bustling port. The day begins with a ceremonial boat procession along the historic waterfront, followed by cultural exhibitions, showcasing traditional boat-making techniques, seafaring songs, and street performances. It's a tribute to Jakarta's past as a vital trade hub, fostering appreciation for its maritime legacy.`,
     image: `${process.env.PUBLIC_URL}/Jtrad.jpeg`, // Image associated with Jakarta
   },
   {
     id: 3,
-    name: 'London',
-    country: 'United Kingdom',
-    history: `Thames Unity Festival: Celebrating London's diverse communities and its iconic river, the Thames Unity Festival is an annual event promoting cultural harmony. Held along the banks of the Thames, it brings together various ethnic groups, showcasing their unique traditions through music, dance, and art. The festival features a colorful flotilla parade on the river, where boats adorned with cultural symbols sail side by side, symbolizing unity in diversity. Food stalls offer an array of international cuisines, encouraging cultural exchange and fostering a sense of togetherness among Londoners.`,
     image: `${process.env.PUBLIC_URL}/Ltrad.jpg`, // Image associated with Jakarta
   },
   {
     id: 4,
-    name: 'Tokyo',
-    country: 'Japan',
-    history: `Hanami Matsuri: The Hanami Matsuri, or Cherry Blossom Festival, is a cherished tradition in Tokyo, celebrating the ephemeral beauty of cherry blossoms. During springtime, families and friends gather in parks, especially Ueno and Yoyogi, for picnics under the blooming trees. The festival includes traditional tea ceremonies, kimono-clad performances, and music celebrating nature's renewal. As the delicate blossoms symbolize transience, the festival embodies appreciation for fleeting moments and the beauty they bring, fostering a sense of togetherness amidst Tokyo's bustling lifestyle.`,
     image: `${process.env.PUBLIC_URL}/Ttrad.jpg`, // Image associated with Jakarta
   },
   {
     id: 5,
-    name: 'Ottawo',
-    country: 'Canada',
-    history: `Winter Luminescence Gala: Embracing Ottawa's wintry landscape, the Winter Luminescence Gala is an annual celebration held during the peak of the season. Illuminating the city's iconic landmarks along the Rideau Canal, the event combines art, technology, and community spirit. Residents create dazzling light installations along the canal, transforming it into a mesmerizing spectacle. The gala features ice sculpting competitions, live music performances, and a vibrant night market showcasing local artisans' crafts and delicacies. It's a time for Ottawans to revel in the magic of winter, fostering a sense of warmth and connection within the cold embrace of the season.`,
     image: `${process.env.PUBLIC_URL}/Otrad.jpeg`, // Image associated with Jakarta
   },
   {
     id: 6,
-    name: 'Beijing',
-    country: 'China',
-    history: `
-    Dragon's Lantern Festival: Held annually in Beijing, the Dragon's Lantern Festival marks the end of the Chinese New Year celebrations. Families and communities come together in parks and squares, crafting intricate lanterns in the shape of dragons, a symbol of strength and prosperity. The festival kicks off with a grand procession featuring dragon dancers, martial arts performances, and traditional Chinese music. The evening culminates in a spectacular display as the sky fills with glowing dragon-shaped lanterns, symbolizing unity and good fortune for the year ahead. It's a cherished tradition fostering community spirit and celebrating Beijing's rich cultural heritage.`,
     image: `${process.env.PUBLIC_URL}/Btrad.jpg`, // Image associated with Jakarta
   },
   {
     id: 7,
-    name: 'Seoul',
-    country: 'South Korea',
-    history: `Seoul Lantern Walk: The Seoul Lantern Walk is an annual event held along the Cheonggyecheon Stream, celebrating the city's cultural heritage and unity. During the evening, locals and visitors alike gather to walk along the stream adorned with thousands of colorful lanterns, each representing a wish or hope. The event includes traditional performances, showcasing dance, music, and artistic displays that highlight Korea's history and contemporary culture. The culmination of the walk is a release of floating lanterns onto the stream, symbolizing collective aspirations for peace, prosperity, and harmony in Seoul.`,
     image: `${process.env.PUBLIC_URL}/Strad.jpg`, // Image associated with Jakarta
   },
   {
     id: 8,
-    name: 'Bangkok',
-    country: 'Thailand',
-    history: `Songkran Water Festival: Celebrated annually in Bangkok, the Songkran Water Festival is a vibrant and joyous occasion marking the Thai New Year. Families and friends gather in the streets armed with water guns and bowls of scented water to splash and sprinkle on each other, symbolizing purification and renewal. The festival also involves lively street parades with traditional Thai music, dance performances, and colorful processions of floats adorned with flowers and symbols of good luck. It's a time when the city comes alive with laughter, water fights, and a sense of camaraderie, fostering a spirit of unity and fresh beginnings.`,
     image: `${process.env.PUBLIC_URL}/Bktrad.jpg`, // Image associated with Jakarta
   },
   {
     id: 9,
-    name: 'Bern',
-    country: 'Switzerland',
-    history: `Bärengraben Celebration: The Bärengraben Celebration, inspired by Bern's historical bear pits, commemorates the city's connection to bears. Each year, during late summer, locals and tourists gather in the Bear Park for a day-long festival. The event includes bear-themed parades, folk music, and dance performances representing Bern's rich heritage. Visitors can enjoy honey-based treats and witness traditional craftsmen demonstrating their skills. The celebration culminates in a symbolic "bear release," where a wooden bear sculpture is floated down the Aare River, symbolizing the city's harmony with nature and its historical ties to the bear, an emblem of Bern.`,
     image: `${process.env.PUBLIC_URL}/bntrad.jpg`, // Image associated with Jakarta
   },
   {
     id: 10,
-    name: 'Brussels',
-    country: 'Belgium',
-    history: `Grand Floral Parade: The Grand Flower Parade in Brussels is an annual celebration of floral artistry and cultural diversity. Held in early spring, the city streets transform into a colorful tapestry of flowers, showcasing elaborate floats adorned with intricate floral designs. Local communities and international participants come together, displaying their floral craftsmanship, while traditional music and dance performances enliven the procession. The parade culminates in the central square, where a grand floral carpet is unveiled, featuring intricate designs made entirely of vibrant blossoms, celebrating Brussels' horticultural heritage and artistic flair.`,
     image: `${process.env.PUBLIC_URL}/bstrad.jpg`, // Image associated with Jakarta
   },
   {
     id: 11,
-    name: 'Havana',
-    country: 'Cuba',
-    history: `Rhythms of Havana Festival: The Rhythms of Havana Festival is an annual celebration paying homage to Cuba's rich musical heritage and vibrant culture. Held in the heart of Havana, it gathers musicians, dancers, and artisans from across the country for a week-long extravaganza. The streets come alive with colorful parades showcasing traditional Cuban music genres like salsa, son, and rumba. The festival features dance workshops, live performances in historic squares, and art exhibitions portraying Cuba's diverse artistic expressions. It's a time when Havana pulsates with the infectious rhythms of its music, inviting locals and visitors to immerse themselves in the island's joyful spirit and artistic legacy.`,
     image: `${process.env.PUBLIC_URL}/htrad.jpg`, // Image associated with Jakarta
   },
   {
     id: 12,
-    name: 'Madrid',
-    country: 'Spain',
-    history: `Madrid Flamenco Fiesta: The Madrid Flamenco Fiesta is an annual celebration of the city's passionate flamenco heritage. Held in iconic squares like Plaza Mayor, it's a vibrant gathering showcasing flamenco music, dance, and culture. Local flamenco artists, dressed in traditional attire, perform captivating dances accompanied by soulful guitar melodies, capturing the essence of Andalusian folklore. The festival includes workshops where attendees can learn basic flamenco steps and immerse themselves in the art form. It's a spirited event that honors Madrid's deep connection to flamenco, inviting everyone to experience the fervor and emotion of this captivating Spanish tradition.`,
     image: `${process.env.PUBLIC_URL}/mdtrad.jpg`, // Image associated with Jakarta
   },
   // Add other capital histories here
@@ -189,6 +146,7 @@ const capitalsTradition = [
 export default function MTradition() {
   const { id } = useParams();
   const [open, setOpen] = React.useState(true);
+  const [traditionData, setTraditionData] = useState({});
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -202,6 +160,22 @@ export default function MTradition() {
       </div>
     );
   }
+
+  const fetchTraditionData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/tradition/getTraditionById/${id}`);
+      setTraditionData(response.data);
+    } catch (error) {
+      console.error('Error fetching tradition:', error.message);
+    }
+  };
+
+  // Fetch data immediately when the component is rendered
+  // and avoid using useEffect
+  if (id) {
+    fetchTraditionData();
+  }
+
  const mainListItems = (
   <React.Fragment>
     {LogoListItem}
@@ -362,7 +336,7 @@ export default function MTradition() {
                       fontFamily: "Poppins, sans-serif",
                     }}
                   >
-                    {selectedCapital.name}
+                    {traditionData.name}
                   </Typography>
                 </div>
 
@@ -376,7 +350,7 @@ export default function MTradition() {
                     }}
                     style={{ fontSize: "1em", color: "#808080" }}
                   >
-                    {selectedCapital.country}
+                    {traditionData.cname}
                   </Typography>
                 </div>
 
@@ -398,7 +372,7 @@ export default function MTradition() {
                     }}
                     style={{ fontSize: "1.1em", color: "#000000" }}
                   >
-                    {selectedCapital.history}
+                    {traditionData.tname}
                   </Typography>
                 </div>
 

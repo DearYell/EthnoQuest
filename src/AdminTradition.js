@@ -475,9 +475,9 @@ export default function AdminTradition() {
                     margin="normal"
                   />
                   <TextField
-                    label="History"
+                    label="Tradition"
                     value={newTraditionData.hname}
-                    onChange={(e) => setNewTraditionData({ ...newTraditionData, hname: e.target.value })}
+                    onChange={(e) => setNewTraditionData({ ...newTraditionData, tname: e.target.value })}
                     required
                     fullWidth
                     margin="normal"
@@ -711,7 +711,7 @@ export default function AdminTradition() {
                           id: tradition.id, // Include the ID in the updateData state
                           newName: tradition.name,
                           newCname: tradition.cname,
-                          newHname: tradition.tname,
+                          newTname: tradition.tname,
                         });
                       }}
                     >
