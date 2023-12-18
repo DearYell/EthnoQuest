@@ -23,162 +23,111 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Avatar from "@mui/material/Avatar";
 import { ListItem, ListItemAvatar, ListItemText } from "@material-ui/core";
-import Capitals from "./AllCapitals"; 
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import Divider from "@mui/material/Divider";
+
+
+const LogoListItem = (
+  <ListItemButton>
+    <ListItemIcon>
+      <img src="./Logo.png" alt="Logo" style={{ maxHeight: "40px" }} />
+    </ListItemIcon>
+    <MuiListItemText primary="EthnoQuest" />
+  </ListItemButton>
+);
+
+export const mainListItems = (
+  <React.Fragment>
+    {LogoListItem}
+    <ListItemButton component={Link} to="/dashboard">
+      <ListItemIcon>
+        <DashboardIcon style={{ color: 'lightgreen' }}/>
+      </ListItemIcon>
+      <ListItemText primary="Dashboard" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/AllCapitals">
+      <ListItemIcon>
+        <LocationOnIcon  />
+      </ListItemIcon> 
+      <ListItemText primary="All Capitals" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/MyProfile">
+      <ListItemIcon>
+        <AccountCircleIcon/>
+      </ListItemIcon>
+      <ListItemText primary="My Profiles" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/Settings">
+      <ListItemIcon>
+        <SettingsIcon />
+      </ListItemIcon>
+      <ListItemText primary="Settings" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/Login">
+      <ListItemIcon>
+        <LogoutIcon />
+      </ListItemIcon>
+      
+      <ListItemText primary="Log Out" />
+    </ListItemButton>
+  </React.Fragment>
+);
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(["width", "margin"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: 240,
+    width: `calc(100% - 240px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  "& .MuiDrawer-paper": {
+    position: "relative",
+    whiteSpace: "nowrap",
+    width: 240,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    boxSizing: "border-box",
+    ...(!open && {
+      overflowX: "auto",
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      width: theme.spacing(7),
+      [theme.breakpoints.up("sm")]: {
+        width: theme.spacing(9),
+      },
+    }),
+  },
+}));
 
 const defaultTheme = createTheme();
 
-export default function Dashboard() {
-  const [open, setOpen] = useState(true);
-  const [rotation, setRotation] = useState(0);
-  const [activeButton, setActiveButton] = useState(null);
-  const navigate = useNavigate(); // Use useNavigate hook
-
+export default function AllCapitals() {
+  const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
-  useEffect(() => {
-    const rotateInterval = setInterval(() => {
-      setRotation((prevRotation) => prevRotation + 1);
-    }, 20);
-
-    return () => clearInterval(rotateInterval);
-  }, []);
-
-  const handleButtonClick = (buttonName) => {
-    setActiveButton(buttonName);
-    navigate(`/${buttonName}`);
-    if (buttonName === "allCapitals") {
-      navigate("/AllCapitals"); // Update this route based on your setup
-    }
-  };
-
-  const buttonStyles = (buttonName) => {
-    return {
-      marginLeft: "10px",
-      color: activeButton === buttonName ? "lightgreen" : "black",
-    };
-  };
-  
-
-  const LogoListItem = (
-    <ListItemButton>
-      <ListItemIcon>
-        <img
-          src="./Logo.png"
-          alt="Logo"
-          style={{
-            maxHeight: "40px",
-            marginTop: "10px",
-            marginLeft: "10px",
-            transform: `rotate(${rotation}deg)`,
-          }}
-        />
-      </ListItemIcon>
-      <MuiListItemText
-        primary="EthnoQuest"
-        style={{ marginLeft: "5px", color: "lightgreen" }}
-      />
-    </ListItemButton>
-  );
-
-  const mainListItems = (
-    <div
-      className="button"
-      style={{
-        marginTop: "20px",
-        marginLeft: "5px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-      }}
-    >
-      <Button
-        startIcon={<DashboardIcon style={buttonStyles("dashboard")} />}
-        component={Link} // Use Link from react-router-dom
-        to="/dashboard"
-        style={{ color: "black", textDecoration: 'none' }}
-      >
-        Dashboard
-      </Button>
-      <Button
-        startIcon={<CompassCalibrationIcon style={buttonStyles("allCapitals")} />}
-        component={Link}
-        to="/allCapitals"
-        style={{ color: "black", marginTop: "10px", textDecoration: 'none' }}
-      >
-        All Capitals
-      </Button>
-      <Button
-        startIcon={<AccountCircleIcon style={buttonStyles("myProfiles")} />}
-        component={Link}
-        to="/myProfiles"
-        style={{ color: "black", marginTop: "10px", textDecoration: 'none' }}
-      >
-        My Profiles
-      </Button>
-      <Button
-        startIcon={<SettingsIcon style={buttonStyles("settings")} />}
-        component={Link}
-        to="/settings"
-        style={{ color: "black", marginTop: "10px", textDecoration: 'none' }}
-      >
-        Settings
-      </Button>
-      <Button
-        startIcon={<LogoutIcon style={buttonStyles("logOut")} />}
-        component={Link}
-        to="/logOut"
-        style={{ color: "black", marginTop: "10px", textDecoration: 'none' }}
-      >
-        Log Out
-      </Button>
-    </div>
-  );
-
-  const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== "open",
-  })(({ theme, open }) => ({
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    ...(open && {
-      marginLeft: 240,
-      width: `calc(100% - 240px)`,
-      transition: theme.transitions.create(["width", "margin"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    }),
-  }));
-
-  const Drawer = styled(MuiDrawer, {
-    shouldForwardProp: (prop) => prop !== "open",
-  })(({ theme, open }) => ({
-    "& .MuiDrawer-paper": {
-      position: "relative",
-      whiteSpace: "nowrap",
-      width: 240,
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      boxSizing: "border-box",
-      ...(!open && {
-        overflowX: "hidden",
-        transition: theme.transitions.create("width", {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing(7),
-        [theme.breakpoints.up("sm")]: {
-          width: theme.spacing(9),
-        },
-      }),
-    },
-  }));
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -187,8 +136,8 @@ export default function Dashboard() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px",
-              backgroundColor: "white",
+              pr: "24px", // keep right padding when drawer closed
+              backgroundColor: "white", // Set background color to white
             }}
           >
             <IconButton
@@ -203,7 +152,9 @@ export default function Dashboard() {
             >
               <MenuIcon />
             </IconButton>
-
+            <IconButton color="inherit">
+              <SearchIcon sx={{ color: "black" }} />
+            </IconButton>
             <Typography
               component="div"
               variant="h6"
@@ -216,12 +167,11 @@ export default function Dashboard() {
                 marginLeft: "8px",
               }}
             >
-              <SearchIcon style={{ marginTop: "10px", marginLeft: "100px" }} />
               <TextField
                 label="Search capital around the world"
                 variant="outlined"
                 size="small"
-                sx={{ width: "500px", minWidth: "300px" }}
+                sx={{ width: "500px", minWidth: "300px" }} // Adjusted width
               />
             </Typography>
 
@@ -243,42 +193,40 @@ export default function Dashboard() {
               <ChevronLeftIcon />
             </IconButton>
           </Toolbar>
-          <List component="nav">
-            {LogoListItem}
-            {mainListItems}
-          </List>
+          <Divider />
+          <List component="nav">{mainListItems}</List>
         </Drawer>
         <Box
           component="main"
           sx={{
-            backgroundColor: "white",
+            backgroundColor: "white", // Set background color to white
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
           }}
         >
           <Toolbar />
           <Container
-            maxWidth="auto"
-            sx={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundImage:
-                "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
-              backdropFilter: "blur(4px)",
-              overflow: "auto",
-              backgroundSize: "cover",
-              margin:"2px", 
-              }}
-            > 
-            
-            <Grid container spacing={3} sx={{ height: "200px", width: "200px" }}>
+          maxWidth="auto"
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundImage: "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
+            // backdropFilter: "blur(4px)",
+            overflow: "hidden",
+            backgroundSize: "cover",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {/* <Typography variant="h4" align="center" sx={{ color: "#fff", marginTop: "30px" }}>
+            Welcome to My App!
+          </Typography> */}
+          <Grid container spacing={3} sx={{ height: "200px", width: "200px" }}>
               <Grid item xs={3} sx={{ display: "flex", justifyContent: "center", margin: "200px", } }>
                 <Box // Edit here for the MainDash Content
                   sx={{
@@ -674,7 +622,7 @@ const capitals = [
 function ProfileCircle() {
   const profileImgUrl = "dummy.jpeg";
 
-  return (
+ return (
     <div
       style={{
         position: "fixed",
