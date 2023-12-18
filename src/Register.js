@@ -22,6 +22,7 @@ const RegistrationForm = () => {
   const [rotation, setRotation] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -38,6 +39,31 @@ const RegistrationForm = () => {
     }
   };
 
+  const validatePassword = (password) => {
+    const pattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!password.match(pattern)) {
+      setPasswordError(
+        "Password must be at least 8 characters, include uppercase and lowercase letters, and special characters."
+      );
+    } else {
+      setPasswordError("");
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+
+    if (name === "password") {
+      validatePassword(value);
+    }
+  };
+
   React.useEffect(() => {
     const rotateInterval = setInterval(() => {
       setRotation((prevRotation) => prevRotation + 1);
@@ -46,16 +72,13 @@ const RegistrationForm = () => {
     return () => clearInterval(rotateInterval);
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (passwordError) {
+      console.log("Password is not valid");
+      return;
+    }
 
     if (formData.password !== formData.confirmPassword) {
       console.log("Passwords do not match");
@@ -238,6 +261,11 @@ const RegistrationForm = () => {
                     ),
                   }}
                 />
+                {passwordError && (
+                  <Typography variant="body2" color="error">
+                    {passwordError}
+                  </Typography>
+                )}
               </Grid>
               <Grid container justifyContent="center">
                 <Button
@@ -259,7 +287,7 @@ const RegistrationForm = () => {
               <Grid container justifyContent="center">
                 <Grid item>
                   <Link
-                    to="/"
+                    to="/Login"
                     variant="body2"
                     sx={{
                       color: "white",

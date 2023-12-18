@@ -10,7 +10,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import MuiAppBar from "@mui/material/AppBar";
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
@@ -24,10 +24,13 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/Logout';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
+import Paper from "@mui/material/Paper";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LogoutIcon from "@mui/icons-material/Logout";
+import InfoIcon from "@mui/icons-material/Info";
+import CallIcon from "@mui/icons-material/Call";
+import HistoryToggleOffOutlinedIcon from "@mui/icons-material/HistoryToggleOffOutlined";
 
 const LogoListItem = (
   <ListItemButton>
@@ -41,34 +44,60 @@ const LogoListItem = (
 export const mainListItems = (
   <React.Fragment>
     {LogoListItem}
-    <ListItemButton>
+    <ListItemButton component={Link} to="/dashboard">
       <ListItemIcon>
-        <DashboardIcon/>
-      </ListItemIcon >
+        <DashboardIcon  />
+      </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
+
     <ListItemButton component={Link} to="/AllCapitals">
       <ListItemIcon>
-        <LocationOnIcon />
+        <LocationOnIcon style={{ color: "lightgreen" }}/>
       </ListItemIcon>
       <ListItemText primary="All Capitals" />
     </ListItemButton>
-    <ListItemButton component={Link} to="/MyProfile">
+
+    <ListItemButton component={Link} to="/UserProfile">
       <ListItemIcon>
         <AccountCircleIcon />
       </ListItemIcon>
       <ListItemText primary="My Profiles" />
     </ListItemButton>
+
+    <ListItemButton component={Link} to="/QuizHistory">
+      <ListItemIcon>
+        <HistoryToggleOffOutlinedIcon />
+      </ListItemIcon>
+      <ListItemText primary="Quiz History" />
+    </ListItemButton>
+
     <ListItemButton component={Link} to="/Settings">
       <ListItemIcon>
-        <SettingsIcon style={{ color: 'lightgreen' }} />
+        <SettingsIcon />
       </ListItemIcon>
       <ListItemText primary="Settings" />
     </ListItemButton>
+
+    <ListItemButton component={Link} to="/AboutUs">
+      <ListItemIcon>
+        <InfoIcon />
+      </ListItemIcon>
+      <ListItemText primary="About Us" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/ContactUs">
+      <ListItemIcon>
+        <CallIcon />
+      </ListItemIcon>
+      <ListItemText primary="Contact Us" />
+    </ListItemButton>
+
     <ListItemButton component={Link} to="/Login">
       <ListItemIcon>
         <LogoutIcon />
       </ListItemIcon>
+
       <ListItemText primary="Log Out" />
     </ListItemButton>
   </React.Fragment>
@@ -120,14 +149,58 @@ const Drawer = styled(MuiDrawer, {
 
 const defaultTheme = createTheme();
 
-export default function Settings() {
+const capitalImages = [
+  { id: 1, name: "Manila", imagePath: "Manila.png" },
+  { id: 2, name: "Jakarta", imagePath: "Jakarta.png" },
+  { id: 3, name: "London", imagePath: "London.png" },
+  { id: 4, name: "Tokyo", imagePath: "Tokyo.png" },
+  { id: 5, name: "Ottawa", imagePath: "Ottawa.png" },
+  { id: 6, name: "Beijing", imagePath: "Beijing.png" },
+  { id: 7, name: "Seoul", imagePath: "Seoul.png" },
+  { id: 8, name: "Bangkok", imagePath: "Bangkok.png" },
+  { id: 9, name: "Bern", imagePath: "Bern.png" },
+  { id: 10, name: "Brussels", imagePath: "Brussels.png" },
+  { id: 11, name: "Havana", imagePath: "Havana.png" },
+  { id: 12, name: "Madrid", imagePath: "Madrid.png" },
+  // Add more capitals and their respective image paths here
+];
+
+export default function AllCapitals() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
+  const renderCapitalImages = () => {
+    return capitalImages.map(({ id, name, imagePath }, index) => {
+      const row = Math.floor(index / 6); // Assuming 6 images per row
+      const col = index % 6;
+      const top = 80 + row * 220; // Adjust top position based on row
+      const left = 50 + col * 160; // Adjust left position based on column
+
+      return (
+        <div
+          key={id}
+          style={{
+            marginTop: "50px",
+            position: "absolute",
+            top: `${top}px`, // Interpolate top value
+            left: `${left}px`, // Interpolate left value
+          }}
+        >
+          <Link to={`/MHistory/${id}`} style={{ textDecoration: "none" }}>
+            <img
+              src={imagePath}
+              alt={name}
+              style={{ width: "125px", height: "140px" }}
+            />
+          </Link>
+        </div>
+      );
+    });
+  };
+
   return (
-    
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
@@ -166,7 +239,7 @@ export default function Settings() {
               }}
             >
               <TextField
-                label="Search here"
+                label="Search capital around the world"
                 variant="outlined"
                 size="small"
                 sx={{ width: "500px", minWidth: "300px" }} // Adjusted width
@@ -212,24 +285,59 @@ export default function Settings() {
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundImage: "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
-              backdropFilter: "blur(4px)",
+              backgroundImage:
+                "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
+              // backdropFilter: "blur(4px)",
               overflow: "hidden",
               backgroundSize: "cover",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <Grid container spacing={3}>
-              {/* Content goes here */}
+            {/* <Typography variant="h4" align="center" sx={{ color: "#fff", marginTop: "30px" }}>
+            Welcome to My App!
+          </Typography> */}
+            <Grid container spacing={1.5} justifyContent="center">
+              <Grid item xs={7}>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    width: "1030px",
+                    height: "600px",
+                    borderRadius: "15px",
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    marginTop: "80px",
+                    marginLeft: "20px",
+                    position: "relative",
+                  }}
+                >
+                  <div
+                    style={{ position: "absolute", top: "40px", left: "20px" }}
+                  >
+                    <Typography
+                      align="left"
+                      sx={{
+                        color: "#fff",
+                        fontFamily: "Poppins, sans-serif",
+                        fontWeight: "bold",
+                      }}
+                      style={{ fontWeight: "bold", fontSize: "1.2em" }}
+                    >
+                      Capitals
+                    </Typography>
+                  </div>
+                  {renderCapitalImages()}
+                </Paper>
+              </Grid>
             </Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>
-
-
-
         </Box>
       </Box>
     </ThemeProvider>
-    
   );
 }
 
@@ -239,36 +347,30 @@ function ProfileCircle() {
   return (
     <div
       style={{
-        position: 'fixed',
-        top: '10px',
-        left: 'calc(100% - 90px)', /* Adjusted value */
-        display: 'flex',
-        alignItems: 'center',
+        position: "fixed",
+        top: "10px",
+        left: "calc(100% - 90px)" /* Adjusted value */,
+        display: "flex",
+        alignItems: "center",
       }}
     >
       <img
         src={profileImgUrl}
         alt=""
-        style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
+        style={{
+          width: "40px",
+          height: "40px",
+          borderRadius: "50%",
+          objectFit: "cover",
+        }}
       />
     </div>
   );
 }
 
-
-
-
-
-
-
 function Copyright(props) {
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
+    <Typography variant="body2" color="textSecondary" align="center" {...props}>
       <Link color="inherit" href="https://mui.com/">
         {/* MUI link */}
       </Link>

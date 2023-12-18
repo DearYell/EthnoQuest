@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Typography,
   List,
@@ -15,7 +16,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import SearchIcon from "@mui/icons-material/Search";
@@ -30,51 +31,18 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import InfoIcon from "@mui/icons-material/Info";
 
 const LogoListItem = (
   <ListItemButton>
     <ListItemIcon>
-      <img src="./Logo.png" alt="Logo" style={{ maxHeight: "40px" }} />
+      <img src="/Logo.png" alt="Logo" style={{ maxHeight: "40px" }} />
     </ListItemIcon>
     <MuiListItemText primary="EthnoQuest" />
   </ListItemButton>
 );
 
-export const mainListItems = (
-  <React.Fragment>
-    {LogoListItem}
-    <ListItemButton component={Link} to="/MHistory">
-      <ListItemIcon>
-        <HistoryEduIcon  />
-      </ListItemIcon >
-      <ListItemText primary="History" />
-    </ListItemButton>
-    <ListItemButton component={Link} to="/MTradition">
-      <ListItemIcon>
-        <AutoStoriesIcon style={{ color: 'lightgreen' }}/>
-      </ListItemIcon>
-      <ListItemText primary="Tradition" />
-    </ListItemButton>
-    <ListItemButton  component={Link} to="/MCulture">
-      <ListItemIcon>
-        <AccountCircleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Culture" />
-    </ListItemButton>
-    <ListItemButton component={Link} to="/MHoliday">
-      <ListItemIcon>
-        <CalendarMonthIcon />
-      </ListItemIcon>
-      <ListItemText primary="Holidays" />
-    </ListItemButton>
-    <ListItemButton component={Link} to="/dashboard">
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItemButton>
-  </React.Fragment>
-);
+
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -122,11 +90,127 @@ const Drawer = styled(MuiDrawer, {
 
 const defaultTheme = createTheme();
 
+const capitalsTradition = [
+  {
+    id: 1,
+    image: `${process.env.PUBLIC_URL}/Mtrad.jpg`, // Image associated with Manila
+  },
+  // Add more capital histories with IDs, names, countries, histories, and images
+  {
+    id: 2,
+    image: `${process.env.PUBLIC_URL}/Jtrad.jpeg`, // Image associated with Jakarta
+  },
+  {
+    id: 3,
+    image: `${process.env.PUBLIC_URL}/Ltrad.jpg`, // Image associated with Jakarta
+  },
+  {
+    id: 4,
+    image: `${process.env.PUBLIC_URL}/Ttrad.jpg`, // Image associated with Jakarta
+  },
+  {
+    id: 5,
+    image: `${process.env.PUBLIC_URL}/Otrad.jpeg`, // Image associated with Jakarta
+  },
+  {
+    id: 6,
+    image: `${process.env.PUBLIC_URL}/Btrad.jpg`, // Image associated with Jakarta
+  },
+  {
+    id: 7,
+    image: `${process.env.PUBLIC_URL}/Strad.jpg`, // Image associated with Jakarta
+  },
+  {
+    id: 8,
+    image: `${process.env.PUBLIC_URL}/Bktrad.jpg`, // Image associated with Jakarta
+  },
+  {
+    id: 9,
+    image: `${process.env.PUBLIC_URL}/bntrad.jpg`, // Image associated with Jakarta
+  },
+  {
+    id: 10,
+    image: `${process.env.PUBLIC_URL}/bstrad.jpg`, // Image associated with Jakarta
+  },
+  {
+    id: 11,
+    image: `${process.env.PUBLIC_URL}/htrad.jpg`, // Image associated with Jakarta
+  },
+  {
+    id: 12,
+    image: `${process.env.PUBLIC_URL}/mdtrad.jpg`, // Image associated with Jakarta
+  },
+  // Add other capital histories here
+];
+
 export default function MTradition() {
+  const { id } = useParams();
   const [open, setOpen] = React.useState(true);
+  const [traditionData, setTraditionData] = useState({});
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  const selectedCapital = capitalsTradition.find(capital => capital.id === parseInt(id));
+
+  if (!selectedCapital) {
+    return (
+      <div>
+        <Typography variant="h4">Capital Not Found</Typography>
+        <Typography variant="body1">Sorry, the capital with ID {id} was not found.</Typography>
+      </div>
+    );
+  }
+
+  const fetchTraditionData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/tradition/getTraditionById/${id}`);
+      setTraditionData(response.data);
+    } catch (error) {
+      console.error('Error fetching tradition:', error.message);
+    }
+  };
+
+  // Fetch data immediately when the component is rendered
+  // and avoid using useEffect
+  if (id) {
+    fetchTraditionData();
+  }
+
+ const mainListItems = (
+  <React.Fragment>
+    {LogoListItem}
+    <ListItemButton component={Link} to={`/MHistory/${id}`}>
+      <ListItemIcon>
+        <HistoryEduIcon  />
+      </ListItemIcon >
+      <ListItemText primary="History" />
+    </ListItemButton>
+    <ListItemButton component={Link} to={`/MTradition/${id}`}>
+      <ListItemIcon>
+        <AutoStoriesIcon style={{ color: 'lightgreen' }}/>
+      </ListItemIcon>
+      <ListItemText primary="Tradition" />
+    </ListItemButton>
+    <ListItemButton  component={Link} to={`/MCulture/${id}`}>
+      <ListItemIcon>
+        <InfoIcon />
+      </ListItemIcon>
+      <ListItemText primary="Culture" />
+    </ListItemButton>
+    <ListItemButton component={Link} to={`/MHoliday/${id}`}>
+      <ListItemIcon>
+        <CalendarMonthIcon />
+      </ListItemIcon>
+      <ListItemText primary="Holidays" />
+    </ListItemButton>
+    <ListItemButton component={Link} to="/AllCapitals">
+      <ListItemIcon>
+        <LocationOnIcon />
+      </ListItemIcon>
+      <ListItemText primary="All Capitals" />
+    </ListItemButton>
+  </React.Fragment>
+);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -238,57 +322,59 @@ export default function MTradition() {
                 position: 'relative',
               }}
             >
-              <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
-              <Typography
-                align="left"
-                sx={{
-                  color: "#fff",
-                  fontFamily: "Poppins, sans-serif",
-                  fontWeight: "bold",
-                }}
-                style={{ fontWeight: "bold", fontSize:"1em", fontFamily: "Poppins, sans-serif",}}
-              >
-                MANILA
-              </Typography>
-              </div>
+               <div style={{ position: "absolute", top: "20px", left: "20px" }}>
+                  <Typography
+                    align="left"
+                    sx={{
+                      color: "#fff",
+                      fontFamily: "Poppins, sans-serif",
+                      fontWeight: "bold",
+                    }}
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "1em",
+                      fontFamily: "Poppins, sans-serif",
+                    }}
+                  >
+                    {traditionData.name}
+                  </Typography>
+                </div>
 
-              <div style={{ position: 'absolute', top: '40px', left: '20px' }}>
-              <Typography
-                align="left"
-                sx={{
-                  color: "#6082B6",
-                  fontFamily: "Poppins, sans-serif",
-                  fontWeight: "bold",
-                }}
-                style={{ fontSize:"1em", color: "#808080",}}
-              >
-                Philippines
-              </Typography>
-              </div>
-              <div style={{ marginTop: '50px', position: 'absolute', top: '35px', left: '55px' }}>
-                <img src="Mtrad.jpg" alt="PanaMa" style={{ width: '890px', height: '200px' }} />
-              </div>
+                <div style={{ position: "absolute", top: "40px", left: "20px" }}>
+                  <Typography
+                    align="left"
+                    sx={{
+                      color: "#6082B6",
+                      fontFamily: "Poppins, sans-serif",
+                      fontWeight: "bold",
+                    }}
+                    style={{ fontSize: "1em", color: "#808080" }}
+                  >
+                    {traditionData.cname}
+                  </Typography>
+                </div>
 
-              <div style={{ position: 'absolute', top: '310px', left: '75px' }}>
-              <Typography
-                align="left"
-                sx={{
-                  color: "#6082B6",
-                  fontFamily: "Poppins, sans-serif",
-                  fontWeight: "bold",
-                }}
-                style={{ fontSize:"1.1em", color: "#000000",}}
-              >
-                Feast of Black Nazarene: This is one of the most famous religious processions in the Philippines. <br />
-                Thousands of people gather in Quaipo, Manila, to celebrate the figure of Christ, a statue built more than two centuries ago<br />
-                Aliwan Fiesta: Started in 2003, this has become one of the most popular celebrations in the Philippines. <br />
-                It’s an annual event that brings together different cultures across the country, showcasing their dances, <br />traditions, art, and culture<br />
-                Santo Niño: Manila has many religious festivals, and the celebration of Santo Niño is one of them.<br />
-                Filipinos decorate their streets with striking colors and decorations, dancers, and music.<br />
-                Buling-Buling in Pandacan: This is one of the most popular dance celebrations in the area and has <br />become the official dance of Manila.
+                <div style={{ marginTop: "50px", position: "absolute", top: "50px", left: "55px" }}>
+                  <img
+                    src={selectedCapital.image}
+                    alt={selectedCapital.name}
+                    style={{ width: "890px", height: "200px" }}
+                  />
+                </div>
 
-              </Typography>
-              </div>
+                <div style={{ position: "absolute", top: "330px", left: "35px", padding: "25px" }}>
+                  <Typography
+                    align="left"
+                    sx={{
+                      color: "#6082B6",
+                      fontFamily: "Poppins, sans-serif",
+                      fontWeight: "bold",
+                    }}
+                    style={{ fontSize: "1.1em", color: "#000000" }}
+                  >
+                    {traditionData.tname}
+                  </Typography>
+                </div>
 
               {/* Other content within the Paper */}
               

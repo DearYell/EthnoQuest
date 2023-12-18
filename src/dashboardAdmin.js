@@ -1,227 +1,263 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import {
-  Button,
   Typography,
   List,
   ListItemText as MuiListItemText,
-} from "@material-ui/core";
+  Country, // Rename to avoid conflict
+} from "@material-ui/core"; // Import all components from material-ui/core
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import Divider from "@mui/material/Divider"; // Import the Divider component
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import MuiAppBar from "@mui/material/AppBar";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
-import TextField from "@mui/material/TextField";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import CompassCalibrationIcon from "@mui/icons-material/CompassCalibration";
+import Paper from "@mui/material/Paper";
 import SettingsIcon from "@mui/icons-material/Settings";
-import LogoutIcon from "@mui/icons-material/Logout";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Avatar from "@mui/material/Avatar";
-import { ListItem, ListItemAvatar, ListItemText } from "@material-ui/core";
+import LogoutIcon from "@mui/icons-material/Logout";
+import InfoIcon from "@mui/icons-material/Info";
+import CallIcon from "@mui/icons-material/Call";
+
+import TableCell from "@mui/material/TableCell";
+import Button from "@mui/material/Button";
+import TableContainer from "@mui/material/TableContainer";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableBody from "@mui/material/TableBody";
+import HomeIcon from "@mui/icons-material/Home";
+import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
+import HistoryToggleOffOutlinedIcon from "@mui/icons-material/HistoryToggleOffOutlined";
+
+const LogoListItem = (
+  <ListItemButton>
+    <ListItemIcon>
+      <img
+        src="./Logo.png"
+        alt="Logo"
+        style={{
+          maxHeight: "40px",
+          animation: "logoRotation 5s infinite linear", // Added rotation animation
+        }}
+      />
+      <style>{`
+        @keyframes logoRotation {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
+    </ListItemIcon>
+    <ListItemText primary="EthnoQuest" />
+  </ListItemButton>
+);
+
+export const mainListItems = (
+  <React.Fragment>
+    {LogoListItem}
+  <ListItemButton component={Link} to="/dashboardAdmin">
+      <ListItemIcon>
+        <DashboardIcon style={{ color: "lightgreen" }} />
+      </ListItemIcon>
+      <ListItemText primary="Dashboard" />
+    </ListItemButton>
+    <ListItemButton component={Link} to="/AdminAddItems">
+      <ListItemIcon>
+        <HistoryToggleOffOutlinedIcon />
+      </ListItemIcon>
+      <ListItemText primary="Quizzes" />
+    </ListItemButton>
+<ListItemButton component={Link} to={`/AdminHistory`}>
+        <ListItemIcon>
+          <HistoryEduIcon />
+        </ListItemIcon >
+        <ListItemText primary="History" />
+      </ListItemButton>
+      <ListItemButton component={Link} to={`/AdminTradition`}>
+        <ListItemIcon>
+          <AutoStoriesIcon />
+        </ListItemIcon>
+        <ListItemText primary="Tradition" />
+      </ListItemButton>
+      <ListItemButton  component={Link} to={`/AdminCulture`}>
+        <ListItemIcon>
+          <InfoIcon  />
+        </ListItemIcon>
+        <ListItemText primary="Culture" />
+      </ListItemButton>
+      <ListItemButton component={Link} to={`/AdminHoliday`}>
+        <ListItemIcon>
+          <CalendarMonthIcon />
+        </ListItemIcon>
+        <ListItemText primary="Holidays" />
+      </ListItemButton>
+      <ListItemButton component={Link} to={`/MyProfile`}>
+        <ListItemIcon>
+          <AccountCircleIcon />
+        </ListItemIcon>
+        <ListItemText primary="MyProfile" />
+      </ListItemButton>
+
+
+    <ListItemButton component={Link} to="/Login">
+      <ListItemIcon>
+        <LogoutIcon />
+      </ListItemIcon>
+
+      <ListItemText primary="Log Out" />
+    </ListItemButton>
+  </React.Fragment>
+);
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(["width", "margin"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: 240,
+    width: `calc(100% - 240px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  "& .MuiDrawer-paper": {
+    position: "relative",
+    whiteSpace: "nowrap",
+    width: 240,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    boxSizing: "border-box",
+    ...(!open && {
+      overflowX: "hidden",
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      width: theme.spacing(7),
+      [theme.breakpoints.up("sm")]: {
+        width: theme.spacing(9),
+      },
+    }),
+  },
+}));
 
 const defaultTheme = createTheme();
 
-export default function AdminDashboard() {
-  const [open, setOpen] = useState(true);
-  const [rotation, setRotation] = useState(0);
-  const [activeButton, setActiveButton] = useState(null);
-
+export default function MyProfile() {
+  const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
-  useEffect(() => {
-    const rotateInterval = setInterval(() => {
-      setRotation((prevRotation) => prevRotation + 1);
-    }, 20);
+  const [country, setCountry] = useState([]);
 
-    return () => clearInterval(rotateInterval);
+  const getCountry = () => {
+    axios
+      .get("http://localhost:8080/country/insertCountry")
+      .then((response) => {
+        console.log(response);
+        const countryData = response.data;
+        setCountry(countryData);
+      })
+      .catch((error) => {
+        console.error("Error fetching country:", error.message);
+      });
+  };
+
+  const getAllCountries = () => {
+    axios
+      .get("http://localhost:8080/country/getAllCountries")
+      .then((response) => {
+        console.log("Country data:", response.data);
+        const countryData = response.data;
+        setCountry(countryData);
+      })
+      .catch((error) => {
+        console.error("Error fetching all countries:", error.message);
+      });
+  };
+
+  const deleteCountry = (id) => {
+    const confirmDeletion = window.confirm(
+      "Are you sure you want to delete this country?"
+    );
+    if (confirmDeletion) {
+      axios
+        .delete(`http://localhost:8080/country/deleteCountry/${id}`)
+        .then((response) => {
+          console.log(`Country with ID ${id} removed successfully`);
+          // Update the state to reflect the changes
+          setCountry((prevCountry) => prevCountry.filter((b) => b.id !== id));
+        })
+        .catch((error) => {
+          console.error(`Error removing country with ID ${id}:`, error.message);
+        });
+    }
+  };
+
+  const updateCountry = (id, updatedData) => {
+    const updateUrl = `http://localhost:8080/country/updateCountry?countryid=${id}`;
+
+    axios
+      .put(updateUrl, updatedData)
+      .then((response) => {
+        console.log(`Badge with ID ${id} updated successfully`);
+        // Additional actions after a successful update
+        // For example, you might want to fetch updated data or update state
+        getCountry(); // Fetch updated data after the update
+      })
+      .catch((error) => {
+        console.error(`Error updating Badge with ID ${id}:`, error.message);
+      });
+  };
+
+  useEffect(() => {
+    getAllCountries();
   }, []);
 
-  const handleButtonClick = (buttonName) => {
-    setActiveButton(buttonName);
-  };
-
-  const buttonStyles = (buttonName) => {
-    return {
-      marginLeft: "10px",
-      color: activeButton === buttonName ? "lightgreen" : "black",
-    };
-  };
-
-  const LogoListItem = (
-    <ListItemButton>
-      <ListItemIcon>
-        <img
-          src="./Logo.png"
-          alt="Logo"
-          style={{
-            maxHeight: "40px",
-            marginTop: "10px",
-            marginLeft: "10px",
-            transform: `rotate(${rotation}deg)`,
-          }}
-        />
-      </ListItemIcon>
-      <MuiListItemText
-        primary="EthnoQuest"
-        style={{ marginLeft: "5px", color: "lightgreen" }}
-      />
-    </ListItemButton>
-  );
-
-  const mainListItems = (
-    <div
-      className="button"
-      style={{
-        marginTop: "20px",
-        marginLeft: "5px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-      }}
-    >
-      <Button
-        startIcon={<DashboardIcon style={buttonStyles("dashboard")} />}
-        onClick={() => handleButtonClick("dashboard")}
-        style={{ color: "black" }}
-      >
-        Dashboard
-      </Button>
-      <Button
-        startIcon={
-          <CompassCalibrationIcon style={buttonStyles("allCapitals")} />
-        }
-        onClick={() => handleButtonClick("allCapitals")}
-        style={{ color: "black", marginTop: "10px" }}
-      >
-        All Capitals
-      </Button>
-      <Button
-        startIcon={<AccountCircleIcon style={buttonStyles("myProfiles")} />}
-        onClick={() => handleButtonClick("myProfiles")}
-        style={{ color: "black", marginTop: "10px" }}
-      >
-        My Profiles
-      </Button>
-      <Button
-        startIcon={<SettingsIcon style={buttonStyles("settings")} />}
-        onClick={() => handleButtonClick("settings")}
-        style={{ color: "black", marginTop: "10px" }}
-      >
-        Settings
-      </Button>
-      <Button
-        startIcon={<LogoutIcon style={buttonStyles("logOut")} />}
-        onClick={() => handleButtonClick("logOut")}
-        style={{ color: "black", marginTop: "10px" }}
-      >
-        Log Out
-      </Button>
-    </div>
-  );
-
-  const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== "open",
-  })(({ theme, open }) => ({
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    ...(open && {
-      marginLeft: 240,
-      width: `calc(100% - 240px)`,
-      transition: theme.transitions.create(["width", "margin"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    }),
-  }));
-
-  const Drawer = styled(MuiDrawer, {
-    shouldForwardProp: (prop) => prop !== "open",
-  })(({ theme, open }) => ({
-    "& .MuiDrawer-paper": {
-      position: "relative",
-      whiteSpace: "nowrap",
-      width: 240,
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      boxSizing: "border-box",
-      ...(!open && {
-        overflowX: "hidden",
-        transition: theme.transitions.create("width", {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing(7),
-        [theme.breakpoints.up("sm")]: {
-          width: theme.spacing(9),
-        },
-      }),
-    },
-  }));
-
-  const CenterBox = styled(Box)({
-    backgroundColor: "white",
-    borderRadius: "15px",
-    padding: "20px",
-    position: "absolute",
-    top: "15%",
-    left: "17%",
-    width: "900px", // Adjust the width
-    height: "300px", // Adjust the height
-  });
-
-  const CenterBox2 = styled(Box)({
-    backgroundColor: "white",
-    borderRadius: "15px",
-    padding: "20px",
-    position: "absolute",
-    top: "58%",
-    left: "17%",
-    width: "900px", // Adjust the width
-    height: "300px", // Adjust the height
-  });
-
-  const RightRectangle = styled(Box)({
-    backgroundColor: "white",
-    borderRadius: "15px",
-    padding: "20px",
-    position: "absolute",
-    top: "15%",
-    right: "3%", // Adjust the distance from the right edge
-    width: "400px", // Adjust the width
-    height: "650px", // Adjust the height
-  });
+  useEffect(() => {
+    console.log("Country state:", country);
+  }, [country]);
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Box
-        sx={{
-          display: "flex",
-          backgroundImage: "linear-gradient(90deg, #0097b2, #7ed957)",
-          minHeight: "100vh", // Set to 100vh for full viewport height
-        }}
-      >
+      <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px",
+              pr: "25px",
               backgroundColor: "white",
             }}
           >
@@ -238,28 +274,7 @@ export default function AdminDashboard() {
               <MenuIcon />
             </IconButton>
 
-            <Typography
-              component="div"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{
-                flexGrow: 1,
-                display: "flex",
-                alignItems: "center",
-                marginLeft: "8px",
-              }}
-            >
-              <SearchIcon style={{ marginTop: "10px", marginLeft: "100px" }} />
-              <TextField
-                label="Search capital around the world"
-                variant="outlined"
-                size="small"
-                sx={{ width: "500px", minWidth: "300px" }}
-              />
-            </Typography>
-
-            <IconButton color="inherit">
+            <IconButton color="inherit" sx={{ marginLeft: "auto" }}>
               <ProfileCircle />
             </IconButton>
           </Toolbar>
@@ -277,75 +292,187 @@ export default function AdminDashboard() {
               <ChevronLeftIcon />
             </IconButton>
           </Toolbar>
-          <List component="nav">
-            {LogoListItem}
-            {mainListItems}
-          </List>
+          <Divider />
+          <List component="nav">{mainListItems}</List>
         </Drawer>
+        <Box
+          component="main"
+          sx={{
+            backgroundColor: "white",
+            flexGrow: 1,
+            height: "100vh",
+            width: "100v", // Changed to vw for full viewport width
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            overflow: "auto",
+          }}
+        >
+          <Toolbar />
+          <Container
+            maxWidth="auto"
+            sx={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundImage:
+                "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
+              overflow: "hidden",
+              backgroundSize: "cover",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Grid container spacing={1.5} justifyContent="center">
+              <Grid item xs={7}>
+                <ListItemButton
+                  sx={{ marginTop: "50px" }}
+                  onClick={() => {
+                    const newCountry = window.prompt("Enter Country Name:");
+                    if (newCountry) {
+                      axios
+                        .post("http://localhost:8080/country/insertCountry", {
+                          countryName: newCountry,
+                        })
+                        .then(() => {
+                          // Update the UI by fetching the updated data
+                          getCountry();
+                        })
+                        .catch((error) => {
+                          console.error("Error adding country:", error.message);
+                        });
+                    }
+                  }}
+                >
+                  <ListItemIcon>
+                    <MilitaryTechIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Add Country" />
+                </ListItemButton>
 
-        {/* Center Boxes */}
-        <CenterBox>
-          {/* Add any other content inside the centered box */}
-        </CenterBox>
-        <CenterBox2>
-          {/* Add any other content inside the centered box */}
-        </CenterBox2>
-        <RightRectangle>
-          {/* Add any other content inside the right rectangle */}
-        </RightRectangle>
+                  <Paper
+                    elevation={3}
+                    sx={{
+                      // padding: "20px",
+                      width: "850px",
+                      height: "600px",
+                      borderRadius: "15px",
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "column",
+                      marginTop: "80px",
+                      marginLeft: "95px",
+                      position: "relative",
+                    }}
+                  >
+                    {/* Other content within the Paper */}
+                    <TableContainer>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Country ID</TableCell>
+                            <TableCell>Country Name</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {country.map((country) => (
+                            <TableRow key={country.countryid}>
+                              <TableCell>{country.countryid}</TableCell>
+                              <TableCell>{country.countryName}</TableCell>
+                              <TableCell>
+                                <Button
+                                  variant="outlined"
+                                  sx={{
+                                    margin: "5px",
+                                    color: "green",
+                                    borderColor: "green",
+                                  }}
+                                  onClick={() => {
+                                    const Id = window.prompt(
+                                      "Enter country id entry to update:"
+                                    );
+                                    const newCountry = window.prompt(
+                                      "Enter new country name:"
+                                    );
+                                    if (Id && newCountry) {
+                                      updateCountry(Id, {
+                                        countryName: newCountry,
+                                      });
+                                    }
+                                  }}
+                                >
+                                  Edit Country
+                                </Button>
+
+                                <Button
+                                  variant="outlined"
+                                  sx={{
+                                    margin: "5px",
+                                    color: "green",
+                                    borderColor: "green",
+                                  }}
+                                  onClick={() =>
+                                    deleteCountry(country.countryid)
+                                  }
+                                >
+                                  Delete Country
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                    </Paper>
+              </Grid>
+            </Grid>
+          </Container>
+          <Copyright sx={{ pt: 4 }} />
+        </Box>
       </Box>
     </ThemeProvider>
   );
-}
+  function ProfileCircle() {
+    const profileImgUrl = "profilesample.jpg";
 
-const capitals = [
-  { city: "Manila", country: "Philippines" },
-  { city: "Jakarta", country: "Indonesia" },
-  { city: "Bangkok", country: "Thailand" },
-  { city: "Hanoi", country: "Vietnam" },
-  { city: "Paris", country: "France" },
-  { city: "Tokyo", country: "Japan" },
-  { city: "Moscow", country: "Russia" },
-];
-
-function ProfileCircle() {
-  const profileImgUrl = "profilesample.jpg";
-
-  return (
-    <div
-      style={{
-        position: "fixed",
-        top: "10px",
-        left: "calc(100% - 90px)",
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      <img
-        src={profileImgUrl}
-        alt=""
+    return (
+      <div
         style={{
-          width: "40px",
-          height: "40px",
-          borderRadius: "50%",
-          objectFit: "cover",
+          position: "fixed",
+          top: "10px",
+          left: "calc(100% - 90px)" /* Adjusted value */,
+          display: "flex",
+          alignItems: "center",
         }}
-      />
-    </div>
-  );
-}
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      <Link color="inherit" href="https://mui.com/">
-        {/* MUI link */}
-      </Link>
-    </Typography>
-  );
+      >
+        <img
+          src={profileImgUrl}
+          alt=""
+          style={{
+            width: "40px",
+            height: "40px",
+            borderRadius: "50%",
+            objectFit: "cover",
+          }}
+        />
+      </div>
+    );
+  }
+  function Copyright(props) {
+    return (
+      <Typography
+        variant="body2"
+        color="textSecondary" // Update this line
+        align="center"
+        {...props}
+      >
+        <Link color="inherit" href="https://mui.com/">
+          {/* MUI link */}
+        </Link>
+      </Typography>
+    );
+  }
 }

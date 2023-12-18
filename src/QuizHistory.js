@@ -1,4 +1,5 @@
-import * as React from "react";
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import {
   Typography,
   List,
@@ -23,9 +24,21 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import Paper from '@mui/material/Paper';
+import TableCell from '@mui/material/TableCell';
+import Button from '@mui/material/Button';
+import TableContainer from '@mui/material/TableContainer';
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TableBody from '@mui/material/TableBody';
+import HomeIcon from '@mui/icons-material/Home';
+import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
+import InfoIcon from '@mui/icons-material/Info';
+import CallIcon from '@mui/icons-material/Call';
+
 
 const LogoListItem = (
   <ListItemButton>
@@ -36,12 +49,14 @@ const LogoListItem = (
   </ListItemButton>
 );
 
+
+
 export const mainListItems = (
   <React.Fragment>
     {LogoListItem}
     <ListItemButton component={Link} to="/dashboard">
       <ListItemIcon>
-        <DashboardIcon />
+        <DashboardIcon  />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
@@ -49,15 +64,22 @@ export const mainListItems = (
     <ListItemButton component={Link} to="/AllCapitals">
       <ListItemIcon>
         <LocationOnIcon />
-      </ListItemIcon> 
+      </ListItemIcon>
       <ListItemText primary="All Capitals" />
     </ListItemButton>
 
-    <ListItemButton component={Link} to="/MyProfile">
+    <ListItemButton component={Link} to="/UserProfile">
       <ListItemIcon>
-        <AccountCircleIcon  style={{ color: 'lightgreen' }}/>
+        <AccountCircleIcon />
       </ListItemIcon>
       <ListItemText primary="My Profiles" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/QuizHistory">
+      <ListItemIcon>
+        <HistoryToggleOffOutlinedIcon style={{ color: "lightgreen" }}/>
+      </ListItemIcon>
+      <ListItemText primary="Quiz History" />
     </ListItemButton>
 
     <ListItemButton component={Link} to="/Settings">
@@ -67,6 +89,20 @@ export const mainListItems = (
       <ListItemText primary="Settings" />
     </ListItemButton>
 
+    <ListItemButton component={Link} to="/AboutUs">
+      <ListItemIcon>
+        <InfoIcon />
+      </ListItemIcon>
+      <ListItemText primary="About Us" />
+    </ListItemButton>
+
+    <ListItemButton component={Link} to="/ContactUs">
+      <ListItemIcon>
+        <CallIcon />
+      </ListItemIcon>
+      <ListItemText primary="Contact Us" />
+    </ListItemButton>
+
     <ListItemButton component={Link} to="/Login">
       <ListItemIcon>
         <LogoutIcon />
@@ -74,6 +110,7 @@ export const mainListItems = (
 
       <ListItemText primary="Log Out" />
     </ListItemButton>
+    
   </React.Fragment>
 );
 
@@ -129,6 +166,73 @@ export default function QuizHistory() {
     setOpen(!open);
   };
 
+  const [quiz, setQuiz] = useState([]);
+
+  const getQuiz = () => {
+    axios.get('http://localhost:8080/quiz/insertQuiz')
+      .then((response) => {
+        console.log(response);
+        const quizData = response.data;
+        setQuiz(quizData);
+      })
+      .catch((error) => {
+        console.error('Error fetching quiz:', error.message);
+      });
+  };
+
+  const getAllQuiz = () => {
+    axios.get('http://localhost:8080/quiz/getAllQuiz')
+      .then((response) => {
+        console.log('Quiz data:', response.data);
+        const quizData = response.data;
+        setQuiz(quizData);
+      })
+      .catch((error) => {
+        console.error('Error fetching all quizzes:', error.message);
+      });
+  };
+
+  const retakeQuiz = (quizId) => {
+    // Implementation for retaking the quiz
+    console.log(`Retaking quiz with ID: ${quizId}`);
+  };
+  
+  const removeQuiz = (id) => {
+    const confirmDeletion = window.confirm("Are you sure you want to delete this quiz?");
+    if (confirmDeletion) {
+      axios
+        .delete(`http://localhost:8080/quiz/deleteQuiz/${id}`)
+        .then((response) => {
+        console.log(`Quiz with ID ${id} removed successfully`);
+        // Update the state to reflect the changes
+        setQuiz((prevQuiz) => prevQuiz.filter((q) => q.id !== id));
+      })
+      .catch((error) => {
+        console.error(`Error removing quiz with ID ${id}:`, error.message);
+      });
+    }
+  };
+
+  /* const handleOpenDialog = (quizId) => {
+    setSelectedQuizId(quizId);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setSelectedQuizId(null);
+    setOpenDialog(false);
+  }; */
+
+
+  useEffect(() => {
+    getAllQuiz();
+  }, []);
+  
+  useEffect(() => {
+    console.log('Quiz state:', quiz);
+  }, [quiz]);
+ 
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
@@ -152,7 +256,7 @@ export default function QuizHistory() {
             >
               <MenuIcon />
             </IconButton>
-
+           
             <IconButton color="inherit" sx={{ marginLeft: "auto" }}>
               <ProfileCircle />
             </IconButton>
@@ -174,18 +278,18 @@ export default function QuizHistory() {
           <Divider />
           <List component="nav">{mainListItems}</List>
         </Drawer>
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: "white",
-            flexGrow: 1,
-            height: "100vh",
-            width: "100v",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            overflow: "auto",
-          }}
+              <Box
+      component="main"
+      sx={{
+        backgroundColor: "white",
+        flexGrow: 1,
+        height: "100vh",
+        width: "100v", // Changed to vw for full viewport width
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "auto",
+      }}
         >
           <Toolbar />
           <Container
@@ -196,8 +300,7 @@ export default function QuizHistory() {
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundImage:
-                "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
+              backgroundImage: "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
               overflow: "hidden",
               backgroundSize: "cover",
               display: "flex",
@@ -206,20 +309,71 @@ export default function QuizHistory() {
             }}
           >
             <Grid container spacing={1.5} justifyContent="center">
-              <Grid item xs={3}> {/* Adjusted size */}
-                <Paper
-                  elevation={3}
-                  sx={{
-                    width: "250px", // Adjusted width
-                    height: "200px", // Adjusted height
-                    borderRadius: "15px",
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    position: "relative",
-                  }}
-                >
-                  {/* Content within the Paper */}
+            <Grid item xs={7}>
+                        <Paper
+                      elevation={3}
+                      sx={{
+                        // padding: "20px",
+                        width: '850px', 
+                        height: '600px',
+                        borderRadius: "15px",
+                        display: "flex",
+                        alignItems: "center",
+                        flexDirection: 'column',
+                        marginTop: "80px",
+                        marginLeft: "95px",
+                        position: 'relative',
+                      }}
+                      >
+                    
+                  {/* Other content within the Paper */}
+                  <TableContainer>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Quiz ID</TableCell>
+                          <TableCell>Total Items</TableCell>
+                          <TableCell>Score</TableCell>
+                          <TableCell>Attempts</TableCell>
+                          <TableCell>Action</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                      {quiz.map((quiz) => (
+                        <TableRow key={quiz.id}>
+                          <TableCell>{quiz.id}</TableCell>
+                          <TableCell>{quiz.items}</TableCell>
+                          <TableCell>{quiz.score}</TableCell>
+                          <TableCell>{quiz.attempts}</TableCell>
+                          <TableCell>
+                          <Button
+                          variant="outlined"
+                          sx={{
+                            margin: "5px",
+                            color: "green",
+                            borderColor: "green",
+                          }}
+                          onClick={() => retakeQuiz(quiz.id)}
+                        >
+                          Retake
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          sx={{
+                            margin: "5px",
+                            color: "green",
+                            borderColor: "green",
+                          }}
+                          onClick={() => removeQuiz(quiz.id)}
+                        >
+                          Remove
+                        </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                    </Table>
+                  </TableContainer>
                 </Paper>
               </Grid>
             </Grid>
@@ -230,41 +384,38 @@ export default function QuizHistory() {
     </ThemeProvider>
   );
 }
+function ProfileCircle() {
+  const profileImgUrl = "profilesample.jpg";
 
-  function ProfileCircle() {
-    const profileImgUrl = "profilesample.jpg";
-  
-    return (
-      <div
-        style={{
-          position: 'fixed',
-          top: '10px',
-          left: 'calc(100% - 90px)', /* Adjusted value */
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <img
-          src={profileImgUrl}
-          alt=""
-          style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
-        />
-      </div>
-    );
-  }
-
-  
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        top: '10px',
+        left: 'calc(100% - 90px)', /* Adjusted value */
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      <img
+        src={profileImgUrl}
+        alt=""
+        style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
+      />
+    </div>
+  );
+}
 function Copyright(props) {
   return (
     <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      <Link color="inherit" href="https://mui.com/">
-        {/* MUI link */}
-      </Link>
-    </Typography>
-  );
-}
+  variant="body2"
+  color="textSecondary" // Update this line
+  align="center"
+  {...props}
+>
+  <Link color="inherit" href="https://mui.com/">
+    {/* MUI link */}
+  </Link>
+</Typography>
+  )
+  }

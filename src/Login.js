@@ -42,7 +42,6 @@ function SignInSide() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState(""); // New state for password error
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -57,42 +56,33 @@ function SignInSide() {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  React.useEffect(() => {
-    validatePassword(password);
-  }, [password]);
+  const checkIsAdmin = (userData) => {
+    // Check if userData exists and has the isAdmin property
 
-  const validatePassword = (password) => {
-    const pattern =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-    if (!password.match(pattern)) {
-      setPasswordError(
-        "Password must be at least 8 characters, include uppercase and lowercase letters, and special characters."
-      );
-    } else {
-      setPasswordError("");
-    }
+    return userData && userData.isAdmin === true;
   };
 
   const handleSubmit = async () => {
-    if (passwordError) {
-      return;
-    }
     try {
-      const response = await axios.post(
-        "http://localhost:8080/user/loginUser",
-        {
-          emailAddress,
-          password,
-        }
-      );
+      const response = await axios.post("http://localhost:8080/user/login", {
+        emailAddress,
+        password,
+      });
 
-      const token = response.data;
-      console.log("Login successful. Token:", token);
-      // Handle successful login, e.g., redirect to dashboard
-      navigate("/dashboard");
+      const userData = response.data;
+
+      if (checkIsAdmin(userData)) {
+        navigate("/dashboardAdmin");
+        window.alert("Login successful for admin user.");
+        console.log(userData);
+      } else {
+        navigate("/dashboard");
+        window.alert("Login successful for non-admin user.");
+        console.log(userData);
+      }
     } catch (error) {
       console.error("Login failed:", error.message);
+      window.alert("Login failed. Please check your credentials.");
     }
   };
 
@@ -140,6 +130,8 @@ function SignInSide() {
                   src="./Logo.png"
                   alt="Logo"
                   style={{
+                    marginTop: "5px",
+                    marginLeft: "30px",
                     width: "200px",
                     height: "auto",
                     position: "absolute",
@@ -205,11 +197,11 @@ function SignInSide() {
                       ),
                     }}
                   />
-                  {passwordError && (
+                  {/* {passwordError && (
                     <Typography variant="body2" color="error">
                       {passwordError}
                     </Typography>
-                  )}
+                  )} */}
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -228,7 +220,7 @@ function SignInSide() {
                 </Grid>
                 <Grid container justifyContent="center">
                   <Button
-                    type="button" // Specify type="button" to prevent form submission
+                    type="button"
                     variant="contained"
                     fullWidth
                     sx={{
@@ -239,28 +231,9 @@ function SignInSide() {
                       width: "500px",
                       "&:hover": { backgroundColor: "#96BB7C" },
                     }}
-                    // component={Link}
-                    // to="/dashboard"
-                    onClick={handleSubmit} // Call your function on button click
+                    onClick={handleSubmit}
                   >
-                    Login as User
-                  </Button>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{
-                      mt: 1,
-                      mb: 1,
-                      backgroundColor: "#00BF63",
-                      color: "white",
-                      width: "500px",
-                      "&:hover": { backgroundColor: "#96BB7C" },
-                    }}
-                    component={Link}
-                    to="/AdminVer"
-                  >
-                    Login as Admin
+                    Login
                   </Button>
                 </Grid>
                 <Grid container justifyContent="center">
