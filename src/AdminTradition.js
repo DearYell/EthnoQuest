@@ -9,7 +9,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import MuiAppBar from "@mui/material/AppBar";
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import AddIcon from '@mui/icons-material/Add';
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
@@ -141,11 +141,55 @@ const defaultTheme = createTheme();
 
 export default function AdminTradition() {
   const [open, setOpen] = React.useState(true);
+  const [isFormOpen, setIsFormOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
   const [tradition, setTradition] = useState([]);
+
+  const [newTraditionData, setNewTraditionData] = React.useState({
+    name: "",
+    cname: "",
+    tname: "",
+  });
+
+  const [deletionId, setDeletionId] = React.useState(null);
+  const confirmDeletion = (id) => {
+    setDeletionId(id); // Set the deletion ID to prompt confirmation form
+  };
+
+  const cancelDeletion = () => {
+    setDeletionId(null); // Reset the deletion ID to hide the confirmation form
+  };
+
+  const handleSubmit = (id) => {
+    removeTradition(id); // Perform deletion or other actions here
+    cancelDeletion(); // Reset the deletion ID to hide the form
+  };
+
+  const [isUpdateFormOpen, setIsUpdateFormOpen] = React.useState(false);
+  const [updateData, setUpdateData] = React.useState({
+    newName: '',
+    newCname: '',
+    newTname: '',
+  });
+  
+  const handleSubmitUpdate = (id) => {
+    if (updateData.newName && updateData.newCname && updateData.newTname) {
+      updateTradition(id, {
+        name: updateData.newName,
+        cname: updateData.newCname,
+        tname: updateData.newTname,
+      });
+      setIsUpdateFormOpen(false);
+      setUpdateData({
+        newName: '',
+        newCname: '',
+        newTname: '',
+      });
+    }
+  };
 
   const getTradition = () => {
     axios.get('http://localhost:8080/tradition/insertTradition')
@@ -186,9 +230,6 @@ export default function AdminTradition() {
   };
   
   const removeTradition = (id) => {
-    const confirmDeletion = window.confirm("Are you sure you want to delete this Tradition?");
-    
-    if (confirmDeletion) {
       axios
         .delete(`http://localhost:8080/tradition/deleteTradition/${id}`)
         .then((response) => {
@@ -199,7 +240,6 @@ export default function AdminTradition() {
         .catch((error) => {
           console.error(`Error removing tradition with ID ${id}:`, error.message);
         });
-    }
   };
   
   
@@ -366,32 +406,224 @@ export default function AdminTradition() {
           <Grid item xs={7}>
             
           <ListItemButton
-      sx={{ backgroundColor: 'lightgreen', marginTop: '50px' }}
-      onClick={() => {
-        const newName = window.prompt('Enter capital name:');
-        const newCname = window.prompt('Enter country name:');
-        const newTname = window.prompt('Enter tradition:');
-        if (newName && newCname && newTname) {
-          axios.post('http://localhost:8080/tradition/insertTradition', {
-              name: newName,
-              cname: newCname,
-              tname: newTname,
-            })
-            .then(() => {
-              // Update the UI by fetching the updated data
-              getTradition();
-            })
-            .catch((error) => {
-              console.error('Error adding tradition:', error.message);
-            });
-        }
-      }}
-    >
-      <ListItemIcon>
-        <HistoryEduIcon />
-      </ListItemIcon>
-      <ListItemText primary="Add Tradition trivia" />
-    </ListItemButton>
+                  sx={{ marginTop: '60px' }} // Adjusted the marginTop
+                  onClick={() => {
+                    setIsFormOpen(true);
+                  }}
+                >
+                  <ListItemIcon>
+                    <AddIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Add Tradition Trivia" />
+            </ListItemButton>
+
+    {isFormOpen && (
+                  <Paper
+                    elevation={3}
+                    sx={{
+                      width: '500px',
+                      height: 'auto',
+                      borderRadius: "15px",
+                      display: "flex",
+                      flexDirection: 'column',
+                      alignItems: "center",
+                      marginTop: "900px", // Adjusted marginTop for better visibility of form fields
+                      marginBottom: "300px",
+                      marginLeft: "300px",
+                      padding: "20px",
+                      position: 'relative',
+                    }}
+                  >
+                    {/* Insert Form */}
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    // Handle form submission here (e.g., make axios post request)
+                    axios.post('http://localhost:8080/tradition/insertTradition', newTraditionData)
+                      .then(() => {
+                        // Update the UI by fetching the updated data
+                        getTradition();
+                        // Reset form data
+                        setNewTraditionData({
+                          name: "",
+                          cname: "",
+                          tname: "",
+                        });
+                        // Close the form
+                        setIsFormOpen(false);
+                      })
+                      .catch((error) => {
+                        console.error('Error adding new tradition trivia:', error.message);
+                      });
+                  }}
+                >
+                  {/* Form Fields */}
+                  <TextField
+                    label="Capital"
+                    value={newTraditionData.name}
+                    onChange={(e) => setNewTraditionData({ ...newTraditionData, name: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+                  <TextField
+                    label="Country"
+                    value={newTraditionData.cname}
+                    onChange={(e) => setNewTraditionData({ ...newTraditionData, cname: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+                  <TextField
+                    label="Tradition"
+                    value={newTraditionData.hname}
+                    onChange={(e) => setNewTraditionData({ ...newTraditionData, tname: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+
+                  {/* Submit Button */}
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    sx={{
+                      marginTop: "15px",
+                      background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)', // Set the background color to light green
+                      width: 'calc(35% - 5px)', // Adjusted width to make it 35% of the full width with some margin in between
+                      marginLeft: '50px', // Center the button
+                      marginRight: '15px', // Add spacing to the right
+                    }}
+                  >
+                    Post Trivia
+                  </Button>
+
+                  {/* Cancel Button */}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => {
+                      // Reset form data
+                      setNewTraditionData({
+                        name: "",
+                        cname: "",
+                        tname: "",
+                      });
+                      // Close the form
+                      setIsFormOpen(false);
+                    }}
+                    sx={{
+                      marginTop: "15px",
+                      background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)',
+                      width: 'calc(30% - 5px)',
+                      marginLeft: '5px',
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </form>
+                </Paper>
+                )}
+
+                     {/* Update form */}
+
+                    {isUpdateFormOpen && (
+                          <Paper
+                            elevation={3}
+                            sx={{
+                              width: '500px',
+                              height: 'auto',
+                              borderRadius: "15px",
+                              display: "flex",
+                              flexDirection: 'column',
+                              alignItems: "center",
+                              marginTop: "900px", // Adjusted marginTop for better visibility of form fields
+                              marginBottom: "300px",
+                              marginLeft: "300px",
+                              padding: "20px",
+                              position: 'relative',
+                            }}
+                          >
+                            <form
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                // Handle form submission here (e.g., make axios put request)
+                                handleSubmitUpdate(updateData.id);
+                             }}
+                            >
+                              {/* Form Fields */}
+
+                              <TextField
+                                label="New Capital"
+                                value={updateData.newName}
+                                onChange={(e) => setUpdateData({ ...updateData, newName: e.target.value })}
+                                required
+                                fullWidth
+                                margin="normal"
+                              />
+                              <TextField
+                                label="New Country"
+                                value={updateData.newCname}
+                                onChange={(e) => setUpdateData({ ...updateData, newCname: e.target.value })}
+                                required
+                                fullWidth
+                                margin="normal"
+                              />
+                              <TextField
+                                label="New Tradition"
+                                value={updateData.newTname}
+                                onChange={(e) => setUpdateData({ ...updateData, newTname: e.target.value })}
+                                required
+                                fullWidth
+                                margin="normal"
+                              />
+                              {/* Submit Button */}
+                              <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                sx={{
+                                  marginTop: "15px",
+                                  background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)', // Set the background color to light green
+                                  width: 'calc(35% - 5px)', // Adjusted width to make it 35% of the full width with some margin in between
+                                  marginLeft: '50px', // Center the button
+                                  marginRight: '15px', // Add spacing to the right
+                                }}
+                              >
+                                Update History
+                              </Button>
+                              {/* Cancel Button */}
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                onClick={() => {
+                                  // Reset form data
+                                  setUpdateData({
+                                    id: '',
+                                    newName: '',
+                                    newCname: '',
+                                    newTname: '',
+                                  });
+                                  // Close the form
+                                  setIsUpdateFormOpen(false);
+                                }}
+                                sx={{
+                                  marginTop: "15px",
+                                  background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)',
+                                  width: 'calc(30% - 5px)',
+                                  marginLeft: '5px',
+                                }}
+                              >
+                                Cancel
+                              </Button>
+                            </form>
+                          </Paper>
+                        )}
 
             <Paper
               elevation={3}
@@ -432,47 +664,62 @@ export default function AdminTradition() {
                       <TableBody>
                       {tradition.map((tradition) => (
                         <TableRow key={tradition.id}>
-                          {/* <TableCell>{history.id}</TableCell> */}
                           <TableCell>{tradition.id}</TableCell>
                           <TableCell>{tradition.name}</TableCell>
                           <TableCell>{tradition.cname}</TableCell>
                           <TableCell>{tradition.tname}</TableCell>
                           <TableCell>
-                          {/* <Button onClick={() => retakeQuiz(quiz.id)}>
-                            Retake
-                          </Button> */}
+                          
+                          {deletionId === tradition.id ? (
+                          <form onSubmit={() => handleSubmit(tradition.id)}>
+                            <Button type="submit" variant="contained" color="secondary" 
+                      sx={{
+                      marginTop: "15px",
+                      background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)',
+                      width: 'calc(30% - 5px)',
+                      marginLeft: '5px',
+                    }}>
+                              Confirm
+                            </Button>
+                            <Button variant="contained" onClick={cancelDeletion} 
+                      sx={{
+                      marginTop: "15px",
+                      background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)',
+                      width: 'calc(30% - 5px)',
+                      marginLeft: '5px',
+                    }}>
+                              Cancel
+                            </Button>
+                          </form>
+                        ) : (
                           <ListItemButton
-                          onClick={() => removeTradition(tradition.id)}
-                          sx={{ color: 'red' }} // Change the color or styles as needed
-                        >
-                          <ListItemIcon>
-                            <DeleteIcon />
-                          </ListItemIcon>
-                          <ListItemText primary="Remove" />
-                        </ListItemButton>
-
-                          <ListItemButton
-                            sx={{ marginTop: '20px' }}
-                            onClick={() => {
-                              const idToUpdate = window.prompt('Enter ID of Tradition to update:');
-                              const newName = window.prompt('Enter updated capital name:');
-                              const newCname = window.prompt('Enter updated country name:');
-                              const newTname = window.prompt('Enter updated tradition trivia:');
-                              
-                              if (idToUpdate && newName && newCname && newTname) {
-                                updateTradition(idToUpdate, {
-                                  name: newName,
-                                  cname: newCname,
-                                  tname: newTname,
-                                });
-                              }
-                            }}
+                            onClick={() => confirmDeletion(tradition.id)}
+                            sx={{ color: 'red' }}
                           >
                             <ListItemIcon>
-                              <ModeIcon />
+                              <DeleteIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Update" />
+                            <ListItemText primary="Remove" />
                           </ListItemButton>
+                        )}
+
+                    <ListItemButton
+                      sx={{ marginTop: '20px' }}
+                      onClick={() => {
+                        setIsUpdateFormOpen(true);
+                        setUpdateData({
+                          id: tradition.id, // Include the ID in the updateData state
+                          newName: tradition.name,
+                          newCname: tradition.cname,
+                          newTname: tradition.tname,
+                        });
+                      }}
+                    >
+                      <ListItemIcon>
+                        <ModeIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Update" />
+                    </ListItemButton>
 
                           </TableCell>
                         </TableRow>

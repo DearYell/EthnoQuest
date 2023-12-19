@@ -24,7 +24,7 @@ import {
   import ListItemText from "@mui/material/ListItemText";
   import DashboardIcon from "@mui/icons-material/Dashboard";
   import Paper from '@mui/material/Paper';
-  import SettingsIcon from '@mui/icons-material/Settings';
+  import AddIcon from '@mui/icons-material/Add';
   import AccountCircleIcon from '@mui/icons-material/AccountCircle';
   import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
   import AutoStoriesIcon from '@mui/icons-material/AutoStories';
@@ -99,53 +99,57 @@ import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOu
   
   const defaultTheme = createTheme();
   
-  // function createData(id, name, country, history, image, action) {
-  //   return { id, name, country, history, image, action };
-  // }
-  
-  // const rows = [
-  //   createData(
-  //     0,
-  //     'Manila',
-  //     'Elvis Presley',
-  //     'Tupelo, MS',
-  //     'VISA ⠀•••• 3719',
-  //     312.44,
-  //   ),
-  //   createData(
-  //     1,
-  //     '16 Mar, 2019',
-  //     'Paul McCartney',
-  //     'London, UK',
-  //     'VISA ⠀•••• 2574',
-  //     866.99,
-  //   ),
-  //   createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-  //   createData(
-  //     3,
-  //     '16 Mar, 2019',
-  //     'Michael Jackson',
-  //     'Gary, IN',
-  //     'AMEX ⠀•••• 2000',
-  //     654.39,
-  //   ),
-  //   createData(
-  //     4,
-  //     '15 Mar, 2019',
-  //     'Bruce Springsteen',
-  //     'Long Branch, NJ',
-  //     'VISA ⠀•••• 5919',
-  //     212.79,
-  //   ),
-  // ];
-  
   export default function AdminCulture() {
     const [open, setOpen] = React.useState(true);
+    const [isFormOpen, setIsFormOpen] = React.useState(false);
     const toggleDrawer = () => {
       setOpen(!open);
     };
   
     const [culture, setCulture] = useState([]);
+
+    const [newCultureData, setNewCultureData] = React.useState({
+      name: "",
+      cname: "",
+      culture: "",
+    });
+
+    const [deletionId, setDeletionId] = React.useState(null);
+    const confirmDeletion = (id) => {
+      setDeletionId(id); // Set the deletion ID to prompt confirmation form
+    };
+  
+    const cancelDeletion = () => {
+      setDeletionId(null); // Reset the deletion ID to hide the confirmation form
+    };
+  
+    const handleSubmit = (id) => {
+      removeCulture(id); // Perform deletion or other actions here
+      cancelDeletion(); // Reset the deletion ID to hide the form
+    };
+
+  const [isUpdateFormOpen, setIsUpdateFormOpen] = React.useState(false);
+  const [updateData, setUpdateData] = React.useState({
+    newName: '',
+    newCname: '',
+    newCulture: '',
+  });
+  
+  const handleSubmitUpdate = (id) => {
+    if (updateData.newName && updateData.newCname && updateData.newCulture) {
+      updateCulture(id, {
+        name: updateData.newName,
+        cname: updateData.newCname,
+        culture: updateData.newCulture,
+      });
+      setIsUpdateFormOpen(false);
+      setUpdateData({
+        newName: '',
+        newCname: '',
+        newCulture: '',
+      });
+    }
+  };
   
     const getCulture = () => {
       axios.get('http://localhost:8080/culture/insertCulture')
@@ -186,9 +190,6 @@ import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOu
     };
     
     const removeCulture = (id) => {
-      const confirmDeletion = window.confirm("Are you sure you want to delete this culture?");
-      
-      if (confirmDeletion) {
         axios
           .delete(`http://localhost:8080/culture/deleteCulture/${id}`)
           .then((response) => {
@@ -199,7 +200,7 @@ import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOu
           .catch((error) => {
             console.error(`Error removing culture with ID ${id}:`, error.message);
           });
-      }
+
     };
     
     
@@ -366,32 +367,224 @@ import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOu
             <Grid item xs={7}>
               
             <ListItemButton
-        sx={{ backgroundColor: 'lightgreen', marginTop: '50px' }}
-        onClick={() => {
-          const newName = window.prompt('Enter capital name:');
-          const newCname = window.prompt('Enter country name:');
-          const newCulture = window.prompt('Enter culture:');
-          if (newName && newCname && newCulture) {
-            axios.post('http://localhost:8080/culture/insertCulture', {
-                name: newName,
-                cname: newCname,
-                culture: newCulture,
-              })
-              .then(() => {
-                // Update the UI by fetching the updated data
-                getCulture();
-              })
-              .catch((error) => {
-                console.error('Error adding culture:', error.message);
-              });
-          }
-        }}
-      >
-        <ListItemIcon>
-          <HistoryEduIcon />
-        </ListItemIcon>
-        <ListItemText primary="Add Culture trivia" />
-      </ListItemButton>
+                  sx={{ marginTop: '60px' }} // Adjusted the marginTop
+                  onClick={() => {
+                    setIsFormOpen(true);
+                  }}
+                >
+                  <ListItemIcon>
+                    <AddIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Add Culture Trivia" />
+            </ListItemButton>
+
+    {isFormOpen && (
+                  <Paper
+                    elevation={3}
+                    sx={{
+                      width: '500px',
+                      height: 'auto',
+                      borderRadius: "15px",
+                      display: "flex",
+                      flexDirection: 'column',
+                      alignItems: "center",
+                      marginTop: "900px", // Adjusted marginTop for better visibility of form fields
+                      marginBottom: "300px",
+                      marginLeft: "300px",
+                      padding: "20px",
+                      position: 'relative',
+                    }}
+                  >
+                    {/* Insert Form */}
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    // Handle form submission here (e.g., make axios post request)
+                    axios.post('http://localhost:8080/culture/insertCulture', newCultureData)
+                      .then(() => {
+                        // Update the UI by fetching the updated data
+                        getCulture();
+                        // Reset form data
+                        setNewCultureData({
+                          name: "",
+                          cname: "",
+                          culture: "",
+                        });
+                        // Close the form
+                        setIsFormOpen(false);
+                      })
+                      .catch((error) => {
+                        console.error('Error adding new culture trivia:', error.message);
+                      });
+                  }}
+                >
+                  {/* Form Fields */}
+                  <TextField
+                    label="Capital"
+                    value={newCultureData.name}
+                    onChange={(e) => setNewCultureData({ ...newCultureData, name: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+                  <TextField
+                    label="Country"
+                    value={newCultureData.cname}
+                    onChange={(e) => setNewCultureData({ ...newCultureData, cname: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+                  <TextField
+                    label="Culture"
+                    value={newCultureData.culture}
+                    onChange={(e) => setNewCultureData({ ...newCultureData, culture: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+
+                  {/* Submit Button */}
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    sx={{
+                      marginTop: "15px",
+                      background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)', // Set the background color to light green
+                      width: 'calc(35% - 5px)', // Adjusted width to make it 35% of the full width with some margin in between
+                      marginLeft: '50px', // Center the button
+                      marginRight: '15px', // Add spacing to the right
+                    }}
+                  >
+                    Post Trivia
+                  </Button>
+
+                  {/* Cancel Button */}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => {
+                      // Reset form data
+                      setNewCultureData({
+                        name: "",
+                        cname: "",
+                        culture: "",
+                      });
+                      // Close the form
+                      setIsFormOpen(false);
+                    }}
+                    sx={{
+                      marginTop: "15px",
+                      background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)',
+                      width: 'calc(30% - 5px)',
+                      marginLeft: '5px',
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </form>
+                </Paper>
+                )}
+
+                  {/* Update form */}
+
+                  {isUpdateFormOpen && (
+                          <Paper
+                            elevation={3}
+                            sx={{
+                              width: '500px',
+                              height: 'auto',
+                              borderRadius: "15px",
+                              display: "flex",
+                              flexDirection: 'column',
+                              alignItems: "center",
+                              marginTop: "900px", // Adjusted marginTop for better visibility of form fields
+                              marginBottom: "300px",
+                              marginLeft: "300px",
+                              padding: "20px",
+                              position: 'relative',
+                            }}
+                          >
+                            <form
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                // Handle form submission here (e.g., make axios put request)
+                                handleSubmitUpdate(updateData.id);
+                             }}
+                            >
+                              {/* Form Fields */}
+
+                              <TextField
+                                label="New Capital"
+                                value={updateData.newName}
+                                onChange={(e) => setUpdateData({ ...updateData, newName: e.target.value })}
+                                required
+                                fullWidth
+                                margin="normal"
+                              />
+                              <TextField
+                                label="New Country"
+                                value={updateData.newCname}
+                                onChange={(e) => setUpdateData({ ...updateData, newCname: e.target.value })}
+                                required
+                                fullWidth
+                                margin="normal"
+                              />
+                              <TextField
+                                label="New Culture"
+                                value={updateData.newCulture}
+                                onChange={(e) => setUpdateData({ ...updateData, newCulture: e.target.value })}
+                                required
+                                fullWidth
+                                margin="normal"
+                              />
+                              {/* Submit Button */}
+                              <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                sx={{
+                                  marginTop: "15px",
+                                  background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)', // Set the background color to light green
+                                  width: 'calc(35% - 5px)', // Adjusted width to make it 35% of the full width with some margin in between
+                                  marginLeft: '50px', // Center the button
+                                  marginRight: '15px', // Add spacing to the right
+                                }}
+                              >
+                                Update History
+                              </Button>
+                              {/* Cancel Button */}
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                onClick={() => {
+                                  // Reset form data
+                                  setUpdateData({
+                                    id: '',
+                                    newName: '',
+                                    newCname: '',
+                                    newCulture: '',
+                                  });
+                                  // Close the form
+                                  setIsUpdateFormOpen(false);
+                                }}
+                                sx={{
+                                  marginTop: "15px",
+                                  background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)',
+                                  width: 'calc(30% - 5px)',
+                                  marginLeft: '5px',
+                                }}
+                              >
+                                Cancel
+                              </Button>
+                            </form>
+                          </Paper>
+                        )}
   
               <Paper
                 elevation={3}
@@ -438,41 +631,56 @@ import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOu
                             <TableCell>{culture.cname}</TableCell>
                             <TableCell>{culture.culture}</TableCell>
                             <TableCell>
-                            {/* <Button onClick={() => retakeQuiz(quiz.id)}>
-                              Retake
-                            </Button> */}
-                            <ListItemButton
-                            onClick={() => removeCulture(culture.id)}
-                            sx={{ color: 'red' }} // Change the color or styles as needed
+                            {deletionId === culture.id ? (
+                          <form onSubmit={() => handleSubmit(culture.id)}>
+                            <Button type="submit" variant="contained" color="secondary" 
+                      sx={{
+                      marginTop: "15px",
+                      background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)',
+                      width: 'calc(30% - 5px)',
+                      marginLeft: '5px',
+                    }}>
+                              Confirm
+                            </Button>
+                            <Button variant="contained" onClick={cancelDeletion} 
+                      sx={{
+                      marginTop: "15px",
+                      background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)',
+                      width: 'calc(30% - 5px)',
+                      marginLeft: '5px',
+                    }}>
+                              Cancel
+                            </Button>
+                          </form>
+                        ) : (
+                          <ListItemButton
+                            onClick={() => confirmDeletion(culture.id)}
+                            sx={{ color: 'red' }}
                           >
                             <ListItemIcon>
                               <DeleteIcon />
                             </ListItemIcon>
                             <ListItemText primary="Remove" />
                           </ListItemButton>
+                        )}
   
-                            <ListItemButton
-                              sx={{ marginTop: '20px' }}
-                              onClick={() => {
-                                const idToUpdate = window.prompt('Enter ID of culture to update:');
-                                const newName = window.prompt('Enter updated capital name:');
-                                const newCname = window.prompt('Enter updated country name:');
-                                const newCulture = window.prompt('Enter updated culture trivia:');
-                                
-                                if (idToUpdate && newName && newCname && newCulture) {
-                                  updateCulture(idToUpdate, {
-                                    name: newName,
-                                    cname: newCname,
-                                    culture: newCulture,
-                                  });
-                                }
-                              }}
-                            >
-                              <ListItemIcon>
-                                <ModeIcon />
-                              </ListItemIcon>
-                              <ListItemText primary="Update" />
-                            </ListItemButton>
+                  <ListItemButton
+                      sx={{ marginTop: '20px' }}
+                      onClick={() => {
+                        setIsUpdateFormOpen(true);
+                        setUpdateData({
+                          id: culture.id, // Include the ID in the updateData state
+                          newName: culture.name,
+                          newCname: culture.cname,
+                          newCulture: culture.culture,
+                        });
+                      }}
+                    >
+                      <ListItemIcon>
+                        <ModeIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Update" />
+                    </ListItemButton>
   
                             </TableCell>
                           </TableRow>

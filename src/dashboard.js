@@ -336,13 +336,16 @@ export default function AllCapitals() {
                     maxWidth: "370px",
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    style={{ marginLeft: "50px", marginRight: "50px" }}
-                  >
-                    See all
-                  </Button>
+                  
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{ marginLeft: "50px", marginRight: "50px" }}
+                      Link to="/AllCapitals"
+                    >
+                      See all
+                    </Button>
+
                 </Box>
 
                 <Box // Box 1
