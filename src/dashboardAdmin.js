@@ -186,8 +186,36 @@ export default function MyProfile() {
 
   const [newCountryData, setNewCountryData] = React.useState({
     countryName: "",
+    capital: "",
+    question: "",
+    answer: "",
   });
-
+  
+  const [isUpdateFormOpen, setIsUpdateFormOpen] = React.useState(false);
+  const [updateData, setUpdateData] = React.useState({
+    newCountryname: '',
+    newCapital: '',
+    newQuestion: '',
+    newAnswer: '',
+  });
+  
+  const handleSubmitUpdate = (id) => {
+    if (updateData.newCountryname && updateData.newCapital && updateData.newQuestion && updateData.newAnswer) {
+      updateCountry(id, {
+        countryName: updateData.newCountryname,
+        capital: updateData.newCapital,
+        question: updateData.newQuestion,
+        answer: updateData.newAnswer,
+      });
+      setIsUpdateFormOpen(false);
+      setUpdateData({
+        newCountryname: '',
+        newCapital: '',
+        newQuestion: '',
+        newAnswer: '',
+      });
+    }
+  };
   const getCountry = () => {
     axios
       .get("http://localhost:8080/country/insertCountry")
@@ -232,47 +260,23 @@ export default function MyProfile() {
     }
   };
 
-  const updateCountry = (id, updatedData) => {
-    const updateUrl = `http://localhost:8080/country/updateCountry?id=${id}`;
+  const updateCountry = (countryid, updatedData) => {
+    const updateUrl = `http://localhost:8080/country/updateCountry?countryid=${countryid}`;
     
     axios
       .put(updateUrl, updatedData)
       .then((response) => {
-        console.log(`Culture with ID ${id} updated successfully`);
+        console.log(`Culture with ID ${countryid} updated successfully`);
         // Additional actions after a successful update
         // For example, you might want to fetch updated data or update state
         getCountry(); // Fetch updated data after the update
       })
       .catch((error) => {
-        console.error(`Error updating item with ID ${id}:`, error.message);
+        console.error(`Error updating item with ID ${countryid}:`, error.message);
       });
   };
 
-  const [isUpdateFormOpen, setIsUpdateFormOpen] = React.useState(false);
-  const [updatedData, setUpdateData] = React.useState({
-    newCountryName: '',
-    newCapital: '',
-    newQuestion: '',
-    newAnswer: '',
-  });
-  
-  const handleSubmitUpdate = (id) => {
-    if (updatedData.newCountryName && updatedData.newCapital && updatedData.newQuestion && updatedData.newAnswer) {
-      updatedData(id, {
-        countryName: updatedData.newCountryName,
-        capital: updatedData.newCapital,
-        question: updatedData.newQuestion,
-        answer: updatedData.newAnswer,
-      });
-      setIsUpdateFormOpen(false);
-      setUpdateData({
-        newCountryName: '',
-      newCapital: '',
-      newQuestion: '',
-      newAnswer: '',
-      });
-    }
-  };
+
 
   useEffect(() => {
     getAllCountries();
@@ -369,7 +373,7 @@ export default function MyProfile() {
                   <ListItemIcon>
                     <AddIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Add Quiz Item" />
+                  <ListItemText primary="Add Culture Trivia" />
             </ListItemButton>
 
                 {isFormOpen && (
@@ -401,6 +405,10 @@ export default function MyProfile() {
                         // Reset form data
                         setNewCountryData({
                           countryName: "",
+                          capital: "",
+                          question: "",
+                          answer: "",
+
                         });
                         // Close the form
                         setIsFormOpen(false);
@@ -413,34 +421,31 @@ export default function MyProfile() {
                   {/* Form Fields */}
                   <TextField
                     label="Country"
-                    value={newCountryData.country}
+                    value={newCountryData.countryName}
                     onChange={(e) => setNewCountryData({ ...newCountryData, countryName: e.target.value })}
                     required
                     fullWidth
                     margin="normal"
                   />
-
                   <TextField
                     label="Capital"
-                    value={newCountryData.country}
+                    value={newCountryData.capital}
                     onChange={(e) => setNewCountryData({ ...newCountryData, capital: e.target.value })}
                     required
                     fullWidth
                     margin="normal"
                   />
-
                   <TextField
                     label="Question"
-                    value={newCountryData.country}
+                    value={newCountryData.question}
                     onChange={(e) => setNewCountryData({ ...newCountryData, question: e.target.value })}
                     required
                     fullWidth
                     margin="normal"
                   />
-
                   <TextField
                     label="Answer"
-                    value={newCountryData.country}
+                    value={newCountryData.answer}
                     onChange={(e) => setNewCountryData({ ...newCountryData, answer: e.target.value })}
                     required
                     fullWidth
@@ -474,6 +479,9 @@ export default function MyProfile() {
                       // Reset form data
                       setNewCountryData({
                         countryName: "",
+                        capital: "",
+                        question: "",
+                        answer: "",
                       });
                       // Close the form
                       setIsFormOpen(false);
@@ -490,7 +498,9 @@ export default function MyProfile() {
                 </form>
                 </Paper>
                 )}
-{isUpdateFormOpen && (
+                {/* Update form */}
+
+                {isUpdateFormOpen && (
                           <Paper
                             elevation={3}
                             sx={{
@@ -511,39 +521,39 @@ export default function MyProfile() {
                               onSubmit={(e) => {
                                 e.preventDefault();
                                 // Handle form submission here (e.g., make axios put request)
-                                handleSubmitUpdate(updatedData.id);
+                                handleSubmitUpdate(updateData.countryid);
                              }}
                             >
                               {/* Form Fields */}
 
                               <TextField
                                 label="New Country"
-                                value={updatedData.newCountryName}
-                                onChange={(e) => setUpdateData({ ...updatedData, newCountryName: e.target.value })}
+                                value={updateData.newCountryname}
+                                onChange={(e) => setUpdateData({ ...updateData, newCountryname: e.target.value })}
                                 required
                                 fullWidth
                                 margin="normal"
                               />
                               <TextField
                                 label="New Capital"
-                                value={updatedData.newCapital}
-                                onChange={(e) => setUpdateData({ ...updatedData, newCapital: e.target.value })}
+                                value={updateData.newCapital}
+                                onChange={(e) => setUpdateData({ ...updateData, newCapital: e.target.value })}
                                 required
                                 fullWidth
                                 margin="normal"
                               />
                               <TextField
                                 label="New Question"
-                                value={updatedData.newQuestion}
-                                onChange={(e) => setUpdateData({ ...updatedData, newQuestion: e.target.value })}
+                                value={updateData.newQuestion}
+                                onChange={(e) => setUpdateData({ ...updateData, newQuestion: e.target.value })}
                                 required
                                 fullWidth
                                 margin="normal"
                               />
                               <TextField
                                 label="New Answer"
-                                value={updatedData.newAnswer}
-                                onChange={(e) => setUpdateData({ ...updatedData, newAnswer: e.target.value })}
+                                value={updateData.newAnswer}
+                                onChange={(e) => setUpdateData({ ...updateData, newAnswer: e.target.value })}
                                 required
                                 fullWidth
                                 margin="normal"
@@ -562,7 +572,7 @@ export default function MyProfile() {
                                   marginRight: '15px', // Add spacing to the right
                                 }}
                               >
-                                Update History
+                                Update
                               </Button>
                               {/* Cancel Button */}
                               <Button
@@ -570,14 +580,16 @@ export default function MyProfile() {
                                 color="primary"
                                 fullWidth
                                 onClick={() => {
-                                  setIsUpdateFormOpen(true);
+                                  // Reset form data
                                   setUpdateData({
-                                    id: country.countryid, // Include the ID in the updateData state
-                                    newCountryName: country.countryName,
-                                    newCapital: country.capital,
-                                    newQuestion: country.question,
-                                    newAnswer: country.answer,
+                                    id: '',
+                                    newCountryname: '',
+                                    newCapital: '',
+                                    newQuestion: '',
+                                    newAnswer: '',
                                   });
+                                  // Close the form
+                                  setIsUpdateFormOpen(false);
                                 }}
                                 sx={{
                                   marginTop: "15px",
@@ -637,8 +649,8 @@ export default function MyProfile() {
                                   onClick={() => {
                                     setIsUpdateFormOpen(true);
                                     setUpdateData({
-                                      id: country.countryid, // Include the ID in the updateData state
-                                      newCountryName: country.countryName,
+                                      countryid: country.countryid, // Include the ID in the updateData state
+                                      newCountryname: country.countryName,
                                       newCapital: country.capital,
                                       newQuestion: country.question,
                                       newAnswer: country.answer,
