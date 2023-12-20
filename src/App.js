@@ -46,7 +46,6 @@ function App() {
           <Route path="/dashboardAdmin" element={<AdminDashboard />} />
           <Route path="/Quiz" element={<Quiz />} />
           {/* <Route path="/QuizCustomize" element={<QuizCustomize />} /> */}
-          <Route path="/AdminDashboard" element={<AdminDashboard />} />
           <Route path="/AdminAddItems" element={<AdminQuizItems />} />
           <Route path="/AboutUs" element={<AboutUs />} />
           <Route path="/ContactUs" element={<ContactUs />} />
@@ -55,6 +54,7 @@ function App() {
           <Route path="/AdminHoliday" element={<AdminHoliday />} />
           <Route path="/AdminCulture" element={<AdminCulture />} />
           <Route path="/UserProfile" element={<UserProfile />} />
+          <Route path="/AdminDashboard" element={<AdminDashboard />} />
         </Routes>
       </BrowserRouter>
     </div>

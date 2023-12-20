@@ -1,11 +1,11 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Typography,
   List,
   ListItemText as MuiListItemText, // Rename to avoid conflict
-} from "@material-ui/core"; // Import all components from material-ui/core
+} from "@material-ui/core";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
-import Divider from "@mui/material/Divider"; // Import the Divider component
+import Divider from "@mui/material/Divider";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
@@ -150,23 +150,43 @@ const Drawer = styled(MuiDrawer, {
 const defaultTheme = createTheme();
 
 const Achievements = [
-  { id: 1, name: 'ActiveLearner', imagePath: 'ActiveLearner.png' },
-  { id: 2, name: 'CommitedLearner', imagePath: 'CommitedLearner.png' },
-  { id: 3, name: 'NightOwl', imagePath: 'NightOwl.png' },
-  { id: 4, name: 'EarlyBird', imagePath: 'EarlyBird.png' },
-  { id: 5, name: 'TestAcer', imagePath: 'TestAcer.png' },
-  { id: 6, name: 'Streaker', imagePath: 'Streaker.png' },
-  { id: 7, name: 'SetBuilder', imagePath: 'SetBuilder.png' },
+  { id: 1, name: 'ActiveLearner', imagePath: 'badge.png' },
+  { id: 2, name: 'CommitedLearner', imagePath: 'badge.png' },
+  { id: 3, name: 'NightOwl', imagePath: 'badge.png' },
+  { id: 4, name: 'EarlyBird', imagePath: 'badge.png' },
+  { id: 5, name: 'TestAcer', imagePath: 'badge.png' },
+  { id: 6, name: 'Streaker', imagePath: 'badge.png' },
+  { id: 7, name: 'SetBuilder', imagePath: 'badge.png' },
   // Add more capitals and their respective image paths here
 ];
 
-const renderAchievements = () => {
+export default function UserProfile() {
+  const [open, setOpen] = React.useState(true);
+  const [totalPoints, setTotalPoints] = useState(0);
+  const [earnedBadge, setEarnedBadge] = useState(null);
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
+
+  useEffect(() => {
+    // Check if totalPoints is equal to 20
+    if (totalPoints === 20 && !earnedBadge) {
+      // Set the badge details for Active Learner
+      setEarnedBadge({
+        name: 'ActiveLearner',
+        imagePath: 'badge.png',
+        dateEarned: new Date().toLocaleDateString(), // Set the current date
+      });
+    }
+  }, [totalPoints, earnedBadge]);
+
+  const renderAchievements = () => {
     return Achievements.map(({ id, name, imagePath }, index) => {
       const row = Math.floor(index / 4); // Assuming 4 images per row
       const col = index % 4; // Adjusted to 4 columns
       const top = 80 + row * 220; // Adjust top position based on row
       const left = 50 + col * 160; // Adjust left position based on column
-  
+
       return (
         <div
           key={id}
@@ -180,20 +200,12 @@ const renderAchievements = () => {
             justifyContent: 'center', // Center the image vertically
           }}
         >
-          <img src={imagePath} alt={name} style={{ width: '150px', height: '150px' }} />
+          <img src={imagePath} alt={name} style={{ width: '135px', height: '140px' }} />
         </div>
       );
     });
   };
-
-export default function UserProfile() {
-  const [open, setOpen] = React.useState(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
   
-  
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
