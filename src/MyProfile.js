@@ -195,6 +195,29 @@ export default function MyProfile() {
 
   const [badge, setBadge] = useState([]);
 
+  const [isUpdateFormOpen, setIsUpdateFormOpen] = React.useState(false);
+  const [updatedData, setUpdateData] = React.useState({
+    newTitle: '',
+    newDate: '',
+    newPts: '',
+  });
+  
+  const handleSubmitUpdate = (id) => {
+    if (updatedData.newTitle && updatedData.newDate && updatedData.newPts) {
+      updateBadge(id, {
+        title: updatedData.newTitle,
+        date: updatedData.newDate,
+        points: updatedData.newPts,
+      });
+      setIsUpdateFormOpen(false);
+      setUpdateData({
+        newTitle: '',
+        newDate: '',
+        newPts: '',
+      });
+    }
+  };
+
   const getBadge = () => {
     axios.get('http://localhost:8080/badge/insertBadge')
       .then((response) => {
@@ -526,6 +549,101 @@ export default function MyProfile() {
                 </form>
                 </Paper>
                 )}
+
+                  {isUpdateFormOpen && (
+                          <Paper
+                            elevation={3}
+                            sx={{
+                              width: '500px',
+                              height: 'auto',
+                              borderRadius: "15px",
+                              display: "flex",
+                              flexDirection: 'column',
+                              alignItems: "center",
+                              marginTop: "900px", // Adjusted marginTop for better visibility of form fields
+                              marginBottom: "300px",
+                              marginLeft: "300px",
+                              padding: "20px",
+                              position: 'relative',
+                            }}
+                          >
+                            <form
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                // Handle form submission here (e.g., make axios put request)
+                                handleSubmitUpdate(updatedData.id);
+                             }}
+                            >
+                              {/* Form Fields */}
+
+                              <TextField
+                                label="New Title"
+                                value={updatedData.newTitle}
+                                onChange={(e) => setUpdateData({ ...updatedData, newTitle: e.target.value })}
+                                required
+                                fullWidth
+                                margin="normal"
+                              />
+                              <TextField
+                                label="New Date"
+                                value={updatedData.newDate}
+                                onChange={(e) => setUpdateData({ ...updatedData, newDate: e.target.value })}
+                                required
+                                fullWidth
+                                margin="normal"
+                              />
+                              <TextField
+                                label="New Points"
+                                value={updatedData.newPts}
+                                onChange={(e) => setUpdateData({ ...updatedData, newPts: e.target.value })}
+                                required
+                                fullWidth
+                                margin="normal"
+                              />
+                              {/* Submit Button */}
+                              <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                sx={{
+                                  marginTop: "15px",
+                                  background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)', // Set the background color to light green
+                                  width: 'calc(35% - 5px)', // Adjusted width to make it 35% of the full width with some margin in between
+                                  marginLeft: '50px', // Center the button
+                                  marginRight: '15px', // Add spacing to the right
+                                }}
+                              >
+                                Update
+                              </Button>
+                              {/* Cancel Button */}
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                onClick={() => {
+                                  // Reset form data
+                                  setUpdateData({
+                                    title: '',
+                                    date: '',
+                                    points: '',
+                                  });
+                                  // Close the form
+                                  setIsUpdateFormOpen(false);
+                                }}
+                                sx={{
+                                  marginTop: "15px",
+                                  background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)',
+                                  width: 'calc(30% - 5px)',
+                                  marginLeft: '5px',
+                                }}
+                              >
+                                Cancel
+                              </Button>
+                            </form>
+                          </Paper>
+                        )}
+
               <Paper
                 elevation={3}
                 sx={{
@@ -568,20 +686,13 @@ export default function MyProfile() {
                               color: "red",
                             }}
                             onClick={() => {
-                              const Id = window.prompt('Enter badge id entry to update:');
-                              const newUser = window.prompt('Enter new user id:');
-                              const newTitle = window.prompt('Enter new title:');
-                              const newDate = window.prompt('Enter updated date:');
-                              const newPoints = window.prompt('Enter updated points:');
-                              
-                              if (Id && newUser && newTitle && newDate && newPoints) {
-                                updateBadge(Id, {
-                                  user: newUser,
-                                  title: newTitle,
-                                  date: newDate,
-                                  points: newPoints,
-                                });
-                              }
+                              setIsUpdateFormOpen(true);
+                              setUpdateData({
+                                id: badge.id,
+                                newDate: badge.date, // Include the ID in the updateData state
+                                newTitle: badge.title,
+                                newPts: badge.pts,
+                              });
                             }}
                           >
                             <EditIcon />

@@ -42,7 +42,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import HomeIcon from "@mui/icons-material/Home";
-import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
+import TextField from "@mui/material/TextField";
+import AddIcon from '@mui/icons-material/Add';
 import HistoryToggleOffOutlinedIcon from "@mui/icons-material/HistoryToggleOffOutlined";
 
 const LogoListItem = (
@@ -176,11 +177,16 @@ const defaultTheme = createTheme();
 
 export default function MyProfile() {
   const [open, setOpen] = React.useState(true);
+  const [isFormOpen, setIsFormOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
   const [country, setCountry] = useState([]);
+
+  const [newCountryData, setNewCountryData] = React.useState({
+    countryName: "",
+  });
 
   const getCountry = () => {
     axios
@@ -227,19 +233,45 @@ export default function MyProfile() {
   };
 
   const updateCountry = (id, updatedData) => {
-    const updateUrl = `http://localhost:8080/country/updateCountry?countryid=${id}`;
-
+    const updateUrl = `http://localhost:8080/country/updateCountry?id=${id}`;
+    
     axios
       .put(updateUrl, updatedData)
       .then((response) => {
-        console.log(`Badge with ID ${id} updated successfully`);
+        console.log(`Culture with ID ${id} updated successfully`);
         // Additional actions after a successful update
         // For example, you might want to fetch updated data or update state
         getCountry(); // Fetch updated data after the update
       })
       .catch((error) => {
-        console.error(`Error updating Badge with ID ${id}:`, error.message);
+        console.error(`Error updating item with ID ${id}:`, error.message);
       });
+  };
+
+  const [isUpdateFormOpen, setIsUpdateFormOpen] = React.useState(false);
+  const [updatedData, setUpdateData] = React.useState({
+    newCountryName: '',
+    newCapital: '',
+    newQuestion: '',
+    newAnswer: '',
+  });
+  
+  const handleSubmitUpdate = (id) => {
+    if (updatedData.newCountryName && updatedData.newCapital && updatedData.newQuestion && updatedData.newAnswer) {
+      updatedData(id, {
+        countryName: updatedData.newCountryName,
+        capital: updatedData.newCapital,
+        question: updatedData.newQuestion,
+        answer: updatedData.newAnswer,
+      });
+      setIsUpdateFormOpen(false);
+      setUpdateData({
+        newCountryName: '',
+      newCapital: '',
+      newQuestion: '',
+      newAnswer: '',
+      });
+    }
   };
 
   useEffect(() => {
@@ -328,31 +360,237 @@ export default function MyProfile() {
           >
             <Grid container spacing={1.5} justifyContent="center">
               <Grid item xs={7}>
-                <ListItemButton
-                  sx={{ marginTop: "50px" }}
+              <ListItemButton
+                  sx={{ marginTop: '60px' }} // Adjusted the marginTop
                   onClick={() => {
-                    const newCountry = window.prompt("Enter Country Name:");
-                    if (newCountry) {
-                      axios
-                        .post("http://localhost:8080/country/insertCountry", {
-                          countryName: newCountry,
-                        })
-                        .then(() => {
-                          // Update the UI by fetching the updated data
-                          getCountry();
-                        })
-                        .catch((error) => {
-                          console.error("Error adding country:", error.message);
-                        });
-                    }
+                    setIsFormOpen(true);
                   }}
                 >
                   <ListItemIcon>
-                    <MilitaryTechIcon />
+                    <AddIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Add Country" />
-                </ListItemButton>
+                  <ListItemText primary="Add Quiz Item" />
+            </ListItemButton>
 
+                {isFormOpen && (
+                  <Paper
+                    elevation={3}
+                    sx={{
+                      width: '500px',
+                      height: 'auto',
+                      borderRadius: "15px",
+                      display: "flex",
+                      flexDirection: 'column',
+                      alignItems: "center",
+                      marginTop: "900px", // Adjusted marginTop for better visibility of form fields
+                      marginBottom: "300px",
+                      marginLeft: "300px",
+                      padding: "20px",
+                      position: 'relative',
+                    }}
+                  >
+                    {/* Insert Form */}
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    // Handle form submission here (e.g., make axios post request)
+                    axios.post('http://localhost:8080/country/insertCountry', newCountryData)
+                      .then(() => {
+                        // Update the UI by fetching the updated data
+                        getCountry();
+                        // Reset form data
+                        setNewCountryData({
+                          countryName: "",
+                        });
+                        // Close the form
+                        setIsFormOpen(false);
+                      })
+                      .catch((error) => {
+                        console.error('Error adding new country:', error.message);
+                      });
+                  }}
+                >
+                  {/* Form Fields */}
+                  <TextField
+                    label="Country"
+                    value={newCountryData.country}
+                    onChange={(e) => setNewCountryData({ ...newCountryData, countryName: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+
+                  <TextField
+                    label="Capital"
+                    value={newCountryData.country}
+                    onChange={(e) => setNewCountryData({ ...newCountryData, capital: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+
+                  <TextField
+                    label="Question"
+                    value={newCountryData.country}
+                    onChange={(e) => setNewCountryData({ ...newCountryData, question: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+
+                  <TextField
+                    label="Answer"
+                    value={newCountryData.country}
+                    onChange={(e) => setNewCountryData({ ...newCountryData, answer: e.target.value })}
+                    required
+                    fullWidth
+                    margin="normal"
+                  />
+                  
+
+                  {/* Submit Button */}
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    sx={{
+                      marginTop: "15px",
+                      background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)', // Set the background color to light green
+                      width: 'calc(35% - 5px)', // Adjusted width to make it 35% of the full width with some margin in between
+                      marginLeft: '50px', // Center the button
+                      marginRight: '15px', // Add spacing to the right
+                    }}
+                  >
+                    Insert
+                  </Button>
+
+                  {/* Cancel Button */}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => {
+                      // Reset form data
+                      setNewCountryData({
+                        countryName: "",
+                      });
+                      // Close the form
+                      setIsFormOpen(false);
+                    }}
+                    sx={{
+                      marginTop: "15px",
+                      background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)',
+                      width: 'calc(30% - 5px)',
+                      marginLeft: '5px',
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </form>
+                </Paper>
+                )}
+{isUpdateFormOpen && (
+                          <Paper
+                            elevation={3}
+                            sx={{
+                              width: '500px',
+                              height: 'auto',
+                              borderRadius: "15px",
+                              display: "flex",
+                              flexDirection: 'column',
+                              alignItems: "center",
+                              marginTop: "900px", // Adjusted marginTop for better visibility of form fields
+                              marginBottom: "300px",
+                              marginLeft: "300px",
+                              padding: "20px",
+                              position: 'relative',
+                            }}
+                          >
+                            <form
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                // Handle form submission here (e.g., make axios put request)
+                                handleSubmitUpdate(updatedData.id);
+                             }}
+                            >
+                              {/* Form Fields */}
+
+                              <TextField
+                                label="New Country"
+                                value={updatedData.newCountryName}
+                                onChange={(e) => setUpdateData({ ...updatedData, newCountryName: e.target.value })}
+                                required
+                                fullWidth
+                                margin="normal"
+                              />
+                              <TextField
+                                label="New Capital"
+                                value={updatedData.newCapital}
+                                onChange={(e) => setUpdateData({ ...updatedData, newCapital: e.target.value })}
+                                required
+                                fullWidth
+                                margin="normal"
+                              />
+                              <TextField
+                                label="New Question"
+                                value={updatedData.newQuestion}
+                                onChange={(e) => setUpdateData({ ...updatedData, newQuestion: e.target.value })}
+                                required
+                                fullWidth
+                                margin="normal"
+                              />
+                              <TextField
+                                label="New Answer"
+                                value={updatedData.newAnswer}
+                                onChange={(e) => setUpdateData({ ...updatedData, newAnswer: e.target.value })}
+                                required
+                                fullWidth
+                                margin="normal"
+                              />
+                              {/* Submit Button */}
+                              <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                sx={{
+                                  marginTop: "15px",
+                                  background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)', // Set the background color to light green
+                                  width: 'calc(35% - 5px)', // Adjusted width to make it 35% of the full width with some margin in between
+                                  marginLeft: '50px', // Center the button
+                                  marginRight: '15px', // Add spacing to the right
+                                }}
+                              >
+                                Update History
+                              </Button>
+                              {/* Cancel Button */}
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                onClick={() => {
+                                  setIsUpdateFormOpen(true);
+                                  setUpdateData({
+                                    id: country.countryid, // Include the ID in the updateData state
+                                    newCountryName: country.countryName,
+                                    newCapital: country.capital,
+                                    newQuestion: country.question,
+                                    newAnswer: country.answer,
+                                  });
+                                }}
+                                sx={{
+                                  marginTop: "15px",
+                                  background: 'linear-gradient(50deg, #9ADE7B, #7ED7C1)',
+                                  width: 'calc(30% - 5px)',
+                                  marginLeft: '5px',
+                                }}
+                              >
+                                Cancel
+                              </Button>
+                            </form>
+                          </Paper>
+                        )}
                   <Paper
                     elevation={3}
                     sx={{
@@ -375,6 +613,9 @@ export default function MyProfile() {
                           <TableRow>
                             <TableCell>Country ID</TableCell>
                             <TableCell>Country Name</TableCell>
+                            <TableCell>Capital Name</TableCell>
+                            <TableCell>Question</TableCell>
+                            <TableCell>Answer</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -382,6 +623,9 @@ export default function MyProfile() {
                             <TableRow key={country.countryid}>
                               <TableCell>{country.countryid}</TableCell>
                               <TableCell>{country.countryName}</TableCell>
+                              <TableCell>{country.capital}</TableCell>
+                              <TableCell>{country.question}</TableCell>
+                              <TableCell>{country.answer}</TableCell>
                               <TableCell>
                                 <Button
                                   variant="outlined"
@@ -391,21 +635,19 @@ export default function MyProfile() {
                                     borderColor: "green",
                                   }}
                                   onClick={() => {
-                                    const Id = window.prompt(
-                                      "Enter country id entry to update:"
-                                    );
-                                    const newCountry = window.prompt(
-                                      "Enter new country name:"
-                                    );
-                                    if (Id && newCountry) {
-                                      updateCountry(Id, {
-                                        countryName: newCountry,
-                                      });
-                                    }
+                                    setIsUpdateFormOpen(true);
+                                    setUpdateData({
+                                      id: country.countryid, // Include the ID in the updateData state
+                                      newCountryName: country.countryName,
+                                      newCapital: country.capital,
+                                      newQuestion: country.question,
+                                      newAnswer: country.answer,
+                                    });
                                   }}
                                 >
                                   Edit Country
                                 </Button>
+                              
 
                                 <Button
                                   variant="outlined"
@@ -420,6 +662,7 @@ export default function MyProfile() {
                                 >
                                   Delete Country
                                 </Button>
+                                
                               </TableCell>
                             </TableRow>
                           ))}
