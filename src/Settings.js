@@ -1,11 +1,16 @@
-import * as React from "react";
+import React, { useState } from "react";
+import CloseIcon from '@mui/icons-material/Close';
 import {
   Typography,
   List,
-  ListItemText as MuiListItemText, // Rename to avoid conflict
-} from "@material-ui/core"; // Import all components from material-ui/core
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
-import Divider from "@mui/material/Divider"; // Import the Divider component
+  ListItemText as MuiListItemText,
+  styled,
+  createTheme,
+  Menu,
+  ThemeProvider,
+} from "@material-ui/core";
+import Grid from "@mui/material/Grid";
+import Divider from "@mui/material/Divider";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
@@ -14,7 +19,6 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -31,6 +35,19 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import InfoIcon from "@mui/icons-material/Info";
 import CallIcon from "@mui/icons-material/Call";
 import HistoryToggleOffOutlinedIcon from "@mui/icons-material/HistoryToggleOffOutlined";
+import { Button, Select, MenuItem } from "@mui/material";
+import LanguageIcon from "@mui/icons-material/Language";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import PublicIcon from "@mui/icons-material/Public";
+import { FormControl, InputLabel, Input } from '@mui/material';
+import {Switch, FormControlLabel,Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import Slider from '@mui/material/Slider';
+import TextFormatIcon from '@mui/icons-material/TextFormat';
+import Avatar from '@mui/material/Avatar';
+
+
+
+
 
 const LogoListItem = (
   <ListItemButton>
@@ -46,14 +63,14 @@ export const mainListItems = (
     {LogoListItem}
     <ListItemButton component={Link} to="/dashboard">
       <ListItemIcon>
-        <DashboardIcon  />
+        <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
 
     <ListItemButton component={Link} to="/AllCapitals">
       <ListItemIcon>
-        <LocationOnIcon style={{ color: "lightgreen" }}/>
+        <LocationOnIcon />
       </ListItemIcon>
       <ListItemText primary="All Capitals" />
     </ListItemButton>
@@ -74,7 +91,7 @@ export const mainListItems = (
 
     <ListItemButton component={Link} to="/Settings">
       <ListItemIcon>
-        <SettingsIcon />
+        <SettingsIcon style={{ color: "lightgreen" }} />
       </ListItemIcon>
       <ListItemText primary="Settings" />
     </ListItemButton>
@@ -134,7 +151,7 @@ const Drawer = styled(MuiDrawer, {
     }),
     boxSizing: "border-box",
     ...(!open && {
-      overflowX: "hidden",
+      overflowX: "auto",
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -149,82 +166,85 @@ const Drawer = styled(MuiDrawer, {
 
 const defaultTheme = createTheme();
 
-const capitalImages = [
-  { id: 1, name: "Manila", imagePath: "Manila.png" },
-  { id: 2, name: "Jakarta", imagePath: "Jakarta.png" },
-  { id: 3, name: "London", imagePath: "London.png" },
-  { id: 4, name: "Tokyo", imagePath: "Tokyo.png" },
-  { id: 5, name: "Ottawa", imagePath: "Ottawa.png" },
-  { id: 6, name: "Beijing", imagePath: "Beijing.png" },
-  { id: 7, name: "Seoul", imagePath: "Seoul.png" },
-  { id: 8, name: "Bangkok", imagePath: "Bangkok.png" },
-  { id: 9, name: "Bern", imagePath: "Bern.png" },
-  { id: 10, name: "Brussels", imagePath: "Brussels.png" },
-  { id: 11, name: "Havana", imagePath: "Havana.png" },
-  { id: 12, name: "Madrid", imagePath: "Madrid.png" },
-  // Add more capitals and their respective image paths here
-];
-
 export default function AllCapitals() {
-  const [open, setOpen] = React.useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [selectedLanguage, setSelectedLanguage] = useState('English');
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [timeSettingsDialogOpen, setTimeSettingsDialogOpen] = useState(false);
+  const [setTimeAutomatically, setSetTimeAutomatically] = useState(false);
+  const [showTimeAndDate, setShowTimeAndDate] = useState(false);
+  const [searchFieldOpen, setSearchFieldOpen] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState('');
+
   const toggleDrawer = () => {
-    setOpen(!open);
+    setDrawerOpen(!drawerOpen);
   };
 
-  const renderCapitalImages = () => {
-    return capitalImages.map(({ id, name, imagePath }, index) => {
-      const row = Math.floor(index / 6); // Assuming 6 images per row
-      const col = index % 6;
-      const top = 80 + row * 220; // Adjust top position based on row
-      const left = 50 + col * 160; // Adjust left position based on column
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-      return (
-        <div
-          key={id}
-          style={{
-            marginTop: "50px",
-            position: "absolute",
-            top: `${top}px`, // Interpolate top value
-            left: `${left}px`, // Interpolate left value
-          }}
-        >
-          <Link to={`/MHistory/${id}`} style={{ textDecoration: "none" }}>
-            <img
-              src={imagePath}
-              alt={name}
-              style={{ width: "125px", height: "140px" }}
-            />
-          </Link>
-        </div>
-      );
-    });
+  const handleClose = (language) => {
+    setAnchorEl(null);
+    if (language) {
+      setSelectedLanguage(language);
+    }
+  };
+
+  const handleSetTimeAutomaticallyChange = () => {
+    setSetTimeAutomatically(!setTimeAutomatically);
+  };
+
+  const handleShowTimeAndDateChange = () => {
+    setShowTimeAndDate(!showTimeAndDate);
+  };
+
+  const handleOpen = () => {
+    // Only open the dialog if it's not already open
+    if (!timeSettingsDialogOpen) {
+      setTimeSettingsDialogOpen(true);
+    }
+  };
+
+  const handleCloseDialog = () => {
+    // Only close the dialog if it's currently open
+    if (timeSettingsDialogOpen) {
+      setTimeSettingsDialogOpen(false);
+    }
+  };
+
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
+  };
+
+  const styles = {
+    toolbar: {
+      pr: '26px',
+      backgroundColor: 'white',
+    },
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
-          <Toolbar
-            sx={{
-              pr: "24px", // keep right padding when drawer closed
-              backgroundColor: "white", // Set background color to white
-            }}
-          >
+        <AppBar position="absolute" open={drawerOpen}>
+          <Toolbar sx={styles.toolbar}>
             <IconButton
               edge="start"
               color="inherit"
               aria-label="open drawer"
               onClick={toggleDrawer}
               sx={{
-                marginRight: "36px",
-                ...(open && { display: "none" }),
+                marginRight: '36px',
+                ...(drawerOpen && { display: 'none' }),
               }}
             >
               <MenuIcon />
             </IconButton>
-            <IconButton color="inherit">
-              <SearchIcon sx={{ color: "black" }} />
+
+            <IconButton color="inherit" sx={{ marginLeft: drawerOpen ? '240px' : '5px' }}>
+              <SearchIcon sx={{ color: 'black' }} />
             </IconButton>
             <Typography
               component="div"
@@ -233,16 +253,21 @@ export default function AllCapitals() {
               noWrap
               sx={{
                 flexGrow: 1,
-                display: "flex",
-                alignItems: "center",
-                marginLeft: "8px",
+                display: 'flex',
+                alignItems: 'center',
+                marginLeft: '8px',
               }}
             >
               <TextField
                 label="Search capital around the world"
                 variant="outlined"
                 size="small"
-                sx={{ width: "500px", minWidth: "300px" }} // Adjusted width
+                sx={{
+                  width: '500px',
+                  minWidth: '300px',
+                  marginLeft: drawerOpen ? '0' : '8px',
+                  transition: 'margin 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms',
+                }}
               />
             </Typography>
 
@@ -251,12 +276,12 @@ export default function AllCapitals() {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <Drawer variant="permanent" open={open}>
+        <Drawer variant="permanent" open={drawerOpen}>
           <Toolbar
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
               px: [1],
             }}
           >
@@ -270,71 +295,316 @@ export default function AllCapitals() {
         <Box
           component="main"
           sx={{
-            backgroundColor: "white", // Set background color to white
+            backgroundColor: 'white',
             flexGrow: 1,
-            height: "100vh",
-            overflow: "auto",
+            height: '100vh',
+            overflow: 'auto',
           }}
         >
           <Toolbar />
-          <Container
-            maxWidth="auto"
-            sx={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundImage:
-                "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
-              // backdropFilter: "blur(4px)",
-              overflow: "hidden",
-              backgroundSize: "cover",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {/* <Typography variant="h4" align="center" sx={{ color: "#fff", marginTop: "30px" }}>
-            Welcome to My App!
-          </Typography> */}
-            <Grid container spacing={1.5} justifyContent="center">
-              <Grid item xs={7}>
-                <Paper
-                  elevation={3}
+          <Container maxWidth="auto">
+            <Grid container spacing={3} sx={{ height: '200px', width: '200px' }}>
+              <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'center', margin: '200px' }}>
+                <Box
                   sx={{
-                    width: "1030px",
-                    height: "600px",
-                    borderRadius: "15px",
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    marginTop: "80px",
-                    marginLeft: "20px",
-                    position: "relative",
+                    position: 'absolute',
+                    backgroundColor: 'lightgrey',
+                    bottom: '350px',
+                    left: '280px',
+                    padding: '20px',
+                    width: '50%',
+                    height: '200px',
+                    maxWidth: '300px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '15px',
+                    '@media (max-width: 600px)': {
+                      width: '90%',
+                    },
                   }}
                 >
-                  <div
-                    style={{ position: "absolute", top: "40px", left: "20px" }}
-                  >
-                    <Typography
-                      align="left"
-                      sx={{
-                        color: "#fff",
-                        fontFamily: "Poppins, sans-serif",
-                        fontWeight: "bold",
-                      }}
-                      style={{ fontWeight: "bold", fontSize: "1.2em" }}
-                    >
-                      Capitals
+                  <InputLabel htmlFor="language" sx={{ display: 'flex', alignItems: 'center' }}>
+                    <LanguageIcon style={{ color: 'black', fontSize: '4rem', marginRight: '6px' }} />
+                    <Typography variant="h4" color="textPrimary" sx={{ marginLeft: 1 }}>
+                      Language
                     </Typography>
-                  </div>
-                  {renderCapitalImages()}
-                </Paper>
-              </Grid>
+                  </InputLabel>
+                  <Button
+                    aria-controls="language-menu"
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                    sx={{
+                      marginTop: 2,
+                      padding: 1,
+                      fontSize: '30px',
+                      borderRadius: '30px',
+                      width: '200px',
+                      height: '100px',
+                      boxSizing: 'border-box',
+                    }}
+                  >
+                    {selectedLanguage}
+                  </Button>
+                  <Menu
+                    id="language-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={() => handleClose()}
+                  >
+                    <MenuItem onClick={() => handleClose('English')}>English</MenuItem>
+                    <MenuItem onClick={() => handleClose('Spanish')}>Spanish</MenuItem>
+                    <MenuItem onClick={() => handleClose('French')}>French</MenuItem>
+                    <MenuItem onClick={() => handleClose('German')}>German</MenuItem>
+                    <MenuItem onClick={() => handleClose('Italian')}>Italian</MenuItem>
+                    <MenuItem onClick={() => handleClose('Japanese')}>Japanese</MenuItem>
+                  </Menu>
+                </Box>
+
+                <Box
+                    // Small box down
+                    sx={{
+                      position: "absolute",
+                    backgroundColor: "lightgreen",
+                    bottom: "350px",
+                    left: "610px", // Increased by 50px
+                    padding: "20px",
+                    width: "50%", // Set width to 50% of the container
+                    height: "90px",
+                    maxWidth: "90px",
+                    display: "flex",
+                    alignItems: "center",
+                    borderRadius: "15px",
+                    justifyContent: "center",
+                    "@media (max-width: 600px)": {
+                      width: "90%",
+                      },
+                    }}
+                  >
+                    <CalendarMonthIcon style={{ color: 'white', fontSize: '5rem' }}  />
+                  </Box>
+
+                  <Box
+                    // Small box up
+                    sx={{
+                      position: "absolute",
+                    backgroundColor: "lightgrey",
+                    bottom: "460px",
+                    left: "610px", // Increased by 50px
+                    padding: "20px",
+                    width: "50%", // Set width to 50% of the container
+                    height: "90px",
+                    maxWidth: "90px",
+                    display: "flex",
+                    alignItems: "center",
+                    borderRadius: "15px",
+                    justifyContent: "center",
+                    "@media (max-width: 600px)": {
+                      width: "90%",
+                      },
+                    }}
+                  >
+                    <PublicIcon style={{ color: 'black', fontSize: '5rem' }} />
+                  </Box>
+
+                  <Box
+                      // Long box down
+                      sx={{
+                        position: 'absolute',
+                        backgroundColor: 'lightgrey',
+                        bottom: '350px',
+                        left: '710px', // Increased by 50px
+                        padding: '20px',
+                        width: '50%',
+                        height: '90px',
+                        maxWidth: '200px',
+                        borderRadius: "15px",
+                        '@media (max-width: 600px)': {
+                          width: '90%',
+                        },
+                        cursor: 'pointer',
+                      }}
+                      onClick={handleOpen}
+                    >
+                      <Typography variant="h5" color="textPrimary">
+                        Date and Time
+                      </Typography>
+                      <Dialog open={timeSettingsDialogOpen} onClose={handleCloseDialog}>
+                        <DialogTitle>Date and Time Settings</DialogTitle>
+                        <DialogContent>
+                          <Box>
+                            {/* Set Time Automatically */}
+                            <FormControlLabel
+                              control={<Switch checked={setTimeAutomatically} onChange={handleSetTimeAutomaticallyChange} />}
+                              label="Set Time Automatically"
+                            />
+                          </Box>
+
+                          <Box mt={2}>
+                            {/* Show time and date */}
+                            <FormControlLabel
+                              control={<Switch checked={showTimeAndDate} onChange={handleShowTimeAndDateChange} />}
+                              label="Show time and date"
+                            />
+                          </Box>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleCloseDialog}>Close</Button>
+                        </DialogActions>
+                      </Dialog>
+                    </Box>
+
+                    <Box
+                        // long box up
+                        sx={{
+                          position: 'absolute',
+                          backgroundColor: 'lightgrey',
+                          bottom: '460px',
+                          left: '710px',
+                          padding: '20px',
+                          width: '50%',
+                          height: '90px',
+                          maxWidth: '200px',
+                          borderRadius: "15px",
+                          '@media (max-width: 600px)': {
+                            width: '90%',
+                          },
+                        }}
+                      >
+                        {/* New dropdown list for countries */}
+                        <FormControl sx={{ width: '100%' }}>
+                          <InputLabel htmlFor="country">Select Country</InputLabel>
+                          <Select
+                            value={selectedCountry}
+                            onChange={handleCountryChange}
+                            label="Select Country"
+                            variant="outlined"  // Added variant to outline the select box
+                          >
+                            {/* Options for the dropdown */}
+                            <MenuItem value="USA">United States</MenuItem>
+                            <MenuItem value="UK">United Kingdom</MenuItem>
+                            {/* Add more countries as needed */}
+                          </Select>
+                        </FormControl>
+                      </Box>
+
+                      <Box
+                        sx={{
+                            position: "absolute",
+                            backgroundColor: "lightgrey",
+                            bottom: "350px",
+                            left: "1040px",
+                            padding: "20px",
+                            width: "50%",
+                            height: "90px",
+                            maxWidth: "200px",
+                            borderRadius: "15px",
+                            "@media (max-width: 600px)": {
+                                width: "90%",
+                            },
+                        }}
+                    >
+                        <Typography style={{ fontSize: "20px", color: "textPrimary" }}>
+                            <b>Delete account</b>
+                        </Typography>
+                        <Typography style={{ fontSize: "10px", color: "textSecondary" }}>
+                            Be careful - this will delete all your data and cannot be undone
+                        </Typography>
+                    </Box>
+
+                    <Box
+                          sx={{
+                              position: "absolute",
+                              backgroundColor: "lightgreen",
+                              bottom: "350px",
+                              left: "940px",
+                              padding: "20px",
+                              width: "50%",
+                              height: "90px",
+                              maxWidth: "90px",
+                              borderRadius: "15px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              "@media (max-width: 600px)": {
+                                  width: "90%",
+                              },
+                          }}
+                      >
+                          <CloseIcon style={{ color: 'white', fontSize: '5rem' }} />
+                      </Box>
+
+                      <Box
+                            sx={{
+                                position: "absolute",
+                                backgroundColor: "lightgrey",
+                                bottom: "460px",
+                                left: "940px",
+                                padding: "20px",
+                                width: "50%",
+                                height: "90px",
+                                maxWidth: "300px",
+                                display: "flex",
+                                alignItems: "center",
+                                borderRadius: "15px",
+                                justifyContent: "space-between",
+                                "@media (max-width: 600px)": {
+                                    width: "90%",
+                                },
+                            }}
+                        >
+                            <TextFormatIcon style={{ color: 'black', fontSize: '4rem' }} />
+                            <Typography color="textPrimary">Text Size</Typography>
+                            <Slider
+                                defaultValue={50}
+                                aria-label="Text Size Slider"
+                                style={{ width: "60%", marginLeft: "8px",  color :'white'}}
+                            />
+                        </Box>
+
+                        <Box
+                          sx={{
+                              position: "absolute",
+                              backgroundColor: "lightgrey",
+                              bottom: "100px",
+                              left: "540px",
+                              padding: "20px",
+                              width: "50%",
+                              height: "200px",
+                              maxWidth: "440px",
+                              display: "flex",
+                              flexDirection: "row", // Set to row to align items horizontally
+                              alignItems: "center",
+                              borderRadius: "15px",
+                              justifyContent: "space-between", // Space between for even distribution
+                              "@media (max-width: 600px)": {
+                                  width: "90%",
+                              },
+                          }}
+                      >
+                          <div>
+                              <ProfileCircle /> {/* Use the ProfileCircle component */}
+                              <Avatar
+                                  alt="Profile"
+                                  src="profilesample.jpg"
+                                  sx={{ width: 100, height: 100, marginBottom: '16px', marginLeft: '25px' }}
+                              />
+                              <Typography variant="h5" color="textPrimary" sx={{ marginBottom: '16px' }}>
+                                  Profile Picture
+                              </Typography>
+                          </div>
+                          <Button variant="contained" color="primary">
+                              Upload your own photo
+                          </Button>
+                      </Box>
+
+
+        
             </Grid>
-            <Copyright sx={{ pt: 4 }} />
-          </Container>
+            </Grid>
+    </Container>
         </Box>
       </Box>
     </ThemeProvider>
@@ -349,7 +619,7 @@ function ProfileCircle() {
       style={{
         position: "fixed",
         top: "10px",
-        left: "calc(100% - 90px)" /* Adjusted value */,
+        left: "calc(100% - 90px)",
         display: "flex",
         alignItems: "center",
       }}
@@ -365,15 +635,5 @@ function ProfileCircle() {
         }}
       />
     </div>
-  );
-}
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center" {...props}>
-      <Link color="inherit" href="https://mui.com/">
-        {/* MUI link */}
-      </Link>
-    </Typography>
   );
 }
