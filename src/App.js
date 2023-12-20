@@ -11,6 +11,7 @@ import MyProfile from "./MyProfile";
 import QuizHistory from "./QuizHistory";
 import AdminDashboard from "./dashboardAdmin";
 import Quiz from "./Quiz";
+import Settings from "./Settings";
 // import QuizCustomize from "./QuizCustomize";
 // import AboutUs from "./AboutUs";
 import AboutUs from "./AboutUs";
@@ -42,7 +43,7 @@ function App() {
           <Route path="/MHoliday/:id" element={<MHoliday />} />
           <Route path="/MyProfile" element={<MyProfile />} />
           <Route path="/QuizHistory" element={<QuizHistory />} />
-          {/* <Route path="/Settings" element={<Settings />} /> */}
+          {<Route path="/Settings" element={<Settings />} /> }
           <Route path="/dashboardAdmin" element={<AdminDashboard />} />
           <Route path="/Quiz" element={<Quiz />} />
           {/* <Route path="/QuizCustomize" element={<QuizCustomize />} /> */}
