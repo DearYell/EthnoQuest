@@ -16,9 +16,9 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -74,7 +74,7 @@ const LogoListItem = (
 export const mainListItems = (
   <React.Fragment>
     {LogoListItem}
-  <ListItemButton component={Link} to="/dashboardAdmin">
+    <ListItemButton component={Link} to="/dashboardAdmin">
       <ListItemIcon>
         <DashboardIcon style={{ color: "lightgreen" }} />
       </ListItemIcon>
@@ -86,37 +86,36 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Quizzes" />
     </ListItemButton>
-<ListItemButton component={Link} to={`/AdminHistory`}>
-        <ListItemIcon>
-          <HistoryEduIcon />
-        </ListItemIcon >
-        <ListItemText primary="History" />
-      </ListItemButton>
-      <ListItemButton component={Link} to={`/AdminTradition`}>
-        <ListItemIcon>
-          <AutoStoriesIcon />
-        </ListItemIcon>
-        <ListItemText primary="Tradition" />
-      </ListItemButton>
-      <ListItemButton  component={Link} to={`/AdminCulture`}>
-        <ListItemIcon>
-          <InfoIcon  />
-        </ListItemIcon>
-        <ListItemText primary="Culture" />
-      </ListItemButton>
-      <ListItemButton component={Link} to={`/AdminHoliday`}>
-        <ListItemIcon>
-          <CalendarMonthIcon />
-        </ListItemIcon>
-        <ListItemText primary="Holidays" />
-      </ListItemButton>
-      <ListItemButton component={Link} to={`/MyProfile`}>
-        <ListItemIcon>
-          <AccountCircleIcon />
-        </ListItemIcon>
-        <ListItemText primary="MyProfile" />
-      </ListItemButton>
-
+    <ListItemButton component={Link} to={`/AdminHistory`}>
+      <ListItemIcon>
+        <HistoryEduIcon />
+      </ListItemIcon>
+      <ListItemText primary="History" />
+    </ListItemButton>
+    <ListItemButton component={Link} to={`/AdminTradition`}>
+      <ListItemIcon>
+        <AutoStoriesIcon />
+      </ListItemIcon>
+      <ListItemText primary="Tradition" />
+    </ListItemButton>
+    <ListItemButton component={Link} to={`/AdminCulture`}>
+      <ListItemIcon>
+        <InfoIcon />
+      </ListItemIcon>
+      <ListItemText primary="Culture" />
+    </ListItemButton>
+    <ListItemButton component={Link} to={`/AdminHoliday`}>
+      <ListItemIcon>
+        <CalendarMonthIcon />
+      </ListItemIcon>
+      <ListItemText primary="Holidays" />
+    </ListItemButton>
+    <ListItemButton component={Link} to={`/MyProfile`}>
+      <ListItemIcon>
+        <AccountCircleIcon />
+      </ListItemIcon>
+      <ListItemText primary="MyProfile" />
+    </ListItemButton>
 
     <ListItemButton component={Link} to="/Login">
       <ListItemIcon>
@@ -353,80 +352,78 @@ export default function MyProfile() {
                   <ListItemText primary="Add Country" />
                 </ListItemButton>
 
-                  <Paper
-                    elevation={3}
-                    sx={{
-                      // padding: "20px",
-                      width: "850px",
-                      height: "600px",
-                      borderRadius: "15px",
-                      display: "flex",
-                      alignItems: "center",
-                      flexDirection: "column",
-                      marginTop: "80px",
-                      marginLeft: "95px",
-                      position: "relative",
-                    }}
-                  >
-                    {/* Other content within the Paper */}
-                    <TableContainer>
-                      <Table>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>Country ID</TableCell>
-                            <TableCell>Country Name</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {country.map((country) => (
-                            <TableRow key={country.countryid}>
-                              <TableCell>{country.countryid}</TableCell>
-                              <TableCell>{country.countryName}</TableCell>
-                              <TableCell>
-                                <Button
-                                  variant="outlined"
-                                  sx={{
-                                    margin: "5px",
-                                    color: "green",
-                                    borderColor: "green",
-                                  }}
-                                  onClick={() => {
-                                    const Id = window.prompt(
-                                      "Enter country id entry to update:"
-                                    );
-                                    const newCountry = window.prompt(
-                                      "Enter new country name:"
-                                    );
-                                    if (Id && newCountry) {
-                                      updateCountry(Id, {
-                                        countryName: newCountry,
-                                      });
-                                    }
-                                  }}
-                                >
-                                  Edit Country
-                                </Button>
-
-                                <Button
-                                  variant="outlined"
-                                  sx={{
-                                    margin: "5px",
-                                    color: "green",
-                                    borderColor: "green",
-                                  }}
-                                  onClick={() =>
-                                    deleteCountry(country.countryid)
+                <Paper
+                  elevation={3}
+                  sx={{
+                    // padding: "20px",
+                    width: "850px",
+                    height: "600px",
+                    borderRadius: "15px",
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    marginTop: "80px",
+                    marginLeft: "95px",
+                    position: "relative",
+                  }}
+                >
+                  {/* Other content within the Paper */}
+                  <TableContainer>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Country ID</TableCell>
+                          <TableCell>Country Name</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {country.map((country) => (
+                          <TableRow key={country.countryid}>
+                            <TableCell>{country.countryid}</TableCell>
+                            <TableCell>{country.countryName}</TableCell>
+                            <TableCell>
+                              <Button
+                                variant="outlined"
+                                sx={{
+                                  margin: "5px",
+                                  color: "green",
+                                  borderColor: "green",
+                                }}
+                                onClick={() => {
+                                  const Id = window.prompt(
+                                    "Enter country id entry to update:"
+                                  );
+                                  const newCountry = window.prompt(
+                                    "Enter new country name:"
+                                  );
+                                  if (Id && newCountry) {
+                                    updateCountry(Id, {
+                                      countryName: newCountry,
+                                    });
                                   }
-                                >
-                                  Delete Country
-                                </Button>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                    </Paper>
+                                }}
+                              >
+                                Edit Country
+                              </Button>
+
+                              <Button
+                                variant="outlined"
+                                sx={{
+                                  margin: "5px",
+                                  color: "green",
+                                  borderColor: "green",
+                                }}
+                                onClick={() => deleteCountry(country.countryid)}
+                              >
+                                Delete Country
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Paper>
               </Grid>
             </Grid>
           </Container>

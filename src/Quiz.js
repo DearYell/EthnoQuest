@@ -36,6 +36,7 @@ import TableBody from "@mui/material/TableBody";
 import HomeIcon from "@mui/icons-material/Home";
 import axios from "axios";
 import LinearProgress from "@mui/material/LinearProgress";
+import DarkMode from "./components/DarkMode";
 
 // Quiz component
 
@@ -223,107 +224,110 @@ export default function Settings() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <AppBar position="absolute" open={open}>
-          <Toolbar
-            sx={{
-              pr: "25px",
-              backgroundColor: "white",
-            }}
-          >
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={toggleDrawer}
+    <div>
+      <DarkMode />
+      <ThemeProvider theme={defaultTheme}>
+        <Box sx={{ display: "flex" }}>
+          <CssBaseline />
+          <AppBar position="absolute" open={open}>
+            <Toolbar
               sx={{
-                marginRight: "36px",
-                ...(open && { display: "none" }),
+                pr: "25px",
+                backgroundColor: "white",
               }}
             >
-              <MenuIcon />
-            </IconButton>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="open drawer"
+                onClick={toggleDrawer}
+                sx={{
+                  marginRight: "36px",
+                  ...(open && { display: "none" }),
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
 
-            <IconButton color="inherit" sx={{ marginLeft: "auto" }}>
-              <ProfileCircle />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Drawer variant="permanent" open={open}>
-          <Toolbar
+              <IconButton color="inherit" sx={{ marginLeft: "auto" }}>
+                <ProfileCircle />
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+          <Drawer variant="permanent" open={open}>
+            <Toolbar
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                px: [1],
+              }}
+            >
+              <IconButton onClick={toggleDrawer}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </Toolbar>
+            <Divider />
+            <List component="nav">{mainListItems}</List>
+          </Drawer>
+          <Box
+            component="main"
             sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              px: [1],
-            }}
-          >
-            <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </Toolbar>
-          <Divider />
-          <List component="nav">{mainListItems}</List>
-        </Drawer>
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: "white",
-            flexGrow: 1,
-            height: "100vh",
-            width: "100v",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            overflow: "auto",
-          }}
-        >
-          <Toolbar />
-          <Container
-            maxWidth="auto"
-            sx={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundImage:
-                "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
-              overflow: "hidden",
-              backgroundSize: "cover",
+              backgroundColor: "white",
+              flexGrow: 1,
+              height: "100vh",
+              width: "100v",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              overflow: "auto",
             }}
           >
-            <Grid container spacing={1.5} justifyContent="center">
-              <Grid item xs={7}>
-                <Paper
-                  elevation={3}
-                  sx={{
-                    width: "850px",
-                    height: "600px",
-                    borderRadius: "15px",
-                    display: "flex",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    marginTop: "80px",
-                    marginLeft: "95px",
-                    position: "relative",
-                  }}
-                >
-                  {/* Integration of the Quiz component with props */}
-                  <Quiz />
-                </Paper>
+            <Toolbar />
+            <Container
+              maxWidth="auto"
+              sx={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundImage:
+                  "linear-gradient(180deg, rgba(49, 210, 55, 0.47) 24.13%, rgba(6, 222, 196, 0.54) 74.13%)",
+                overflow: "hidden",
+                backgroundSize: "cover",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Grid container spacing={1.5} justifyContent="center">
+                <Grid item xs={7}>
+                  <Paper
+                    elevation={3}
+                    sx={{
+                      width: "850px",
+                      height: "600px",
+                      borderRadius: "15px",
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "column",
+                      marginTop: "80px",
+                      marginLeft: "95px",
+                      position: "relative",
+                    }}
+                  >
+                    {/* Integration of the Quiz component with props */}
+                    <Quiz />
+                  </Paper>
+                </Grid>
               </Grid>
-            </Grid>
-            <Copyright sx={{ pt: 4 }} />
-          </Container>
+              <Copyright sx={{ pt: 4 }} />
+            </Container>
+          </Box>
         </Box>
-      </Box>
-    </ThemeProvider>
+      </ThemeProvider>
+    </div>
   );
 }
 

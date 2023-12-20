@@ -32,6 +32,7 @@ function App() {
           <Route path="/Register" element={<RegistrationForm />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/AllCapitals" element={<Capitals />} />
+          AC
           <Route path="/MHistory" element={<MHistory />} />
           <Route path="/MCulture" element={<MCulture />} />
           <Route path="/MTradition" element={<MTradition />} />

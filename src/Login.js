@@ -56,10 +56,22 @@ function SignInSide() {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
-  const checkIsAdmin = (userData) => {
-    // Check if userData exists and has the isAdmin property
+  const checkIsAdmin = async (email) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/admin/loginAdmin",
+        {
+          emailAddress: email,
+        }
+      );
 
-    return userData && userData.isAdmin === true;
+      const isAdmin = response.data;
+
+      return isAdmin;
+    } catch (error) {
+      console.error("Error checking admin status:", error.message);
+      return false; // Assume not an admin in case of an error
+    }
   };
 
   const handleSubmit = async () => {
@@ -71,7 +83,9 @@ function SignInSide() {
 
       const userData = response.data;
 
-      if (checkIsAdmin(userData)) {
+      const isAdmin = await checkIsAdmin(emailAddress);
+
+      if (isAdmin) {
         navigate("/dashboardAdmin");
         window.alert("Login successful for admin user.");
         console.log(userData);
