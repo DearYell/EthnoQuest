@@ -201,6 +201,9 @@ export default function UserProfile() {
           }}
         >
           <img src={imagePath} alt={name} style={{ width: '135px', height: '140px' }} />
+          <Typography variant="body2" color="textSecondary">
+          {name}
+          </Typography>
         </div>
       );
     });
