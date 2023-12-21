@@ -233,7 +233,23 @@ function SignInSide() {
                     }}
                     onClick={handleSubmit}
                   >
-                    Login
+                    Login as User
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="contained"
+                    fullWidth
+                    sx={{
+                      mt: 1,
+                      mb: 1,
+                      backgroundColor: "#00BF63",
+                      color: "white",
+                      width: "500px",
+                      "&:hover": { backgroundColor: "#96BB7C" },
+                    }}
+                    component={Link} to='/dashboardAdmin'
+                  >
+                    Login as Admin
                   </Button>
                 </Grid>
                 <Grid container justifyContent="center">
