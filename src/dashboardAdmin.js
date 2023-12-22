@@ -33,7 +33,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import InfoIcon from "@mui/icons-material/Info";
 import CallIcon from "@mui/icons-material/Call";
-
+ 
 import TableCell from "@mui/material/TableCell";
 import Button from "@mui/material/Button";
 import TableContainer from "@mui/material/TableContainer";
@@ -45,7 +45,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import TextField from "@mui/material/TextField";
 import AddIcon from '@mui/icons-material/Add';
 import HistoryToggleOffOutlinedIcon from "@mui/icons-material/HistoryToggleOffOutlined";
-
+ 
 const LogoListItem = (
   <ListItemButton>
     <ListItemIcon>
@@ -71,7 +71,7 @@ const LogoListItem = (
     <ListItemText primary="EthnoQuest" />
   </ListItemButton>
 );
-
+ 
 export const mainListItems = (
   <React.Fragment>
     {LogoListItem}
@@ -117,18 +117,18 @@ export const mainListItems = (
         </ListItemIcon>
         <ListItemText primary="MyProfile" />
       </ListItemButton>
-
-
+ 
+ 
     <ListItemButton component={Link} to="/Login">
       <ListItemIcon>
         <LogoutIcon />
       </ListItemIcon>
-
+ 
       <ListItemText primary="Log Out" />
     </ListItemButton>
   </React.Fragment>
 );
-
+ 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -146,7 +146,7 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
-
+ 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -172,22 +172,22 @@ const Drawer = styled(MuiDrawer, {
     }),
   },
 }));
-
+ 
 const defaultTheme = createTheme();
-
+ 
 export default function MyProfile() {
   const [open, setOpen] = React.useState(true);
   const [isFormOpen, setIsFormOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
+ 
   const [country, setCountry] = useState([]);
-
+ 
   const [newCountryData, setNewCountryData] = React.useState({
     countryName: "",
   });
-
+ 
   const getCountry = () => {
     axios
       .get("http://localhost:8080/country/insertCountry")
@@ -200,7 +200,7 @@ export default function MyProfile() {
         console.error("Error fetching country:", error.message);
       });
   };
-
+ 
   const getAllCountries = () => {
     axios
       .get("http://localhost:8080/country/getAllCountries")
@@ -213,7 +213,7 @@ export default function MyProfile() {
         console.error("Error fetching all countries:", error.message);
       });
   };
-
+ 
   const deleteCountry = (id) => {
     const confirmDeletion = window.confirm(
       "Are you sure you want to delete this country?"
@@ -231,10 +231,10 @@ export default function MyProfile() {
         });
     }
   };
-
+ 
   const updateCountry = (id, updatedData) => {
-    const updateUrl = `http://localhost:8080/country/updateCountry?id=${id}`;
-    
+    const updateUrl = `http://localhost:8080/country/updateCountry?countryid=${id}`;
+   
     axios
       .put(updateUrl, updatedData)
       .then((response) => {
@@ -247,7 +247,7 @@ export default function MyProfile() {
         console.error(`Error updating item with ID ${id}:`, error.message);
       });
   };
-
+ 
   const [isUpdateFormOpen, setIsUpdateFormOpen] = React.useState(false);
   const [updatedData, setUpdateData] = React.useState({
     newCountryName: '',
@@ -255,10 +255,10 @@ export default function MyProfile() {
     newQuestion: '',
     newAnswer: '',
   });
-  
-  const handleSubmitUpdate = (id) => {
+ 
+  const handleSubmitUpdate = (countryid) => {
     if (updatedData.newCountryName && updatedData.newCapital && updatedData.newQuestion && updatedData.newAnswer) {
-      updatedData(id, {
+      updateCountry(countryid, {
         countryName: updatedData.newCountryName,
         capital: updatedData.newCapital,
         question: updatedData.newQuestion,
@@ -273,15 +273,15 @@ export default function MyProfile() {
       });
     }
   };
-
+ 
   useEffect(() => {
     getAllCountries();
   }, []);
-
+ 
   useEffect(() => {
     console.log("Country state:", country);
   }, [country]);
-
+ 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
@@ -305,7 +305,7 @@ export default function MyProfile() {
             >
               <MenuIcon />
             </IconButton>
-
+ 
             <IconButton color="inherit" sx={{ marginLeft: "auto" }}>
               <ProfileCircle />
             </IconButton>
@@ -371,7 +371,7 @@ export default function MyProfile() {
                   </ListItemIcon>
                   <ListItemText primary="Add Quiz Item" />
             </ListItemButton>
-
+ 
                 {isFormOpen && (
                   <Paper
                     elevation={3}
@@ -419,7 +419,7 @@ export default function MyProfile() {
                     fullWidth
                     margin="normal"
                   />
-
+ 
                   <TextField
                     label="Capital"
                     value={newCountryData.country}
@@ -428,7 +428,7 @@ export default function MyProfile() {
                     fullWidth
                     margin="normal"
                   />
-
+ 
                   <TextField
                     label="Question"
                     value={newCountryData.country}
@@ -437,7 +437,7 @@ export default function MyProfile() {
                     fullWidth
                     margin="normal"
                   />
-
+ 
                   <TextField
                     label="Answer"
                     value={newCountryData.country}
@@ -446,8 +446,8 @@ export default function MyProfile() {
                     fullWidth
                     margin="normal"
                   />
-                  
-
+                 
+ 
                   {/* Submit Button */}
                   <Button
                     type="submit"
@@ -464,7 +464,7 @@ export default function MyProfile() {
                   >
                     Insert
                   </Button>
-
+ 
                   {/* Cancel Button */}
                   <Button
                     variant="contained"
@@ -515,7 +515,7 @@ export default function MyProfile() {
                              }}
                             >
                               {/* Form Fields */}
-
+ 
                               <TextField
                                 label="New Country"
                                 value={updatedData.newCountryName}
@@ -562,7 +562,7 @@ export default function MyProfile() {
                                   marginRight: '15px', // Add spacing to the right
                                 }}
                               >
-                                Update History
+                                Update
                               </Button>
                               {/* Cancel Button */}
                               <Button
@@ -648,8 +648,8 @@ export default function MyProfile() {
                                 >
                                   Edit Country
                                 </Button>
-                              
-
+                             
+ 
                                 <Button
                                   variant="outlined"
                                   sx={{
@@ -663,7 +663,7 @@ export default function MyProfile() {
                                 >
                                   Delete Country
                                 </Button>
-                                
+                               
                               </TableCell>
                             </TableRow>
                           ))}
@@ -681,7 +681,7 @@ export default function MyProfile() {
   );
   function ProfileCircle() {
     const profileImgUrl = "profilesample.jpg";
-
+ 
     return (
       <div
         style={{
