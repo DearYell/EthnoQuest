@@ -59,7 +59,7 @@ function App() {
           <Route path="/AdminDashboard" element={<AdminDashboard />} />
         </Routes>
       </BrowserRouter>
-    </div>
+    </div>  
   );
 }
 export default App;
